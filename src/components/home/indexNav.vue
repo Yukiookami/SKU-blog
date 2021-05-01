@@ -1,0 +1,94 @@
+<template>
+  <router-link class="meun-item-sec" :to="router"
+  :style="{width: `${boxWidth}vw`,
+  left: `${index * (100 / cont)}vw`,
+  transitionDelay: `${index * 0.2}s`}">
+    <span class="link-title">{{title}}</span>
+  </router-link>
+</template>
+
+<script lang="ts">
+import { reactive, toRefs, watchEffect } from 'vue'
+
+export default {
+  // 是否展开，跳转路由，显示文字，盒子排列（决定收起顺序），盒子总数
+  props: ['changeRotate', 'router', 'title', 'index', 'cont'],
+  setup (props:any) {
+    const state = reactive({
+      boxWidth: 0
+    })
+
+    watchEffect(() => {
+      if (props.changeRotate) {
+        state.boxWidth = 100 / props.cont
+      } else {
+        state.boxWidth = 0
+      }
+    })
+
+    return {
+      ...toRefs(state),
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.meun-item-sec {
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  font-family: 'Ubuntu',sans-serif;
+  font-size: 40px;
+  height: 100vh;
+  z-index: 99;
+  // background-color: #191919;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  user-select: none;
+  transition: .7s ease-in-out;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 3px;
+    background-color: #fff;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    bottom: 0;
+    left: calc(50% - 8rem);
+    display: block;
+    height: 20px;
+    width: 0;
+    background-color: #fff;
+    z-index: -1;
+    transition: .5s ease-in-out;
+  }
+
+  &:hover {
+    background-color: #e3e3e3;
+
+    &::before {
+      width: 15rem;
+    }
+  }
+
+  .link-title {
+    position: relative;
+    color: #191919;
+
+  }
+}
+</style>
