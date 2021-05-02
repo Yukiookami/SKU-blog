@@ -6,8 +6,8 @@
   :class="{'get-top': getTop}">
     <div class="index-list-box-item"
     v-for="(item, index) in senArr" :key="`indexListBox${index}`">
-      <h2 @click="goTo(index, 0)" :class="{'show-h2': comTitleIndex === index}">{{item.typeName}}</h2>
-      <span @click="goTo(index, contentItemIndex)" :class="{'show-span': comContentIndex === contentItemIndex && comTitleIndex === index}"
+      <h2 @click="goTo(index, 0, 1)" :class="{'show-h2': comTitleIndex === index}">{{item.typeName}}</h2>
+      <span @click="goTo(index, contentItemIndex, 0)" :class="{'show-span': comContentIndex === contentItemIndex && comTitleIndex === index}"
       v-for="(contentItem, contentItemIndex) in item.contentList"
       :key="`item${contentItemIndex}`">{{contentItem.title}}</span>
     </div>
@@ -62,8 +62,8 @@ export default {
           return nowContentIndex
         }
       }),
-      goTo: (index:number, contentIndex:number) => {
-        context.emit("goTo", index, contentIndex)
+      goTo: (index:number, contentIndex:number, titleFlag:number) => {
+        context.emit("goTo", index, contentIndex, titleFlag)
       }
     })
 

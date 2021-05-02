@@ -117,8 +117,8 @@ export default {
         }
 
         // 更改index
-        state.changeIndex(contentLineArr, 0, 80, -100, state.checkScrollFlag)
-        state.changeIndex(contentPageItemArr, 1, 120, -100, state.checkScrollFlag)
+        state.changeIndex(contentLineArr, 0, 150, -100, state.checkScrollFlag)
+        state.changeIndex(contentPageItemArr, 1, 80, -100, state.checkScrollFlag)
 
         // 判断上下滑动
         state.handleScroll()
@@ -163,58 +163,57 @@ export default {
         })
       },
       /**
+       * 返回初始位置计时器
+       *
+       * @param {number} top
+       * @param {number} time
+       */
+      setBackTimer: (top:number, time:number) => {
+        let timer = setInterval(() => {
+          let winTop:number = document.documentElement.scrollTop
+          if (winTop <= top + 240 && winTop >= top - 240) {
+            window.scrollTo(0, top + 100)
+            clearInterval(timer)
+          } else if (winTop > top) {
+            window.scrollTo(0, winTop - 40)
+          } else {
+            window.scrollTo(0, winTop + 40)
+          }
+        }, time)
+
+        timer
+      },
+      /**
        * 返回指定位置
        *
+       * @param {number} index
+       * @param {number} contentIndex
+       * @param {number} titleFlag
        */
-      goToContent: (index:number, contentIndex:number):void => {
+      goToContent: (index:number, contentIndex:number, titleFlag:number):void => {
         let top:number = contentLineArr[index].offsetTop
         let itemTop:number = contentPageItemArr[contentIndex].offsetTop
 
-        if (!contentIndex) {
-          let timer = setInterval(() => {
-            let winTop:number = document.documentElement.scrollTop
-            if (winTop <= top + 40 && winTop >= top - 40) {
-              window.scrollTo(0, top)
-              state.contentLineIndex = index
-              clearInterval(timer)
-            } else if (winTop > top) {
-              window.scrollTo(0, winTop - 40)
-              console.log(winTop - 40)
-            } else {
-              window.scrollTo(0, winTop + 40)
-            }
-          }, 10)
-
-          timer
+        if (titleFlag) {
+          state.setBackTimer(top, 10)
         } else {
-          let timer = setInterval(() => {
-            let winTop:number = document.documentElement.scrollTop
-            if (winTop <= top + 40 && winTop >= top - 40) {
-              window.scrollTo(0, top)
-              state.contentPageItemIndex = index
-              clearInterval(timer)
-            } else if (winTop > itemTop) {
-              window.scrollTo(0, winTop - 40)
-              console.log(winTop - 40)
-            } else {
-              window.scrollTo(0, winTop + 40)
-            }
-          }, 10)
-
-          timer
+          state.setBackTimer(itemTop, 10)
         }
       },
       /**
        * 接受子组件传参，跳转页面
        * @param {number} index
        * @param {number} contentIndex
+       * @param {number} titleFlag
        */
-      goTo: (index:number, contentIndex:number) => {
+      goTo: (index:number, contentIndex:number, titleFlag:number) => {
         let contentItemIndex:number = 0
         if (!index) {
           contentItemIndex = contentIndex
+        } else if (!(index - 1) && titleFlag) {
+          contentItemIndex = 4
         } else if (!(index - 1)) {
-          contentItemIndex = contentIndex + state.arrLength
+          contentItemIndex = contentIndex + state.arrLength[0]
         } else {
           let arrLengthNum = state.arrLength.length
           let indexSum = state.arrLength.reduce((prev:number, cur:number, index:number):any => {
@@ -226,7 +225,7 @@ export default {
           contentItemIndex = contentIndex + indexSum
         }
 
-        state.goToContent(index, contentItemIndex)
+        state.goToContent(index, contentItemIndex, titleFlag)
       },
       // 置顶文章数组
       contentTopList: [
