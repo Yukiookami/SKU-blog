@@ -56,7 +56,6 @@ export default {
        */
       showKitune: ():void => {
         state.kituneFlag = !state.kituneFlag
-        console.log(1)
       }
     })
 
@@ -95,7 +94,7 @@ export default {
 .go-to-top {
   cursor: pointer;
   position: fixed;
-  right: -4vw;
+  right: -5vw;
   top: 0;
   transition: all 1s ease-in-out;
   transform: rotate(-90deg);

@@ -1,10 +1,19 @@
 <template>
   <div ref="pageTop" class="content-page">
-    <top-nav></top-nav>
+    <div ref="topNav">
+      <top-nav></top-nav>
+    </div>
     <banner-haru></banner-haru>
     <bakc-top :show="winShow"></bakc-top>
 
     <section class="main-content-sec">
+      <!-- 文章目录 -->
+      <div ref="indexList" class="main-content-index-list-box">
+        <index-list :senArr="contentObject" :titleIndex="contentLineIndex"
+        :contentIndex="contentPageItemIndex" :numberList="arrLength"
+        @goTo="goTo"></index-list>
+      </div>
+
       <h1 class="page-title">{{pageTag}}</h1>
 
       <content-line title="START:DASH!!" :icon="require('../assets/img/fontIcon/anchor.svg')"></content-line>
@@ -18,21 +27,27 @@
 
       <!-- 文章 -->
       <div class="page-content-sec" v-for="(item, index) in contentObject" :key="`contentObject${index}`">
-        <content-line :title="item.typeName" :icon="item.typeIcon"
-        :router="`/${item.typeRouter}`"></content-line>
+        <div :ref="contentLine">
+          <content-line :title="item.typeName" :icon="item.typeIcon"
+          :router="`/${item.typeRouter}`"></content-line>
+        </div>
 
-        <content-page-item v-for="(contentItem, contentIndex) in item.contentList"
-        :key="`contentItem${contentIndex}`" :createTime="contentItem.createTime"
-        :title="contentItem.title" :tag="contentItem.tag"
-        :content="contentItem.content" :cover="contentItem.cover"
-        :id="contentItem.id" :index="contentIndex"></content-page-item>
+        <div :ref="contentPageItem" v-for="(contentItem, contentIndex) in item.contentList"
+        :key="`contentItem${contentIndex}`" >
+          <content-page-item :createTime="contentItem.createTime"
+          :title="contentItem.title" :tag="contentItem.tag"
+          :content="contentItem.content" :cover="contentItem.cover"
+          :id="contentItem.id" :index="contentIndex"></content-page-item>
+        </div>
       </div>
     </section>
+
+    <blog-footer></blog-footer>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, reactive, toRefs, getCurrentInstance, onMounted, ref } from 'vue'
+import { computed, reactive, toRefs, getCurrentInstance, onMounted, ref, onBeforeUpdate } from 'vue'
 // import { useRouter } from 'vue-router'
 import bannerHaru from '../components/banner/bannerHaru.vue'
 import topNav from '../components/nav/topNav.vue'
@@ -40,14 +55,16 @@ import bakcTop from '../components/backTop/backTop.vue'
 import contentLine from '../components/contentLine/contentLine.vue'
 import contentTop from '../components/contentTop/contentTop.vue'
 import contentPageItem from '../components/contentPageItem/contentPageItem.vue'
+import indexList from '../components/indexList/indexList.vue'
+import blogFooter from '../components/blogFooter/blogFooter.vue'
 import store from '@/store'
 
 export default {
   setup () {
-    // 获得顶部元素
-    // let pageTop = ref(null as HTMLDivElement | null)
-
     const state = reactive({
+      /**
+       * 获取当前页面路由
+       */
       pageTag: computed(() => {
         const { ctx }:any = getCurrentInstance()
         const pageName:string = ctx.$router.currentRoute.value.path
@@ -63,8 +80,31 @@ export default {
       getViewHeight: () => document.documentElement.clientHeight,
       // 返回视窗布尔值
       winShow: false,
+      // 目录index（大标题）
+      contentLineIndex: 0,
+      // 目录index（小标题）
+      contentPageItemIndex: 0,
+      // 判断上滑还是下滑
+      checkScrollFlag: 0,
+      checkScroll: 0,
       /**
-       * 监听页面顶部
+       * 判断页面滚动方向
+       */
+      handleScroll: () => {
+        let scrollTop:number = document.documentElement.scrollTop
+        let scroll:number = scrollTop - state.checkScroll
+        state.checkScroll = scrollTop
+
+        if (scroll < 0) {
+          state.checkScrollFlag = 1
+        } else {
+          state.checkScrollFlag = 0
+        }
+      },
+      /**
+       * 监听页面顶部，判断是往上还是往下滑动，以及锚点元素，滚动触发
+       *
+       * @event
        */
       listenPageTop: () => {
         let winTop:number = document.documentElement.scrollTop
@@ -75,6 +115,118 @@ export default {
         } else {
           state.winShow = false
         }
+
+        // 更改index
+        state.changeIndex(contentLineArr, 0, 80, -100, state.checkScrollFlag)
+        state.changeIndex(contentPageItemArr, 1, 120, -100, state.checkScrollFlag)
+
+        // 判断上下滑动
+        state.handleScroll()
+      },
+      /**
+       * 改变目录index
+       *
+       * @param {array} arr
+       * @param {number} targetIndex
+       * @param {number} max
+       * @param {number} min
+       * @param {number} scrollFlag
+       */
+      changeIndex: (arr:any[], targetIndex:number, max:number, min:number, scrollFlag:number) => {
+        Array.prototype.forEach.call(arr, (ele, index) => {
+          let topMargin:number = Math.floor(ele.getBoundingClientRect().top)
+
+          if (topMargin <= max && topMargin >= min) {
+            if (!targetIndex) {
+              state.contentLineIndex = index
+            } else {
+              state.contentPageItemIndex = index
+            }
+          }
+
+          if (!targetIndex && scrollFlag) {
+            if (topMargin >= max && topMargin <= Math.abs(min * 2)) {
+              index - 1 > 0 ? state.contentLineIndex = index - 1 : state.contentLineIndex = 0
+            }
+          }
+        })
+      },
+      // 给indexList传递的数组长度
+      arrLength: [] as any,
+      /**
+       * 生成数组长度数组
+       */
+      setArrLeagth: () => {
+        state.arrLength.splice(0)
+        Array.prototype.forEach.call(state.contentObject, ele => {
+          state.arrLength.push(ele.contentList.length)
+        })
+      },
+      /**
+       * 返回指定位置
+       *
+       */
+      goToContent: (index:number, contentIndex:number):void => {
+        let top:number = contentLineArr[index].offsetTop
+        let itemTop:number = contentPageItemArr[contentIndex].offsetTop
+
+        if (!contentIndex) {
+          let timer = setInterval(() => {
+            let winTop:number = document.documentElement.scrollTop
+            if (winTop <= top + 40 && winTop >= top - 40) {
+              window.scrollTo(0, top)
+              state.contentLineIndex = index
+              clearInterval(timer)
+            } else if (winTop > top) {
+              window.scrollTo(0, winTop - 40)
+              console.log(winTop - 40)
+            } else {
+              window.scrollTo(0, winTop + 40)
+            }
+          }, 10)
+
+          timer
+        } else {
+          let timer = setInterval(() => {
+            let winTop:number = document.documentElement.scrollTop
+            if (winTop <= top + 40 && winTop >= top - 40) {
+              window.scrollTo(0, top)
+              state.contentPageItemIndex = index
+              clearInterval(timer)
+            } else if (winTop > itemTop) {
+              window.scrollTo(0, winTop - 40)
+              console.log(winTop - 40)
+            } else {
+              window.scrollTo(0, winTop + 40)
+            }
+          }, 10)
+
+          timer
+        }
+      },
+      /**
+       * 接受子组件传参，跳转页面
+       * @param {number} index
+       * @param {number} contentIndex
+       */
+      goTo: (index:number, contentIndex:number) => {
+        let contentItemIndex:number = 0
+        if (!index) {
+          contentItemIndex = contentIndex
+        } else if (!(index - 1)) {
+          contentItemIndex = contentIndex + state.arrLength
+        } else {
+          let arrLengthNum = state.arrLength.length
+          let indexSum = state.arrLength.reduce((prev:number, cur:number, index:number):any => {
+            if (index < arrLengthNum - 1) {
+              return prev + cur
+            }
+          })
+
+          contentItemIndex = contentIndex + indexSum
+        }
+
+        state.goToContent(index, contentItemIndex)
       },
       // 置顶文章数组
       contentTopList: [
@@ -263,14 +415,37 @@ fragment CommentFields on Comment {
       ]
     })
 
+    // 获得锚点元素
+    let contentLineArr:any[] = []
+    let contentPageItemArr:any[] = []
+
+    const contentLine = ref((e:any) => {
+      if (e) {
+        contentLineArr.push(e)
+      }
+    })
+
+    const contentPageItem = ref((e:any) => {
+      if (e) {
+        contentPageItemArr.push(e)
+      }
+    })
+
+    onBeforeUpdate (() => {
+      contentLineArr = []
+      contentPageItemArr = []
+    })
 
     onMounted(() => {
       window.addEventListener('scroll', state.listenPageTop, true)
+      // 记得在请求后调用
+      state.setArrLeagth()
     })
-
 
     return {
       ...toRefs(state),
+      contentLine,
+      contentPageItem
     }
   },
   components: {
@@ -279,7 +454,9 @@ fragment CommentFields on Comment {
     bakcTop,
     contentLine,
     contentTop,
-    contentPageItem
+    contentPageItem,
+    indexList,
+    blogFooter
   }
 }
 </script>
@@ -288,12 +465,13 @@ fragment CommentFields on Comment {
 // 页面
 .content-page {
   // padding-top: 70px;
-  min-height: 200vh;
+  min-height: 100vh;
   width: calc(100vw - 3px);
   background-color: #fff;
 
   // 显示区域
   .main-content-sec {
+    position: relative;
     display: flex;
     flex-direction: column;
     // justify-content: center;
@@ -301,6 +479,13 @@ fragment CommentFields on Comment {
     // width: calc(100vw - 3px);
     max-width: 800px;
     margin: 0 auto;
+
+    // 目录
+    .main-content-index-list-box {
+      position: absolute;
+      top: 380px;
+      right: -250px;
+    }
 
     // 标题
     .page-title {

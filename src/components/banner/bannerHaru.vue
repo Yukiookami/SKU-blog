@@ -343,7 +343,6 @@
 
       onMounted(() => {
         state.viewWidth = document.documentElement.offsetWidth
-        // changeMessage()
          makeCanvas()
       })
 

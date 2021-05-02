@@ -2,3 +2,13 @@
   font-family: 'Ubuntu', sans-serif;
   src: url(./Ubuntu/Ubuntu-BoldItalic.ttf);
 }
+
+@font-face {
+  font-family: 'Asmelina-Harley';
+  src: url(./Asmelina-Harley//Asmelina-Harley-2.ttf);
+}
+
+@font-face {
+  font-family: 'Authentica';
+  src: url(./Authentica//Authentica-3.ttf);
+}

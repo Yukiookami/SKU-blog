@@ -1,11 +1,7 @@
 <template>
   <nav class="top-nav-sec">
     <!-- logo -->
-    <div class="top-nav-logo">
-      <router-link to="/">
-        <img src="../../assets/logo.png" alt="">
-      </router-link>
-    </div>
+    <top-logo></top-logo>
 
     <!-- nav部分 -->
     <div class="top-nav-main">
@@ -26,6 +22,7 @@
 
 <script lang="ts">
 import { computed, reactive, toRefs } from 'vue'
+import topLogo from '../topLogo/topLogo.vue'
 import store from '@/store'
 
 export default {
@@ -37,6 +34,9 @@ export default {
     return {
       ...toRefs(state)
     }
+  },
+  components: {
+    topLogo
   }
 }
 </script>
@@ -56,14 +56,6 @@ export default {
   background-image: linear-gradient(#fff, rgba(255, 255, 255, .8), rgba(255, 255, 255, 0));
   // box-shadow: 0 0 5px rgba(0, 0, 0, .2);
   transition: all .5s ease-in-out;
-
-  .top-nav-logo {
-    width: 2vw;
-
-    img {
-      width: 100%;
-    }
-  }
 
   .top-nav-main {
     display: flex;

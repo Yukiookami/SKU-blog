@@ -2,9 +2,7 @@
   <div class="blog-home-page">
     <!-- 顶部 -->
     <header class="blog-home-page-header">
-      <router-link to="/">
-        <img class="blog-logo" src="../assets/logo.png" alt="Logo">
-      </router-link>
+      <top-logo></top-logo>
       <div class="blog-menu"
       @mouseenter="changeLine('long')"
       @mouseleave="changeLine('long')"
@@ -47,6 +45,7 @@
 
 <script lang="ts">
 import { computed, onMounted, reactive, toRefs } from 'vue'
+import topLogo from '../components/topLogo/topLogo.vue'
 import indexNav from '../components/home/indexNav.vue'
 import '../../common/font.css'
 import '../assets/css/homeBack.css'
@@ -111,7 +110,8 @@ export default {
     }
   },
   components: {
-    indexNav
+    indexNav,
+    topLogo
   }
 }
 </script>
@@ -135,10 +135,6 @@ export default {
     align-items: center;
     padding: 20px 50px;
     z-index: 999;
-
-    .blog-logo {
-      width: 3vw;
-    }
 
     // 右侧菜单按钮
     .blog-menu {
