@@ -21,8 +21,7 @@ import { onMounted, reactive, ref, toRefs, watchEffect } from 'vue'
 import './css/kituneMove.css'
 
 export default {
-  props: ['show'],
-  setup (props:any) {
+  setup () {
     const state = reactive({
       showKi: false,
       /**
@@ -56,11 +55,39 @@ export default {
        */
       showKitune: ():void => {
         state.kituneFlag = !state.kituneFlag
-      }
+      },
+      /**
+       * 获取视窗高度
+       *
+       * @returns {number}
+       */
+      getViewHeight: () => document.documentElement.clientHeight,
+      // 返回视窗布尔值
+      winShow: false,
+      /**
+       * 判断是否显示小狐狸
+       */
+      checkWinShow: () => {
+        let winTop:number = document.documentElement.scrollTop
+        if (winTop > state.getViewHeight() / 3) {
+          state.winShow = true
+        } else {
+          state.winShow = false
+        }
+      },
+      /**
+       * 监听页面，滚动触发
+       *
+       * @event
+       */
+      listenPageTop: () => {
+        // 判断显示小狐狸
+        state.checkWinShow()
+      },
     })
 
     watchEffect(() => {
-      if (props.show) {
+      if (state.winShow) {
         state.showKi = true
         state.kituneImg = require('../../assets/img/pageTools/kitune-come.png')
       } else {
@@ -80,6 +107,7 @@ export default {
 
     onMounted(() => {
       getHeight()
+      window.addEventListener('scroll', state.listenPageTop, true)
     })
 
     return {

@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="router" class="content-top-sec"
+  <div class="content-top-sec"
   :class="{'content-top-sec-extend': maskFlag}"
   :style="{width: `${boxWidth}%`,
   backgroundImage: `url('${cover}')`}"
@@ -10,14 +10,15 @@
       <h3 class="content-top-title">{{title}}</h3>
       <p class="content-top-content">{{content}}</p>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script lang="ts">
 import { reactive, toRefs, watchEffect } from 'vue'
 
 export default {
-  props: ['cover', 'title', 'content', 'router', 'cont'],
+  // 封面，标题，内容，id，总数
+  props: ['cover', 'title', 'content', 'id', 'cont'],
   setup (props:any) {
     const state = reactive({
       // 显示mask

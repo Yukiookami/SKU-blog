@@ -1,10 +1,8 @@
 <template>
   <div ref="pageTop" class="content-page">
-    <div ref="topNav">
-      <top-nav></top-nav>
-    </div>
+    <top-nav></top-nav>
     <banner-haru></banner-haru>
-    <bakc-top :show="winShow"></bakc-top>
+    <bakc-top></bakc-top>
 
     <section class="main-content-sec">
       <!-- 文章目录 -->
@@ -21,8 +19,8 @@
       <!-- 置顶文章 -->
       <div class="page-top-content-sec">
         <content-top v-for="(item, index) in contentTopList" :key="`contentTop${index}`"
-        :cover="item.cover" :title="item.title" :content="item.content"
-        :router="item.router" :cont="contentTopList.length"></content-top>
+        :cover="item.cover" :title="item.title" :content="item.topContent"
+        :id="item.id" :cont="contentTopList.length"></content-top>
       </div>
 
       <!-- 文章 -->
@@ -49,18 +47,31 @@
 <script lang="ts">
 import { computed, reactive, toRefs, getCurrentInstance, onMounted, ref, onBeforeUpdate } from 'vue'
 // import { useRouter } from 'vue-router'
+// bilibilibanner
 import bannerHaru from '../components/banner/bannerHaru.vue'
+// 顶部导航
 import topNav from '../components/nav/topNav.vue'
+// 返回顶部小狐狸
 import bakcTop from '../components/backTop/backTop.vue'
-import contentLine from '../components/contentLine/contentLine.vue'
-import contentTop from '../components/contentTop/contentTop.vue'
-import contentPageItem from '../components/contentPageItem/contentPageItem.vue'
-import indexList from '../components/indexList/indexList.vue'
+// 页脚
 import blogFooter from '../components/blogFooter/blogFooter.vue'
+// 老婆
+import { setYome } from '../assets/ts/yome'
+// tag线
+import contentLine from '../components/contentLine/contentLine.vue'
+// 置顶文章
+import contentTop from '../components/contentTop/contentTop.vue'
+// 文章
+import contentPageItem from '../components/contentPageItem/contentPageItem.vue'
+// 目录
+import indexList from '../components/indexList/indexList.vue'
 import store from '@/store'
 
 export default {
   setup () {
+    // 老婆
+    setYome
+
     const state = reactive({
       /**
        * 获取当前页面路由
@@ -72,14 +83,6 @@ export default {
         let page = store.state.meunList.find(ele => ele.router === pageName)
         return page?.pageTitle
       }),
-      /**
-       * 获取视窗高度
-       *
-       * @returns {number}
-       */
-      getViewHeight: () => document.documentElement.clientHeight,
-      // 返回视窗布尔值
-      winShow: false,
       // 目录index（大标题）
       contentLineIndex: 0,
       // 目录index（小标题）
@@ -107,15 +110,6 @@ export default {
        * @event
        */
       listenPageTop: () => {
-        let winTop:number = document.documentElement.scrollTop
-        // console.log('可视高度', state.getViewHeight())
-        // console.log(winTop)
-        if (winTop > state.getViewHeight() / 3) {
-          state.winShow = true
-        } else {
-          state.winShow = false
-        }
-
         // 更改index
         state.changeIndex(contentLineArr, 0, 150, -100, state.checkScrollFlag)
         state.changeIndex(contentPageItemArr, 1, 80, -100, state.checkScrollFlag)
@@ -230,22 +224,43 @@ export default {
       // 置顶文章数组
       contentTopList: [
         {
+          id: 1,
           cover: require('../assets/img/testImg/cover-1.jpg'),
           title: 'SAKURA',
-          content: '本站的web press主题',
-          router: '/'
+          topContent: '本站的web press主题',
+          content: '置顶文章',
+          tag: [
+            {
+              tagName: 'Vue 2.x'
+            }
+          ],
+          createTime: '发布于2021-4-26'
         },
         {
+          id: 1,
           cover: require('../assets/img/testImg/cover-2.png'),
           title: 'SAKURA',
-          content: '本站的web press主题',
-          router: '/'
+          topContent: '本站的web press主题',
+          content: '置顶文章',
+          tag: [
+            {
+              tagName: 'Vue 2.x'
+            }
+          ],
+          createTime: '发布于2021-4-26'
         },
         {
+          id: 1,
           cover: require('../assets/img/testImg/cover-3.png'),
           title: 'SAKURA',
-          content: '本站的web press主题',
-          router: '/'
+          topContent: '本站的web press主题',
+          content: '置顶文章',
+          tag: [
+            {
+              tagName: 'Vue 2.x'
+            }
+          ],
+          createTime: '发布于2021-4-26'
         }
       ],
       // 文章数组

@@ -76,21 +76,21 @@ export default {
       &::before {
         content: "";
         position: absolute;
-        opacity: 0;
+        opacity: 1;
         bottom: -21px;
         left: 13%;
         display: block;
         height: 6px;
-        width: 80%;
+        width: 0;
         background-color: #fe8b00;
-        transition: all .5s ease-in-out;
+        transition: all .3s ease-in-out;
       }
 
       &:hover {
         color: #fe8b00;
 
         &::before {
-          opacity: 1;
+          width: 80%;
         }
       }
     }
