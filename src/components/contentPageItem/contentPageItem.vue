@@ -72,10 +72,14 @@
 <script lang="ts">
 import { reactive, toRefs } from 'vue'
 import contentPageItemTag from './contentPageItemTag/contentPageItemTag.vue'
+import { useRouter } from 'vue-router'
 
 export default {
   props: ['createTime', 'title', 'tag', 'content', 'cover', 'id', 'index'],
   setup (props:any) {
+    // 定义路由
+    const router = useRouter()
+
     const state = reactive({
       /**
        * 跳转到文章页面，点击时触发
@@ -84,7 +88,12 @@ export default {
        *
        */
       goToContentPage: (() => {
-        alert(props.id)
+        router.push({
+          path: '/article',
+          query: {
+            id: props.id
+          }
+        })
       }),
       itemExtent: false,
       /**

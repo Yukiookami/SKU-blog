@@ -3,6 +3,7 @@
     <top-nav></top-nav>
     <banner-haru></banner-haru>
     <bakc-top></bakc-top>
+    <top-progress></top-progress>
 
     <section class="main-content-sec">
       <!-- 文章目录 -->
@@ -65,6 +66,8 @@ import contentTop from '../components/contentTop/contentTop.vue'
 import contentPageItem from '../components/contentPageItem/contentPageItem.vue'
 // 目录
 import indexList from '../components/indexList/indexList.vue'
+// 进度条
+import topProgress from '../components/topProgress/topProgress.vue'
 import store from '@/store'
 
 export default {
@@ -559,7 +562,8 @@ fragment CommentFields on Comment {
     contentTop,
     contentPageItem,
     indexList,
-    blogFooter
+    blogFooter,
+    topProgress
   }
 }
 </script>

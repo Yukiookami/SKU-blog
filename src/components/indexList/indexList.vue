@@ -40,16 +40,18 @@ export default {
        * 监听是否触顶
        */
       listenPageTop: () => {
-        let winTop:number = indexListBox.value!.getBoundingClientRect().top
+        if (indexListBox.value) {
+          let winTop:number = indexListBox.value!.getBoundingClientRect().top
 
-        if (winTop < 70) {
-          state.getTop = true
-        } else {
-          state.getTop = false
+          if (winTop < 70) {
+            state.getTop = true
+          } else {
+            state.getTop = false
+          }
+
+          // 监听上下滑动
+          state.handleScroll()
         }
-
-        // 监听上下滑动
-        state.handleScroll()
       },
       /**
        * 获得标题index，并且监听是否在显示范围内

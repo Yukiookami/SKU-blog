@@ -4,7 +4,8 @@
   :style="{width: `${boxWidth}%`,
   backgroundImage: `url('${cover}')`}"
   @mouseenter="showMask"
-  @mouseleave="showMask">
+  @mouseleave="showMask"
+  @click="goToSenPage">
     <div class="content-top-mask"
     :class="{'content-top-mask-show': maskFlag}">
       <h3 class="content-top-title">{{title}}</h3>
@@ -15,11 +16,15 @@
 
 <script lang="ts">
 import { reactive, toRefs, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   // 封面，标题，内容，id，总数
   props: ['cover', 'title', 'content', 'id', 'cont'],
   setup (props:any) {
+    // 定义路由
+    const router = useRouter()
+
     const state = reactive({
       // 显示mask
       maskFlag: false,
@@ -30,7 +35,16 @@ export default {
         state.maskFlag = !state.maskFlag
       },
       // 盒子宽度
-      boxWidth: 0
+      boxWidth: 0,
+      // 跳转文章页面
+      goToSenPage: () => {
+        router.push({
+          path: '/article',
+          query: {
+            id: props.id
+          }
+        })
+      }
     })
 
     watchEffect(() => {
