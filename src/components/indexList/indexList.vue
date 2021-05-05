@@ -2,20 +2,26 @@
   <!-- 判断位置 -->
   <div ref="indexListBox"></div>
 
-  <div class="index-list-box"
+  <div class="index-list-box" ref="parentOfTitleDom"
   :class="{'get-top': getTop}">
+    <!-- 每一段目录盒子 -->
     <div class="index-list-box-item"
     v-for="(item, index) in senArr" :key="`indexListBox${index}`">
-      <h2 @click="goTo(index, 0, 1)" :class="{'show-h2': comTitleIndex === index}">{{item.typeName}}</h2>
-      <span @click="goTo(index, contentItemIndex, 0)" :class="{'show-span': comContentIndex === contentItemIndex && comTitleIndex === index}"
-      v-for="(contentItem, contentItemIndex) in item.contentList"
-      :key="`item${contentItemIndex}`">{{contentItem.title}}</span>
+      <!-- tag标题 -->
+      <h2 :ref="indexTitleDom" @click="goTo(index, 0, 1)" :class="{'show-h2': comTitleIndex === index}">{{item.typeName}}</h2>
+      <!-- 文章标题 -->
+      <div class="hide-content"
+      :class="{'show-content': comTitleIndex === index}">
+        <span @click="goTo(index, contentItemIndex, 0)" :class="{'show-span': comContentIndex === contentItemIndex && comTitleIndex === index}"
+        v-for="(contentItem, contentItemIndex) in item.contentList"
+        :key="`item${contentItemIndex}`">{{contentItem.title}}</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, onMounted, reactive, ref, toRefs } from 'vue'
+import { computed, onBeforeUpdate, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import indexListItem from './indexListItem/indexListItem.vue'
 
 export default {
@@ -24,6 +30,7 @@ export default {
   emits: ['goTo'],
   setup (props:any, context:any) {
     const indexListBox = ref(null as HTMLDivElement | null)
+    const parentOfTitleDom = ref(null as HTMLDivElement | null)
 
     const state = reactive({
       getTop: false,
@@ -40,41 +47,112 @@ export default {
         } else {
           state.getTop = false
         }
+
+        // 监听上下滑动
+        state.handleScroll()
       },
-      // 标题index
+      /**
+       * 获得标题index，并且监听是否在显示范围内
+       */
       comTitleIndex: computed(() => props.titleIndex),
       // 文章index
       comContentIndex: computed(() => {
         let nowContentIndex:number = props.contentIndex
         let nowIndex:number = state.comTitleIndex
-        let arrLength:number = props.numberList.length
 
         if (!(nowIndex - 1)) {
           return Math.abs(nowContentIndex - props.numberList[0])
         } else if (nowIndex) {
           let indexSum = props.numberList.reduce((prev:number, cur:number, index:number):any => {
-            if (index < arrLength - 1) {
+            if (index < nowIndex) {
               return prev + cur
+            } else {
+              return prev
             }
           })
-          return Math.abs(indexSum)
+
+          return nowContentIndex - indexSum
         } else {
           return nowContentIndex
         }
       }),
+      /**
+       * 触发父元素跳转方法
+       */
       goTo: (index:number, contentIndex:number, titleFlag:number) => {
         context.emit("goTo", index, contentIndex, titleFlag)
+      },
+      // 判断上滑还是下滑
+      checkScrollFlag: 0,
+      checkScroll: 0,
+      /**
+       * 判断页面滚动方向
+       */
+      handleScroll: () => {
+        let scrollTop:number = document.documentElement.scrollTop
+        let scroll:number = scrollTop - state.checkScroll
+        state.checkScroll = scrollTop
+
+        if (scroll < 0) {
+          state.checkScrollFlag = 1
+        } else {
+          state.checkScrollFlag = 0
+        }
+      },
+      /**
+       * 获取子元素与父元素的距离
+       *
+       * @param {number} nowIndex
+       */
+      checkDo: (nowIndex:number) => {
+        indexTitleDomArr.forEach((ele, index) => {
+          let top = ele.offsetTop
+          if (ele.offsetTop > 100 && index === nowIndex && !state.checkScrollFlag) {
+            state.goToTop(top)
+          } else if (ele.offsetTop < 100 && index === nowIndex && state.checkScrollFlag) {
+            state.goToTop(top)
+          }
+        })
+      },
+      /**
+       * 滚动到父元素顶部
+       * @event
+       *
+       * @param {number} top
+       */
+      goToTop: (top:number) => {
+        parentOfTitleDom.value!.scrollTop = top
       }
+    })
+
+    // 获得锚点元素
+    let indexTitleDomArr:any[] = []
+
+    const indexTitleDom = ref((e:any) => {
+      if (e) {
+        indexTitleDomArr.push(e)
+      }
+    })
+
+    onBeforeUpdate (() => {
+      indexTitleDomArr = []
     })
 
     onMounted(() => {
       state.topH = indexListBox.value!.getBoundingClientRect().top
       window.addEventListener('scroll', state.listenPageTop, true)
+
+      watch(() => state.comTitleIndex,
+      (comTitleIndex) => {
+        state.checkDo(comTitleIndex)
+      })
     })
 
     return {
       ...toRefs(state),
-      indexListBox
+      indexListBox,
+      indexTitleDom,
+      parentOfTitleDom
     }
   },
   components: {
@@ -85,16 +163,27 @@ export default {
 
 <style lang="scss" scoped>
 .index-list-box {
-  height: 500px;
+  overflow: hidden;
+  // height: calc(100vh - 200px);
+  height: 900px;
   width: 200px;
+  z-index: 999;
+  overflow-x: hidden;
+  overflow-y: scroll;
   // background-color: #000;
 
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  // 目录盒子
   .index-list-box-item {
     font-family: 'Ubuntu',sans-serif;
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
 
+    // tittle标题
     h2 {
       font-size: 18px;
       margin: 0 0 5px 0;
@@ -115,25 +204,42 @@ export default {
       color: #fff;
     }
 
-    span {
-      display: block;
-      font-size: 12px;
-      margin: 5px 0 5px 10px;
-      padding: 3px 5px;
-      border-radius: 5px;
-      color: #666;
-      transition: all .5s ease-in-out;
-      cursor: pointer;
+    // 文章标题盒子
+    .hide-content {
+      overflow: hidden;
+      height: 0;
 
-      &:hover {
+      // 文章标题
+      span {
+        overflow: hidden;
+        display: block;
+        font-size: 12px;
+        margin: 5px 0 5px 10px;
+        padding: 3px 5px;
+        border-radius: 5px;
+        color: #666;
+        height: 1em;
+        line-height: 1em;
+        transition: all .5s ease-in-out;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(248, 186, 11, .7);
+          color: #fff;
+        }
+      }
+
+      .show-span {
         background-color: rgba(248, 186, 11, .7);
         color: #fff;
       }
     }
 
-    .show-span {
-      background-color: rgba(248, 186, 11, .7);
-      color: #fff;
+    // 显示文章标题盒子
+    .show-content {
+      height: 100%;
     }
   }
 }

@@ -189,9 +189,9 @@ export default {
         let itemTop:number = contentPageItemArr[contentIndex].offsetTop
 
         if (titleFlag) {
-          state.setBackTimer(top, 10)
+          state.setBackTimer(top, 5)
         } else {
-          state.setBackTimer(itemTop, 10)
+          state.setBackTimer(itemTop, 5)
         }
       },
       /**
@@ -205,14 +205,15 @@ export default {
         if (!index) {
           contentItemIndex = contentIndex
         } else if (!(index - 1) && titleFlag) {
-          contentItemIndex = 4
+          contentItemIndex = state.arrLength[0]
         } else if (!(index - 1)) {
           contentItemIndex = contentIndex + state.arrLength[0]
         } else {
-          let arrLengthNum = state.arrLength.length
-          let indexSum = state.arrLength.reduce((prev:number, cur:number, index:number):any => {
-            if (index < arrLengthNum - 1) {
+          let indexSum = state.arrLength.reduce((prev:number, cur:number, redIndex:number):any => {
+            if (redIndex < index) {
               return prev + cur
+            } else {
+              return prev
             }
           })
 
@@ -423,7 +424,95 @@ fragment CommentFields on Comment {
               ],
               content: '',
               cover: require('../assets/img/testImg/content-cover-1.jpeg')
+            }
+          ]
+        },
+        {
+          typeName: 'React',
+          typeRouter: 'React',
+          typeIcon: require('../assets/img/fontIcon/vue3.xLogo.svg'),
+          typeCover: require('../assets/img/testImg/type-cover-2.jpeg'),
+          contentList: [
+            {
+              id: "1",
+              createTime: '发布于2021-4-26',
+              title: 'GraphQL实现递归查询',
+              tag: [
+                {
+                  tagName: 'React'
+                }
+              ],
+              content: '',
+              cover: require('../assets/img/testImg/content-cover-3.jpeg')
             },
+            {
+              id: "1",
+              createTime: '发布于2021-4-26',
+              title: 'GraphQL实现递归查询',
+              tag: [
+                {
+                  tagName: 'React'
+                }
+              ],
+              content: '',
+              cover: require('../assets/img/testImg/content-cover-2.jpeg')
+            },
+            {
+              id: "1",
+              createTime: '发布于2021-4-26',
+              title: 'Docker 部署 Zabbix + Grafana',
+              tag: [
+                {
+                  tagName: 'React'
+                }
+              ],
+              content: '',
+              cover: require('../assets/img/testImg/content-cover-1.jpeg')
+            }
+          ]
+        },
+        {
+          typeName: 'Ruby',
+          typeRouter: 'Ruby',
+          typeIcon: require('../assets/img/fontIcon/vue3.xLogo.svg'),
+          typeCover: require('../assets/img/testImg/type-cover-2.jpeg'),
+          contentList: [
+            {
+              id: "1",
+              createTime: '发布于2021-4-26',
+              title: 'GraphQL实现递归查询',
+              tag: [
+                {
+                  tagName: 'ruby'
+                }
+              ],
+              content: '',
+              cover: require('../assets/img/testImg/content-cover-3.jpeg')
+            },
+            {
+              id: "1",
+              createTime: '发布于2021-4-26',
+              title: 'GraphQL实现递归查询',
+              tag: [
+                {
+                  tagName: 'ruby'
+                }
+              ],
+              content: '',
+              cover: require('../assets/img/testImg/content-cover-2.jpeg')
+            },
+            {
+              id: "1",
+              createTime: '发布于2021-4-26',
+              title: 'Docker 部署 Zabbix + Grafana',
+              tag: [
+                {
+                  tagName: 'ruby'
+                }
+              ],
+              content: '',
+              cover: require('../assets/img/testImg/content-cover-1.jpeg')
+            }
           ]
         }
       ]
