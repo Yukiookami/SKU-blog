@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { computed, onMounted, reactive, toRefs } from 'vue'
+import { computed, reactive, toRefs } from 'vue'
 import topLogo from '../components/topLogo/topLogo.vue'
 import indexNav from '../components/home/indexNav.vue'
 import '../../common/font.css'
@@ -124,6 +124,7 @@ export default {
   width: calc(100vw - 3px);
   background-image: url('../assets/img/homeBack/sakura-back.png');
   // background-image: url('../assets/homeBack/little-monster.png');
+  z-index: 2147483647;
 
   // header
   .blog-home-page-header {

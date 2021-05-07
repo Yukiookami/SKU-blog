@@ -26,16 +26,17 @@ import bakcTop from '../components/backTop/backTop.vue'
 // 页脚
 import blogFooter from '../components/blogFooter/blogFooter.vue'
 // 老婆
-import { setYome } from '../assets/ts/yome'
+// import { setYome } from '../assets/ts/yome'
 // 顶部滚动条
 import topProgress from '../components/topProgress/topProgress.vue'
+
 
 export default {
   setup () {
     // 定义路由
     const route = useRoute()
     // 老婆
-    setYome
+    // setYome
 
     const state = reactive({
       // id
@@ -84,7 +85,6 @@ export default {
     bakcTop,
     topNav,
     blogFooter,
-    setYome,
     topProgress
   }
 }

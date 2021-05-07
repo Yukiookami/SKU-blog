@@ -9,10 +9,13 @@
 </template>
 
 <script>
+// 老婆
+import { setYome } from './assets/ts/yome'
+
 export default {
   name: 'App',
   setup () {
-
+    setYome
   },
   watch: {
     '$route' (to, from) {
@@ -65,6 +68,7 @@ body {
  width: 3px;
  /* height: 10px; */
 }
+
 /* 滚动条的滑块 */
 ::-webkit-scrollbar-thumb {
  background-color: #f8ba0b;

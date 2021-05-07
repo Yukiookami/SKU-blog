@@ -57,7 +57,7 @@ import bakcTop from '../components/backTop/backTop.vue'
 // 页脚
 import blogFooter from '../components/blogFooter/blogFooter.vue'
 // 老婆
-import { setYome } from '../assets/ts/yome'
+// import { setYome } from '../assets/ts/yome'
 // tag线
 import contentLine from '../components/contentLine/contentLine.vue'
 // 置顶文章
@@ -68,12 +68,14 @@ import contentPageItem from '../components/contentPageItem/contentPageItem.vue'
 import indexList from '../components/indexList/indexList.vue'
 // 进度条
 import topProgress from '../components/topProgress/topProgress.vue'
+// 公用ts
+import { handleScroll } from '../assets/ts/common'
 import store from '@/store'
 
 export default {
   setup () {
     // 老婆
-    setYome
+    // setYome
 
     const state = reactive({
       /**
@@ -92,21 +94,6 @@ export default {
       contentPageItemIndex: 0,
       // 判断上滑还是下滑
       checkScrollFlag: 0,
-      checkScroll: 0,
-      /**
-       * 判断页面滚动方向
-       */
-      handleScroll: () => {
-        let scrollTop:number = document.documentElement.scrollTop
-        let scroll:number = scrollTop - state.checkScroll
-        state.checkScroll = scrollTop
-
-        if (scroll < 0) {
-          state.checkScrollFlag = 1
-        } else {
-          state.checkScrollFlag = 0
-        }
-      },
       /**
        * 监听页面顶部，判断是往上还是往下滑动，以及锚点元素，滚动触发
        *
@@ -118,7 +105,7 @@ export default {
         state.changeIndex(contentPageItemArr, 1, 80, -100, state.checkScrollFlag)
 
         // 判断上下滑动
-        state.handleScroll()
+        state.checkScrollFlag = handleScroll()
       },
       /**
        * 改变目录index

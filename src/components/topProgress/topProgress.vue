@@ -27,7 +27,6 @@ export default {
 
         // 计算出数值
         state.proValue = (scrollTop / scrollAvail) * 100
-        console.log(scrollTop / scrollAvail)
       }
     })
 

@@ -22,6 +22,7 @@
 
 <script lang="ts">
 import { computed, onBeforeUpdate, onMounted, reactive, ref, toRefs, watch } from 'vue'
+import { handleScroll } from '../../assets/ts/common'
 import indexListItem from './indexListItem/indexListItem.vue'
 
 export default {
@@ -50,7 +51,7 @@ export default {
           }
 
           // 监听上下滑动
-          state.handleScroll()
+          state.checkScrollFlag = handleScroll()
         }
       },
       /**
@@ -86,21 +87,6 @@ export default {
       },
       // 判断上滑还是下滑
       checkScrollFlag: 0,
-      checkScroll: 0,
-      /**
-       * 判断页面滚动方向
-       */
-      handleScroll: () => {
-        let scrollTop:number = document.documentElement.scrollTop
-        let scroll:number = scrollTop - state.checkScroll
-        state.checkScroll = scrollTop
-
-        if (scroll < 0) {
-          state.checkScrollFlag = 1
-        } else {
-          state.checkScrollFlag = 0
-        }
-      },
       /**
        * 获取子元素与父元素的距离
        *

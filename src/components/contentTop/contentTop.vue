@@ -17,11 +17,23 @@
 <script lang="ts">
 import { reactive, toRefs, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
+// 引入router对象
+import Router from '../../router'
 
 export default {
   // 封面，标题，内容，id，总数
   props: ['cover', 'title', 'content', 'id', 'cont'],
   setup (props:any) {
+    Router.beforeEach((to, from, next) => {
+      /* 路由发生变化修改页面title */
+      if (to.meta.title === "文章页面" && props.title) {
+        document.title = props.title as string
+      } else {
+        document.title = to.meta.title as string
+      }
+      next()
+    })
+
     // 定义路由
     const router = useRouter()
 
