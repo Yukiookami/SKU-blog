@@ -19,6 +19,7 @@ import { reactive, toRefs, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 // 引入router对象
 import Router from '../../router'
+import { goToPage } from '../../assets/ts/common'
 
 export default {
   // 封面，标题，内容，id，总数
@@ -50,13 +51,8 @@ export default {
       boxWidth: 0,
       // 跳转文章页面
       goToSenPage: () => {
-        router.push({
-          path: '/article',
-          query: {
-            id: props.id
-          }
-        })
-      }
+        goToPage('article', props.id)
+      },
     })
 
     watchEffect(() => {

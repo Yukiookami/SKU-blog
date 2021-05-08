@@ -13,11 +13,6 @@
 
         <div class="sen-cover-title-box">
           <h1>{{senObj.title}}</h1>
-          <div>
-            <span>{{senObj.author}}</span>
-            ・
-            <span>{{senObj.createTime}}</span>
-          </div>
         </div>
       </header>
     </div>
@@ -53,7 +48,7 @@ export default {
       // id
       id: computed(() => route.query.id),
       // 文章数据
-      senObj: {
+      classObj: {
         id: "1",
         createTime: '发布于2021-4-26',
         title: 'GraphQL实现递归查询',
@@ -128,7 +123,6 @@ export default {
       font-family: 'Ubuntu',sans-serif;
       width: 800px;
       position: absolute;
-      bottom: 0;
       color: #fff;
       text-shadow: 0 0 10px rgba(0, 0, 0, 1);
       padding-bottom: 40px;

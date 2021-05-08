@@ -26,7 +26,9 @@ export default {
         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
 
         // 计算出数值
-        state.proValue = (scrollTop / scrollAvail) * 100
+        if (scrollAvail) {
+          state.proValue = (scrollTop / scrollAvail) * 100
+        }
       }
     })
 

@@ -75,6 +75,7 @@ import contentPageItemTag from './contentPageItemTag/contentPageItemTag.vue'
 import { useRouter } from 'vue-router'
 // 引入router对象
 import Router from '../../router'
+import { goToPage } from '../../assets/ts/common'
 
 export default {
   props: ['createTime', 'title', 'tag', 'content', 'cover', 'id', 'index'],
@@ -99,14 +100,9 @@ export default {
        * @event
        *
        */
-      goToContentPage: (() => {
-        router.push({
-          path: '/article',
-          query: {
-            id: props.id
-          }
-        })
-      }),
+      goToContentPage: () => {
+        goToPage('article', props.id)
+      },
       itemExtent: false,
       /**
        * 鼠标放上更改样式，鼠标放入移出触发

@@ -1,3 +1,5 @@
+import router from "../../router"
+
 // 判断上滑还是下滑
 let checkScroll = 0
 /**
@@ -15,4 +17,23 @@ const handleScroll = ():number => {
   }
 }
 
-export {handleScroll}
+/**
+ * 跳转到文章页面，点击时触发
+ *
+ * @event
+ * @param {string} routerUrl
+ * @param {number} id
+ */
+const goToPage = ((routerUrl:string, id:number) => {
+  router.push({
+    path: `/${routerUrl}`,
+    query: {
+      id: id
+    }
+  })
+})
+
+export {
+  handleScroll,
+  goToPage
+}
