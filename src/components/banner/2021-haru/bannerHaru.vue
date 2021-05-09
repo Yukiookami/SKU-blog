@@ -16,8 +16,8 @@
 
 <script lang="ts">
   import { onMounted, reactive, toRefs } from 'vue'
-  import imageBox from './imageBox.vue'
-  import {makeCanvas} from '../../assets/ts/canvas'
+  import imageBox from '../2021-haru/imageBox.vue'
+  import {makeCanvas} from '../../../assets/ts/canvas'
 
   export default {
     setup () {
@@ -30,7 +30,7 @@
         layerList: [
           // 背景天空参数
           {
-            url: require('../../assets/img/banner-image/banner-top.png'),
+            url: require('../../../assets/img/banner-image/banner-top.png'),
             scale: 1,
             tranX: 0,
             tranY: -17.4,
@@ -47,7 +47,7 @@
           },
           // 背景河，亭子
           {
-            url: require('../../assets/img/banner-image/banner-bottom.png'),
+            url: require('../../../assets/img/banner-image/banner-bottom.png'),
             scale: 1,
             tranX: 1277.42,
             tranY: 0,
@@ -64,7 +64,7 @@
           },
           // 背景森林
           {
-            url: require('../../assets/img/banner-image/mori.png'),
+            url: require('../../../assets/img/banner-image/mori.png'),
             scale: 1,
             tranX: 783.9,
             tranY: 0,
@@ -81,7 +81,7 @@
           },
           // 桥
           {
-            url: require('../../assets/img/banner-image/hashi.png'),
+            url: require('../../../assets/img/banner-image/hashi.png'),
             scale: 1,
             tranX: -739.7,
             tranY: 0,
@@ -98,7 +98,7 @@
           },
           // 船
           {
-            url: require('../../assets/img/banner-image/hito-fune.png'),
+            url: require('../../../assets/img/banner-image/hito-fune.png'),
             scale: 1,
             tranX: 705.484,
             tranY: 52.25,
@@ -115,7 +115,7 @@
           },
           // 2233船，右边
           {
-            url: require('../../assets/img/banner-image/2233-fune.png'),
+            url: require('../../../assets/img/banner-image/2233-fune.png'),
             scale: 1,
             tranX: 705.484,
             tranY: 52.25,
@@ -133,7 +133,7 @@
           },
           // 草地樱花树 右（背景）
           {
-            url: require('../../assets/img/banner-image/kusachi-right.png'),
+            url: require('../../../assets/img/banner-image/kusachi-right.png'),
             scale: 1,
             tranX: 130,
             tranY: 16.25,
@@ -150,7 +150,7 @@
           },
           // 草地 左（背景）
           {
-            url: require('../../assets/img/banner-image/kusachi.png'),
+            url: require('../../../assets/img/banner-image/kusachi.png'),
             scale: 1,
             tranX: -406.452,
             tranY: 56.9,
@@ -167,7 +167,7 @@
           },
           // 风筝22
           {
-            url: require('../../assets/img/banner-image/22-run.png'),
+            url: require('../../../assets/img/banner-image/22-run.png'),
             scale: 1,
             tranX: -278.71,
             tranY: 18.58,
@@ -185,7 +185,7 @@
           },
           // 风筝33
           {
-            url: require('../../assets/img/banner-image/33-run.png'),
+            url: require('../../../assets/img/banner-image/33-run.png'),
             scale: 1,
             tranX: -394.8,
             tranY: 37.16,
@@ -203,7 +203,7 @@
           },
           // 樱花树（远）
           {
-            url: require('../../assets/img/banner-image/sakura-ki-tooi.png'),
+            url: require('../../../assets/img/banner-image/sakura-ki-tooi.png'),
             scale: 1,
             tranX: -104.5,
             tranY: 15.67,
@@ -220,7 +220,7 @@
           },
           // 樱花，前景
           {
-            url: require('../../assets/img/banner-image/haikei.png'),
+            url: require('../../../assets/img/banner-image/haikei.png'),
             scale: 1,
             tranX: 116.129,
             tranY: 0,
@@ -237,7 +237,7 @@
           },
           // 2233
           {
-            url: require('../../assets/img/banner-image/2233-BBQ.png'),
+            url: require('../../../assets/img/banner-image/2233-BBQ.png'),
             scale: 1,
             tranX: 250.839,
             tranY: 15.67,
@@ -255,7 +255,7 @@
           },
           // 柳
           {
-            url: require('../../assets/img/banner-image/yanagi.png'),
+            url: require('../../../assets/img/banner-image/yanagi.png'),
             scale: 1,
             tranX: 2438.71,
             tranY: 0,
@@ -273,7 +273,7 @@
           },
           // 樱花（大）
           {
-            url: require('../../assets/img/banner-image/sakura-ki.png'),
+            url: require('../../../assets/img/banner-image/sakura-ki.png'),
             scale: 1,
             tranX: -1161.29,
             tranY: 0,
@@ -368,7 +368,7 @@
     height: 9.375vw;
     min-width: 999px;
     background-color: #f9f9f9;
-    background-image: url('../../assets/img/banner-image/allBanner.png');
+    background-image: url('../../../assets/img/banner-image/allBanner.png');
     background-size: 100%;
     background-position: center;
     user-select: none;

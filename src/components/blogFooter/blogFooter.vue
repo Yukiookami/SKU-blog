@@ -39,6 +39,7 @@ export default {
   .sakura {
     width: 30px;
     opacity: .3;
+    user-select: none;
     animation: sakura 10s linear 0s infinite normal;
   }
 

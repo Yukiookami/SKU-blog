@@ -49,6 +49,14 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: '文章页面'
     }
+  },
+  {
+    path: '/class',
+    name: 'class',
+    component: () => import('../views/classPage.vue'),
+    meta: {
+      title: '分类'
+    }
   }
 ]
 

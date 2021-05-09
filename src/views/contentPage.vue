@@ -1,7 +1,10 @@
 <template>
   <div ref="pageTop" class="content-page">
     <top-nav></top-nav>
-    <banner-haru></banner-haru>
+    <!-- banner区域 -->
+    <banner-haru v-if="pageTag === 'Programming Basics'"></banner-haru>
+    <banner-natu v-if="pageTag === 'Japanese learning'"></banner-natu>
+    <!-- bannerEnd -->
     <bakc-top></bakc-top>
     <top-progress></top-progress>
 
@@ -48,8 +51,10 @@
 <script lang="ts">
 import { computed, reactive, toRefs, getCurrentInstance, onMounted, ref, onBeforeUpdate } from 'vue'
 // import { useRouter } from 'vue-router'
-// bilibilibanner
-import bannerHaru from '../components/banner/bannerHaru.vue'
+// 2021 春
+import bannerHaru from '../components/banner/2021-haru/bannerHaru.vue'
+// 2021 夏
+import bannerNatu from '../components/banner/2021-natu/bannerNatu.vue'
 // 顶部导航
 import topNav from '../components/nav/topNav.vue'
 // 返回顶部小狐狸
@@ -543,6 +548,7 @@ fragment CommentFields on Comment {
   },
   components: {
     bannerHaru,
+    bannerNatu,
     topNav,
     bakcTop,
     contentLine,

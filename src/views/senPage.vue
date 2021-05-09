@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { computed, reactive, toRefs } from 'vue'
+import { computed, onMounted, reactive, toRefs, watch } from 'vue'
 import { useRoute } from 'vue-router'
 // 顶部导航
 import topNav from '../components/nav/topNav.vue'
@@ -40,6 +40,7 @@ import blogFooter from '../components/blogFooter/blogFooter.vue'
 // import { setYome } from '../assets/ts/yome'
 // 顶部滚动条
 import topProgress from '../components/topProgress/topProgress.vue'
+// 引入router对象
 
 
 export default {
@@ -88,6 +89,20 @@ export default {
       getSen: () => {
 
       }
+    })
+
+    onMounted(() => {
+      // 设置并监听标题
+      if(state.senObj.title) {
+        document.title = state.senObj.title
+      }
+
+      watch(() => state.senObj,
+      (senObj) => {
+        if(senObj.title) {
+          document.title = senObj.title
+        }
+      })
     })
 
     return {
