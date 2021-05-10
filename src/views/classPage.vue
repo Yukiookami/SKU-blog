@@ -9,10 +9,10 @@
 
     <div class="sen-main-sec">
       <header class="header-banner">
-        <img :src="senObj.senPageCover" alt="">
+        <img :src="classObj.typeCover" alt="">
 
         <div class="sen-cover-title-box">
-          <h1>{{senObj.title}}</h1>
+          <h1>{{classObj.typeName}}</h1>
         </div>
       </header>
     </div>
@@ -49,33 +49,119 @@ export default {
       id: computed(() => route.query.id),
       // 文章数据
       classObj: {
-        id: "1",
-        createTime: '发布于2021-4-26',
-        title: 'GraphQL实现递归查询',
-        author: 'suukinu',
-        tag: [
+        typeName: 'Vue 2.x',
+        typeCover: require('../assets/img/testImg/content-cover-3.jpeg'),
+        contentList: [
           {
-            tagName: 'Vue 3.x'
-          }
-        ],
-        content: `当我们需要用 GraphQL 查询多层套嵌的数据，比如像 WordPress 这样套嵌的评论信息时，通常的写法是：
+            id: "1",
+            createTime: '发布于2021-4-26',
+            title: 'Docker 部署 Zabbix + Grafana',
+            tag: [
+              {
+                tagName: 'Vue 2.x'
+              }
+            ],
+            content: `
+  当我们需要用 GraphQL 查询多层套嵌的数据，比如像 WordPress 这样套嵌的评论信息时，通常的写法是：
 
-{
+  {
   posts(first: 100) {
-    nodes {
-      id
-      title
-      comments {
-        nodes {
-          ...CommentFields
-          replies: children {
-            nodes {
-              ...CommentFields
-              replies: children {
-                nodes {
-                  ...CommentFields`,
-        cover: require('../assets/img/testImg/content-cover-3.jpeg'),
-        senPageCover: require('../assets/img/senImg/sen-cover-1.jpeg')
+  nodes {
+    id
+    title
+    comments {
+      nodes {
+        ...CommentFields
+        replies: children {
+          nodes {
+            ...CommentFields
+            replies: children {
+              nodes {
+                ...CommentFields
+                replies: children {
+                  nodes {
+                    ...CommentFields
+                    replies: children {
+                      nodes {
+                        ...CommentFields
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  }
+  }
+
+  fragment CommentFields on Comment {
+  id
+  date
+  type
+  approved
+  content
+  }
+  以上的写法只实现了四层套嵌评论的查询，很麻烦对不对？这或许是 GraphQL 的缺陷，但这也或许正体现了 GraphQL 的设计理念——所得即所查。
+
+  找了一下，没有现成的轮子，就自己写一个套嵌实现吧（注意 graphql 查询语句要顶头写，多余的缩进会影响递归结果）：`,
+            cover: require('../assets/img/testImg/content-cover-1.jpeg')
+          },
+          {
+            id: "1",
+            createTime: '发布于2021-4-26',
+            title: 'GraphQL实现递归查询',
+            tag: [
+              {
+                tagName: 'Vue 2.x'
+              }
+            ],
+            content: `当我们需要用 GraphQL 查询多层套嵌的数据，比如像 WordPress 这样套嵌的评论信息时，通常的写法是：
+
+  {
+  posts(first: 100) {
+  nodes {
+    id
+    title
+    comments {
+      nodes {
+        ...CommentFields
+        replies: children {
+          nodes {
+            ...CommentFields
+            replies: children {
+              nodes {
+                ...CommentFields`,
+            cover: require('../assets/img/testImg/content-cover-2.jpeg')
+          },
+          {
+            id: "1",
+            createTime: '发布于2021-4-26',
+            title: 'Docker 部署 Zabbix + Grafana',
+            tag: [
+              {
+                tagName: 'Vue 2.x'
+              }
+            ],
+            content: '',
+            cover: require('../assets/img/testImg/content-cover-3.jpeg')
+          },
+          {
+            id: "1",
+            createTime: '发布于2021-4-26',
+            title: 'Docker 部署 Zabbix + Grafana',
+            tag: [
+              {
+                tagName: 'Vue 2.x'
+              }
+            ],
+            content: '',
+            cover: require('../assets/img/testImg/content-cover-3.jpeg')
+          }
+        ]
       },
       /**
        * 根据id请求数据

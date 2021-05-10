@@ -1,6 +1,7 @@
 <template>
   <div class="banner-natu-box">
     <video height="180" width="2200" autoplay loop
+    muted
     :style="`translate(${tranX}px, ${tranY}px));`"
     src="../../../assets/video/natu-banner.webm"></video>
   </div>
@@ -17,7 +18,7 @@ export default {
     })
 
     return {
-      ...toRefs(state),
+      ...toRefs(state)
     }
   }
 }
