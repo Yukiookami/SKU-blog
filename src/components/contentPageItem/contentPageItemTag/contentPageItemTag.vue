@@ -1,5 +1,5 @@
 <template>
-  <div class="item-tag">
+  <div @click="go" class="item-tag">
     <i class="el-icon-collection-tag"></i>
     <span>{{tagName}}</span>
   </div>
@@ -7,13 +7,17 @@
 
 <script lang="ts">
 import { reactive, toRefs } from 'vue'
+import { goToPage } from '../../../assets/ts/common'
 
 export default {
-  props: ['tagName'],
-  setup () {
+  props: ['tagName', 'tagId'],
+  setup (props:any) {
     const state = reactive({
-      // 点击后激活父元素方法
-      count: 0
+      count: 0,
+      go: () => {
+        console.log(1)
+        goToPage('class', props.tagId)
+      }
     })
 
     return {

@@ -31,7 +31,7 @@
       <div class="page-content-sec" v-for="(item, index) in contentObject" :key="`contentObject${index}`">
         <div :ref="contentLine">
           <content-line :title="item.typeName" :icon="item.typeIcon"
-          :router="`/${item.typeRouter}`"></content-line>
+          :id="`/${item.typeId}`"></content-line>
         </div>
 
         <div :ref="contentPageItem" v-for="(contentItem, contentIndex) in item.contentList"
@@ -227,7 +227,8 @@ export default {
           content: '置顶文章',
           tag: [
             {
-              tagName: 'Vue 2.x'
+              tagName: 'Vue 2.x',
+              tagID: "Vue 2.x"
             }
           ],
           createTime: '发布于2021-4-26'
@@ -240,7 +241,8 @@ export default {
           content: '置顶文章',
           tag: [
             {
-              tagName: 'Vue 2.x'
+              tagName: 'Vue 2.x',
+              tagID: "Vue 2.x"
             }
           ],
           createTime: '发布于2021-4-26'
@@ -253,7 +255,8 @@ export default {
           content: '置顶文章',
           tag: [
             {
-              tagName: 'Vue 2.x'
+              tagName: 'Vue 2.x',
+              tagID: "Vue 2.x"
             }
           ],
           createTime: '发布于2021-4-26'
@@ -263,7 +266,7 @@ export default {
       contentObject: [
         {
           typeName: 'Vue 2.x',
-          typeRouter: 'Vue2',
+          typeId: 'Vue2',
           typeIcon: require('../assets/img/fontIcon/vue2.xLogo.svg'),
           typeCover: require('../assets/img/testImg/type-cover-1.jpeg'),
           contentList: [
@@ -273,7 +276,8 @@ export default {
               title: 'Docker 部署 Zabbix + Grafana',
               tag: [
                 {
-                  tagName: 'Vue 2.x'
+                  tagName: 'Vue 2.x',
+                  tagID: "Vue 2.x"
                 }
               ],
               content: `
@@ -331,7 +335,8 @@ fragment CommentFields on Comment {
               title: 'GraphQL实现递归查询',
               tag: [
                 {
-                  tagName: 'Vue 2.x'
+                  tagName: 'Vue 2.x',
+                  tagID: "Vue 2.x"
                 }
               ],
               content: `当我们需要用 GraphQL 查询多层套嵌的数据，比如像 WordPress 这样套嵌的评论信息时，通常的写法是：
@@ -358,7 +363,8 @@ fragment CommentFields on Comment {
               title: 'Docker 部署 Zabbix + Grafana',
               tag: [
                 {
-                  tagName: 'Vue 2.x'
+                  tagName: 'Vue 2.x',
+                  tagID: "Vue 2.x"
                 }
               ],
               content: '',
@@ -370,7 +376,8 @@ fragment CommentFields on Comment {
               title: 'Docker 部署 Zabbix + Grafana',
               tag: [
                 {
-                  tagName: 'Vue 2.x'
+                  tagName: 'Vue 2.x',
+                  tagID: "Vue 2.x"
                 }
               ],
               content: '',
@@ -380,7 +387,7 @@ fragment CommentFields on Comment {
         },
         {
           typeName: 'Vue 3.x',
-          typeRouter: 'Vue3',
+          typeId: 'Vue3',
           typeIcon: require('../assets/img/fontIcon/vue3.xLogo.svg'),
           typeCover: require('../assets/img/testImg/type-cover-2.jpeg'),
           contentList: [
@@ -390,7 +397,8 @@ fragment CommentFields on Comment {
               title: 'GraphQL实现递归查询',
               tag: [
                 {
-                  tagName: 'Vue 3.x'
+                  tagName: 'Vue 3.x',
+                  tagID: "Vue 3.x"
                 }
               ],
               content: '',
@@ -402,7 +410,8 @@ fragment CommentFields on Comment {
               title: 'GraphQL实现递归查询',
               tag: [
                 {
-                  tagName: 'Vue 3.x'
+                  tagName: 'Vue 3.x',
+                  tagID: "Vue 3.x"
                 }
               ],
               content: '',
@@ -414,7 +423,8 @@ fragment CommentFields on Comment {
               title: 'Docker 部署 Zabbix + Grafana',
               tag: [
                 {
-                  tagName: 'Vue 3.x'
+                  tagName: 'Vue 3.x',
+                  tagID: "Vue 3.x"
                 }
               ],
               content: '',
@@ -424,7 +434,7 @@ fragment CommentFields on Comment {
         },
         {
           typeName: 'React',
-          typeRouter: 'React',
+          typeId: 'React',
           typeIcon: require('../assets/img/fontIcon/vue3.xLogo.svg'),
           typeCover: require('../assets/img/testImg/type-cover-2.jpeg'),
           contentList: [
@@ -434,7 +444,8 @@ fragment CommentFields on Comment {
               title: 'GraphQL实现递归查询',
               tag: [
                 {
-                  tagName: 'React'
+                  tagName: 'React',
+                  tagID: "React"
                 }
               ],
               content: '',
@@ -446,7 +457,8 @@ fragment CommentFields on Comment {
               title: 'GraphQL实现递归查询',
               tag: [
                 {
-                  tagName: 'React'
+                  tagName: 'React',
+                  tagID: "React"
                 }
               ],
               content: '',
@@ -458,7 +470,8 @@ fragment CommentFields on Comment {
               title: 'Docker 部署 Zabbix + Grafana',
               tag: [
                 {
-                  tagName: 'React'
+                  tagName: 'React',
+                  tagID: "React"
                 }
               ],
               content: '',
@@ -468,7 +481,7 @@ fragment CommentFields on Comment {
         },
         {
           typeName: 'Ruby',
-          typeRouter: 'Ruby',
+          typeId: 'Ruby',
           typeIcon: require('../assets/img/fontIcon/vue3.xLogo.svg'),
           typeCover: require('../assets/img/testImg/type-cover-2.jpeg'),
           contentList: [
@@ -478,7 +491,8 @@ fragment CommentFields on Comment {
               title: 'GraphQL实现递归查询',
               tag: [
                 {
-                  tagName: 'ruby'
+                  tagName: 'ruby',
+                  tagID: "ruby"
                 }
               ],
               content: '',
@@ -490,7 +504,8 @@ fragment CommentFields on Comment {
               title: 'GraphQL实现递归查询',
               tag: [
                 {
-                  tagName: 'ruby'
+                  tagName: 'ruby',
+                  tagID: "ruby"
                 }
               ],
               content: '',
@@ -502,7 +517,8 @@ fragment CommentFields on Comment {
               title: 'Docker 部署 Zabbix + Grafana',
               tag: [
                 {
-                  tagName: 'ruby'
+                  tagName: 'ruby',
+                  tagID: "ruby"
                 }
               ],
               content: '',

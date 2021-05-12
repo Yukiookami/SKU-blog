@@ -17,7 +17,7 @@
       <!-- 标签 -->
       <div class="content-box-tag-sec">
         <content-page-item-tag v-for="(item, index) in tag" :key="`tag${index}`"
-        :tagName="item.tagName"></content-page-item-tag>
+        :tagName="item.tagName" :tagId="item.tagId"></content-page-item-tag>
       </div>
 
       <p @click="goToContentPage" class="content-box-content">

@@ -1,13 +1,5 @@
 <template>
-  <router-link v-if="router" :to="router" class="content-line">
-    <div class="content-line-icon-box">
-      <img :src="icon" alt="">
-    </div>
-
-    <h3>{{title}}</h3>
-  </router-link>
-
-  <div v-else class="content-line">
+  <div class="content-line" @click="go">
     <div class="content-line-icon-box">
       <img :src="icon" alt="">
     </div>
@@ -18,12 +10,18 @@
 
 <script lang="ts">
 import { reactive, toRefs } from 'vue'
+import { goToPage } from '../../assets/ts/common'
 
 export default {
-  props: ['icon', 'title', 'router'],
-  setup () {
+  props: ['icon', 'title', 'id'],
+  setup (props:any) {
     const state = reactive({
-      count: 0
+      count: 0,
+      go: () => {
+        if (props.id) {
+          goToPage('class', props.id)
+        }
+      }
     })
 
     return {
@@ -45,6 +43,7 @@ export default {
   font-weight: 400;
   border-bottom: 1px dashed #ececec;
   text-decoration: none;
+  cursor: pointer;
 
   .content-line-icon-box {
     width: 20px;

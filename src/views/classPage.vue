@@ -15,6 +15,10 @@
           <h1>{{classObj.typeName}}</h1>
         </div>
       </header>
+
+      <section class="class-sen-sec">
+
+      </section>
     </div>
 
     <!-- 页脚 -->
@@ -56,6 +60,7 @@ export default {
             id: "1",
             createTime: '发布于2021-4-26',
             title: 'Docker 部署 Zabbix + Grafana',
+            author: 'suukinu',
             tag: [
               {
                 tagName: 'Vue 2.x'
@@ -114,6 +119,7 @@ export default {
             id: "1",
             createTime: '发布于2021-4-26',
             title: 'GraphQL实现递归查询',
+            author: 'suukinu',
             tag: [
               {
                 tagName: 'Vue 2.x'
@@ -141,6 +147,7 @@ export default {
             id: "1",
             createTime: '发布于2021-4-26',
             title: 'Docker 部署 Zabbix + Grafana',
+            author: 'suukinu',
             tag: [
               {
                 tagName: 'Vue 2.x'
@@ -153,6 +160,7 @@ export default {
             id: "1",
             createTime: '发布于2021-4-26',
             title: 'Docker 部署 Zabbix + Grafana',
+            author: 'suukinu',
             tag: [
               {
                 tagName: 'Vue 2.x'
@@ -207,17 +215,23 @@ export default {
 
     .sen-cover-title-box {
       font-family: 'Ubuntu',sans-serif;
-      width: 800px;
       position: absolute;
       color: #fff;
+      font-size: 30px;
       text-shadow: 0 0 10px rgba(0, 0, 0, 1);
-      padding-bottom: 40px;
       letter-spacing: 2px;
 
       h1 {
         font-weight: normal;
       }
     }
+  }
+
+  // 文章区域
+  .class-sen-sec {
+    width: 780px;
+    margin: 40px auto;
+    display: flex;
   }
 }
 </style>
