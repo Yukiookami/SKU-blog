@@ -10,12 +10,12 @@
 
 <script>
 // 老婆
-import { setYome } from './assets/ts/yome'
+// import { setYome } from './assets/ts/yome'
 
 export default {
   name: 'App',
   setup () {
-    setYome
+    // setYome
   },
   watch: {
     '$route' (to, from) {
@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 *:focus {
   outline: none;
 }
@@ -79,5 +79,18 @@ body {
 .live2d-widget-container {
   left: 10px !important;
   bottom: 0px !important;
+}
+
+#nprogress {
+  z-index: 2147483647 !important;
+
+  .bar {
+    background: linear-gradient(to right,rgba(248, 186, 11, .4), rgba(248, 186, 11, .8)) !important;
+    height: 3px !important;
+
+    .peg {
+      box-shadow: 0 0 10px rgba(248, 186, 11, .4);
+    }
+  }
 }
 </style>

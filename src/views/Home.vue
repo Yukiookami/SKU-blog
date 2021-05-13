@@ -124,7 +124,7 @@ export default {
   width: calc(100vw - 3px);
   background-image: url('../assets/img/homeBack/sakura-back.png');
   // background-image: url('../assets/homeBack/little-monster.png');
-  z-index: 2147483647;
+  z-index: 2147483640;
 
   // header
   .blog-home-page-header {

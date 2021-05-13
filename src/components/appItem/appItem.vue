@@ -1,0 +1,91 @@
+<template>
+  <div class="app-item">
+    <img class="app-item-cover" :src="cover" alt="">
+
+    <div class="app-item-text-sec">
+      <strong class="app-item-name">{{appName}}</strong>
+      <span class="pay">{{pay}}</span>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { computed, reactive, toRefs } from 'vue'
+
+export default {
+  // 封面，应用名
+  props: ['cover', 'appName', 'isPay'],
+  setup (props:any) {
+    const state = reactive({
+      count: 0,
+      pay: computed(() => {
+        if (!props.isPay) {
+          return '免费'
+        } else {
+          return '付费'
+        }
+      })
+    })
+
+    return {
+      ...toRefs(state),
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.app-item {
+  display: flex;
+  align-items: center;
+  padding: 1px 15px;
+  margin: 10px;
+  font-family: 'Ubuntu',sans-serif;
+  height: 80px;
+  width: 190px;
+  border-radius: 10px;
+  // background-color: #303643;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, .7);
+
+    .app-item-text-sec {
+      .app-item-name {
+        color: #f8ba0b;
+      }
+    }
+  }
+
+  .app-item-cover {
+    width: 60px;
+    border-radius: 10px;
+  }
+
+  .app-item-text-sec {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+
+    .app-item-name {
+      display: block;
+      color: #000;
+      font-size: 16px;
+      font-weight: 700;
+      max-width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 15px;
+      transition: all .3s ease-in-out;
+    }
+
+    .pay {
+      font-size: 12px;
+      color: #9baec8;
+    }
+  }
+}
+</style>

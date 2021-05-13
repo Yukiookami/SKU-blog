@@ -17,7 +17,10 @@
       </header>
 
       <section class="class-sen-sec">
-
+        <class-page-item v-for="(item, index) in classObj.contentList"
+        :key="`classPageItem${index}`" :cover="item.cover"
+        :id="item.id" :createTime="item.createTime" :title="item.title"
+        :author="item.author" :content="item.content"></class-page-item>
       </section>
     </div>
 
@@ -39,7 +42,8 @@ import blogFooter from '../components/blogFooter/blogFooter.vue'
 // import { setYome } from '../assets/ts/yome'
 // 顶部滚动条
 import topProgress from '../components/topProgress/topProgress.vue'
-
+// classPageItem
+import classPageItem from '../components/classPageItem/classPageItem.vue'
 
 export default {
   setup () {
@@ -54,7 +58,7 @@ export default {
       // 文章数据
       classObj: {
         typeName: 'Vue 2.x',
-        typeCover: require('../assets/img/testImg/content-cover-3.jpeg'),
+        typeCover: require('../assets/img/testImg/type-cover-1.jpeg'),
         contentList: [
           {
             id: "1",
@@ -113,7 +117,7 @@ export default {
   以上的写法只实现了四层套嵌评论的查询，很麻烦对不对？这或许是 GraphQL 的缺陷，但这也或许正体现了 GraphQL 的设计理念——所得即所查。
 
   找了一下，没有现成的轮子，就自己写一个套嵌实现吧（注意 graphql 查询语句要顶头写，多余的缩进会影响递归结果）：`,
-            cover: require('../assets/img/testImg/content-cover-1.jpeg')
+            cover: require('../assets/img/testImg/class-cover-1.jpeg')
           },
           {
             id: "1",
@@ -141,7 +145,7 @@ export default {
             replies: children {
               nodes {
                 ...CommentFields`,
-            cover: require('../assets/img/testImg/content-cover-2.jpeg')
+            cover: require('../assets/img/testImg/class-cover-1.jpeg')
           },
           {
             id: "1",
@@ -154,7 +158,7 @@ export default {
               }
             ],
             content: '',
-            cover: require('../assets/img/testImg/content-cover-3.jpeg')
+            cover: require('../assets/img/testImg/class-cover-1.jpeg')
           },
           {
             id: "1",
@@ -167,7 +171,7 @@ export default {
               }
             ],
             content: '',
-            cover: require('../assets/img/testImg/content-cover-3.jpeg')
+            cover: require('../assets/img/testImg/class-cover-1.jpeg')
           }
         ]
       },
@@ -187,7 +191,8 @@ export default {
     bakcTop,
     topNav,
     blogFooter,
-    topProgress
+    topProgress,
+    classPageItem
   }
 }
 </script>
@@ -232,6 +237,7 @@ export default {
     width: 780px;
     margin: 40px auto;
     display: flex;
+    flex-direction: column;
   }
 }
 </style>

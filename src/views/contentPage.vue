@@ -2,7 +2,7 @@
   <div ref="pageTop" class="content-page">
     <top-nav></top-nav>
     <!-- banner区域 -->
-    <banner-haru v-if="pageTag === 'Programming Basics'"></banner-haru>
+    <banner-haru v-if="pageTag === 'Programming Basics' || pageTag === 'Component Implementation'"></banner-haru>
     <banner-natu v-if="pageTag === 'Japanese learning'"></banner-natu>
     <!-- bannerEnd -->
     <bakc-top></bakc-top>
