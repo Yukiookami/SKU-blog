@@ -28,9 +28,15 @@ export default createStore({
         pageTitle: 'Personal application',
         icon: 'el-icon-star-off'
       }
-    ]
+    ],
+    // 当前语言
+    // 0中文 1日语
+    langFlag: 0 as number
   },
   mutations: {
+    setLangFlag: (state, lang) => {
+      state.langFlag = lang
+    }
   },
   actions: {
   },

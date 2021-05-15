@@ -52,6 +52,13 @@ export default {
   &:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, .7);
 
+    .app-item-cover {
+      width: 60px;
+      border-radius: 10px;
+      border: 1px solid #f8ba0b;
+      padding: 2px;
+    }
+
     .app-item-text-sec {
       .app-item-name {
         color: #f8ba0b;
@@ -62,6 +69,9 @@ export default {
   .app-item-cover {
     width: 60px;
     border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0);
+    padding: 2px;
+    transition: all .5s ease-in-out;
   }
 
   .app-item-text-sec {

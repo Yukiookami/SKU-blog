@@ -299,6 +299,8 @@
           state.firstPoint = event.clientX
         },
         /**
+         * 鼠标离开时触发
+         * @event
          * @description 重制初始点位
          */
         clearFirstPoint () {

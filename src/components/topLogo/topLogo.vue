@@ -2,22 +2,70 @@
   <div class="top-nav-logo">
     <router-link class="top-nav-link-box" to="/">
       <span>SKU</span>
-      <img src="../../assets/logo-blog.png" alt="">
+      <img ref="logoKitune" src="../../assets/logo-blog-0.png" alt="">
     </router-link>
   </div>
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, ref, toRefs, watch } from 'vue'
 
 export default {
-  setup () {
+  props: ['moveYou'],
+  setup (props) {
+    let logoKitune = ref(null)
+
     const state = reactive({
-      count: 0,
+      // 计时器
+      timer: '',
+      /**
+       * 让小狐狸动起来
+       */
+      runKitune: () => {
+        let cont = 0
+        let junbanFlag = 0
+
+        state.timer = setInterval(() => {
+          if (cont === 2) {
+            cont--
+            junbanFlag = 0
+          } else if (cont === 0) {
+            cont++
+            junbanFlag = 1
+          } else if (junbanFlag) {
+            cont++
+          } else {
+            cont--
+          }
+
+          if (logoKitune.value) {
+            logoKitune.value.src = require(`../../assets/logo-blog-${cont}.png`)
+          } else {
+            clearInterval(state.timer)
+          }
+        }, 100)
+      },
+      /**
+       * 让小狐狸停下
+       */
+      stopKitune: () => {
+        clearInterval(state.timer)
+      }
     })
+
+    watch(() => props.moveYou,
+      moveYou => {
+        if (moveYou) {
+          state.runKitune()
+        } else {
+          state.stopKitune()
+        }
+      }
+    )
 
     return {
       ...toRefs(state),
+      logoKitune
     }
   }
 }

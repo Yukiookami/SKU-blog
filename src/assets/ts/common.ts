@@ -24,7 +24,7 @@ const handleScroll = ():number => {
  * @param {string} routerUrl
  * @param {number} id
  */
-const goToPage = ((routerUrl:string, id:number) => {
+const goToPage = ((routerUrl:string, id:number | string) => {
   router.push({
     path: `/${routerUrl}`,
     query: {

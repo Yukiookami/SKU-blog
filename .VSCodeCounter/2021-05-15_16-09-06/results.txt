@@ -1,0 +1,104 @@
+Date : 2021-05-15 16:09:06
+Directory : /Users/zouxinyu/Yuki/my-blog/src
+Total : 48 files,  3921 codes, 405 comments, 478 blanks, all 4804 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| Vue        |         24 |      3,254 |        371 |        395 |      4,020 |
+| CSS        |          2 |        353 |          5 |         50 |        408 |
+| TypeScript |          8 |        276 |         29 |         33 |        338 |
+| XML        |         14 |         38 |          0 |          0 |         38 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                  | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                     |         48 |      3,921 |        405 |        478 |      4,804 |
+| assets                                                                                                |         18 |        225 |         27 |         25 |        277 |
+| assets/css                                                                                            |          1 |         52 |          3 |          8 |         63 |
+| assets/img                                                                                            |         14 |         38 |          0 |          0 |         38 |
+| assets/img/fontIcon                                                                                   |         13 |         13 |          0 |          0 |         13 |
+| assets/img/footerImg                                                                                  |          1 |         25 |          0 |          0 |         25 |
+| assets/ts                                                                                             |          3 |        135 |         24 |         17 |        176 |
+| components                                                                                            |         18 |      2,197 |        213 |        288 |      2,698 |
+| components/appItem                                                                                    |          1 |         87 |          2 |         13 |        102 |
+| components/backTop                                                                                    |          2 |        413 |         31 |         60 |        504 |
+| components/backTop/css                                                                                |          1 |        301 |          2 |         42 |        345 |
+| components/banner                                                                                     |          3 |        443 |         57 |         19 |        519 |
+| components/banner/2021-haru                                                                           |          2 |        390 |         43 |         13 |        446 |
+| components/banner/2021-natu                                                                           |          1 |         53 |         14 |          6 |         73 |
+| components/blogFooter                                                                                 |          1 |         69 |          0 |         12 |         81 |
+| components/classPageItem                                                                              |          1 |        143 |         15 |         19 |        177 |
+| components/contentLine                                                                                |          1 |         54 |          0 |          9 |         63 |
+| components/contentPageItem                                                                            |          2 |        213 |         21 |         36 |        270 |
+| components/contentPageItem/contentPageItemTag                                                         |          1 |         35 |          0 |          6 |         41 |
+| components/contentTop                                                                                 |          1 |        110 |         10 |         15 |        135 |
+| components/home                                                                                       |          1 |         81 |          2 |         12 |         95 |
+| components/indexList                                                                                  |          2 |        201 |         34 |         34 |        269 |
+| components/indexList/indexListItem                                                                    |          1 |         20 |          1 |          7 |         28 |
+| components/nav                                                                                        |          1 |        251 |         20 |         36 |        307 |
+| components/topLogo                                                                                    |          1 |         86 |          8 |         13 |        107 |
+| components/topProgress                                                                                |          1 |         46 |         13 |         10 |         69 |
+| plugins                                                                                               |          1 |          6 |          0 |          2 |          8 |
+| router                                                                                                |          1 |         65 |          0 |          4 |         69 |
+| store                                                                                                 |          1 |         37 |          1 |          2 |         40 |
+| views                                                                                                 |          6 |      1,284 |        152 |        134 |      1,570 |
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                              | language   | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /Users/zouxinyu/Yuki/my-blog/src/App.vue                                                              | Vue        |         74 |          8 |         15 |         97 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/css/homeBack.css                                              | CSS        |         52 |          3 |          8 |         63 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/anchor.svg                                       | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/androidapp.svg                                   | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/app.svg                                          | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/close.svg                                        | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/dot.svg                                          | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/heart.svg                                        | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/iosapp.svg                                       | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/macapp.svg                                       | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/search.svg                                       | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/time.svg                                         | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/vue2.xLogo.svg                                   | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/vue3.xLogo.svg                                   | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/fontIcon/webapp.svg                                       | XML        |          1 |          0 |          0 |          1 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/img/footerImg/sakura.svg                                      | XML        |         25 |          0 |          0 |         25 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/ts/canvas.ts                                                  | TypeScript |         93 |         12 |         10 |        115 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/ts/common.ts                                                  | TypeScript |         24 |         11 |          5 |         40 |
+| /Users/zouxinyu/Yuki/my-blog/src/assets/ts/yome.ts                                                    | TypeScript |         18 |          1 |          2 |         21 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/appItem/appItem.vue                                       | Vue        |         87 |          2 |         13 |        102 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/backTop/backTop.vue                                       | Vue        |        112 |         29 |         18 |        159 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/backTop/css/kituneMove.css                                | CSS        |        301 |          2 |         42 |        345 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/banner/2021-haru/bannerHaru.vue                           | Vue        |        354 |         42 |         10 |        406 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/banner/2021-haru/imageBox.vue                             | Vue        |         36 |          1 |          3 |         40 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/banner/2021-natu/bannerNatu.vue                           | Vue        |         53 |         14 |          6 |         73 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/blogFooter/blogFooter.vue                                 | Vue        |         69 |          0 |         12 |         81 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/classPageItem/classPageItem.vue                           | Vue        |        143 |         15 |         19 |        177 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/contentLine/contentLine.vue                               | Vue        |         54 |          0 |          9 |         63 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/contentPageItem/contentPageItem.vue                       | Vue        |        178 |         21 |         30 |        229 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/contentPageItem/contentPageItemTag/contentPageItemTag.vue | Vue        |         35 |          0 |          6 |         41 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/contentTop/contentTop.vue                                 | Vue        |        110 |         10 |         15 |        135 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/home/indexNav.vue                                         | Vue        |         81 |          2 |         12 |         95 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/indexList/indexList.vue                                   | Vue        |        181 |         33 |         27 |        241 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/indexList/indexListItem/indexListItem.vue                 | Vue        |         20 |          1 |          7 |         28 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/nav/topNav.vue                                            | Vue        |        251 |         20 |         36 |        307 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/topLogo/topLogo.vue                                       | Vue        |         86 |          8 |         13 |        107 |
+| /Users/zouxinyu/Yuki/my-blog/src/components/topProgress/topProgress.vue                               | Vue        |         46 |         13 |         10 |         69 |
+| /Users/zouxinyu/Yuki/my-blog/src/main.ts                                                              | TypeScript |         28 |          3 |          7 |         38 |
+| /Users/zouxinyu/Yuki/my-blog/src/plugins/element.ts                                                   | TypeScript |          6 |          0 |          2 |          8 |
+| /Users/zouxinyu/Yuki/my-blog/src/router/index.ts                                                      | TypeScript |         65 |          0 |          4 |         69 |
+| /Users/zouxinyu/Yuki/my-blog/src/shims-vue.d.ts                                                       | TypeScript |          5 |          1 |          1 |          7 |
+| /Users/zouxinyu/Yuki/my-blog/src/store/index.ts                                                       | TypeScript |         37 |          1 |          2 |         40 |
+| /Users/zouxinyu/Yuki/my-blog/src/views/Home.vue                                                       | Vue        |        227 |         26 |         29 |        282 |
+| /Users/zouxinyu/Yuki/my-blog/src/views/application.vue                                                | Vue        |        142 |         12 |         18 |        172 |
+| /Users/zouxinyu/Yuki/my-blog/src/views/classPage.vue                                                  | Vue        |        218 |         18 |         22 |        258 |
+| /Users/zouxinyu/Yuki/my-blog/src/views/contentPage.vue                                                | Vue        |        537 |         75 |         38 |        650 |
+| /Users/zouxinyu/Yuki/my-blog/src/views/senPage.vue                                                    | Vue        |        124 |         17 |         18 |        159 |
+| /Users/zouxinyu/Yuki/my-blog/src/views/templatePage.vue                                               | Vue        |         36 |          4 |          9 |         49 |
+| Total                                                                                                 |            |      3,921 |        405 |        478 |      4,804 |
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

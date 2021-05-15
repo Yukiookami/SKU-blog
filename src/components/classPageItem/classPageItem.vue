@@ -1,7 +1,7 @@
 <template>
   <article class="main-item">
     <!-- 头像 -->
-    <div class="item-icon">
+    <div @click="go" class="item-icon">
       <img :src="cover" alt="">
       <!-- 侧边显示 -->
       <div class="create-msg">
@@ -16,7 +16,7 @@
     </div>
 
     <!-- 文章主体 -->
-    <div class="sen-box">
+    <div @click="go" class="sen-box">
       <h2 class="sen-title">{{title}}</h2>
       <div class="sen-content">{{content}}</div>
     </div>
@@ -27,13 +27,22 @@
 
 <script lang="ts">
 import { reactive, toRefs } from 'vue'
+import { goToPage } from '../../assets/ts/common'
 
 export default {
   // 封面，id，时间，标题，作者，内容
   props: ['cover', 'id', 'createTime', 'title', 'author', 'content'],
-  setup () {
+  setup (props:any) {
     const state = reactive({
-      count: 0,
+      /**
+       * 跳转到文章页面，点击时触发
+       *
+       * @event
+       *
+       */
+      go: () => {
+        goToPage('article', props.id)
+      },
     })
 
     return {
@@ -78,6 +87,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 
     &>img {
       overflow: hidden;

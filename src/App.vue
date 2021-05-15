@@ -5,12 +5,15 @@
         <component :is="Component" />
       </transition>
     </router-view>
+    <language></language>
   </div>
 </template>
 
 <script>
 // 老婆
 // import { setYome } from './assets/ts/yome'
+// 双语言
+import language from './components/language/language'
 
 export default {
   name: 'App',
@@ -23,6 +26,9 @@ export default {
       const fromDepth = from.path.split('/').length
       this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
     }
+  },
+  components: {
+    language
   }
 }
 </script>

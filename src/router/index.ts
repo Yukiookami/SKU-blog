@@ -57,7 +57,15 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: '分类'
     }
-  }
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import('../views/searchPage.vue'),
+    meta: {
+      title: '搜索'
+    }
+  },
 ]
 
 const router = createRouter({

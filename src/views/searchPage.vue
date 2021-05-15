@@ -12,7 +12,7 @@
         <img :src="classObj.typeCover" alt="">
 
         <div class="sen-cover-title-box">
-          <h1>{{classObj.typeName}}</h1>
+          <h1>{{classObj.keyword}}</h1>
         </div>
       </header>
 
@@ -54,10 +54,10 @@ export default {
 
     const state = reactive({
       // id
-      id: computed(() => route.query.id),
+      keyword: computed(() => route.query.id as string),
       // 文章数据
       classObj: {
-        typeName: 'Vue 2.x',
+        keyword: 'Vue 2.x',
         typeCover: require('../assets/img/testImg/type-cover-1.jpeg'),
         contentList: [
           {
@@ -185,14 +185,14 @@ export default {
 
     onMounted(() => {
       // 设置并监听标题
-      if(state.classObj.typeName) {
-        document.title = state.classObj.typeName
+      if(state.keyword) {
+        document.title = state.keyword
       }
 
-      watch(() => state.classObj,
-      classObj => {
-        if(classObj.typeName) {
-          document.title = classObj.typeName
+      watch(() => state.keyword,
+      keyword => {
+        if(keyword) {
+          document.title = keyword
         }
       })
     })
