@@ -3,7 +3,7 @@
     <!-- 导航 -->
     <top-nav></top-nav>
     <!-- banner区域 -->
-    <banner-natu></banner-natu>
+    <banner-natu class="load-from-top"></banner-natu>
     <!-- bannerEnd -->
     <!-- 返回小狐狸 -->
     <bakc-top></bakc-top>
@@ -15,7 +15,7 @@
 
       <content-line title="Web application" :icon="require('../assets/img/fontIcon/webapp.svg')"></content-line>
       <div class="app-item-sec">
-        <template v-for="(item, index) in appList" :key="`web${index}`">
+        <template class="load-from-bottom" v-for="(item, index) in appList" :key="`web${index}`">
           <app-item :cover="item.cover" :appName="item.appName"
           :isPay="item.isPay" v-if="item.type === 0"></app-item>
         </template>
@@ -23,7 +23,7 @@
 
       <content-line title="Windows application" :icon="require('../assets/img/fontIcon/app.svg')"></content-line>
       <div class="app-item-sec">
-        <template v-for="(item, index) in appList" :key="`web${index}`">
+        <template class="load-from-bottom" v-for="(item, index) in appList" :key="`web${index}`">
           <app-item :cover="item.cover" :appName="item.appName"
           :isPay="item.isPay" v-if="item.type === 1"></app-item>
         </template>
@@ -31,7 +31,7 @@
 
       <content-line title="Mac application" :icon="require('../assets/img/fontIcon/macapp.svg')"></content-line>
       <div class="app-item-sec">
-        <template v-for="(item, index) in appList" :key="`web${index}`">
+        <template class="load-from-bottom" v-for="(item, index) in appList" :key="`web${index}`">
           <app-item :cover="item.cover" :appName="item.appName"
           :isPay="item.isPay" v-if="item.type === 2"></app-item>
         </template>
@@ -39,7 +39,7 @@
 
       <content-line title="IOS" :icon="require('../assets/img/fontIcon/iosapp.svg')"></content-line>
       <div class="app-item-sec">
-        <template v-for="(item, index) in appList" :key="`web${index}`">
+        <template class="load-from-bottom" v-for="(item, index) in appList" :key="`web${index}`">
           <app-item :cover="item.cover" :appName="item.appName"
           :isPay="item.isPay" v-if="item.type === 3"></app-item>
         </template>
@@ -75,6 +75,8 @@ import bannerNatu from '@/components/banner/2021-natu/bannerNatu.vue'
 import contentLine from '../components/contentLine/contentLine.vue'
 // appItem
 import appItem from '../components/appItem/appItem.vue'
+// 初始动画
+import '../assets/css/loadAnime.css'
 
 export default {
   setup () {

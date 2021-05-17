@@ -101,7 +101,7 @@ export default {
   height: 60px;
   width: calc(100vw - 80px);
   user-select: none;
-  z-index: 9999;
+  z-index: 2147483647;
   background-image: linear-gradient(#fff, rgba(255, 255, 255, .8), rgba(255, 255, 255, 0));
   // box-shadow: 0 0 5px rgba(0, 0, 0, .2);
   transition: all .5s ease-in-out;

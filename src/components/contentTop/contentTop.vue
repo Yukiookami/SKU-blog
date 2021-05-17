@@ -15,8 +15,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, watchEffect } from 'vue'
-import { useRouter } from 'vue-router'
+import { onMounted, reactive, toRefs, watchEffect } from 'vue'
 // 引入router对象
 import Router from '../../router'
 import { goToPage } from '../../assets/ts/common'
@@ -35,9 +34,6 @@ export default {
       next()
     })
 
-    // 定义路由
-    const router = useRouter()
-
     const state = reactive({
       // 显示mask
       maskFlag: false,
@@ -52,7 +48,7 @@ export default {
       // 跳转文章页面
       goToSenPage: () => {
         goToPage('article', props.id)
-      },
+      }
     })
 
     watchEffect(() => {

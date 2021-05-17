@@ -2,8 +2,8 @@
   <div ref="pageTop" class="content-page">
     <top-nav></top-nav>
     <!-- banner区域 -->
-    <banner-haru v-if="pageTag === 'Programming Basics' || pageTag === 'Component Implementation'"></banner-haru>
-    <banner-natu v-if="pageTag === 'Japanese learning'"></banner-natu>
+    <banner-haru class="load-from-top" v-if="pageTag === 'Programming Basics' || pageTag === 'Component Implementation'"></banner-haru>
+    <banner-natu class="load-from-top" v-if="pageTag === 'Japanese learning'"></banner-natu>
     <!-- bannerEnd -->
     <bakc-top></bakc-top>
     <top-progress></top-progress>
@@ -22,13 +22,13 @@
 
       <!-- 置顶文章 -->
       <div class="page-top-content-sec">
-        <content-top v-for="(item, index) in contentTopList" :key="`contentTop${index}`"
+        <content-top class="load-from-bottom" v-for="(item, index) in contentTopList" :key="`contentTop${index}`"
         :cover="item.cover" :title="item.title" :content="item.topContent"
         :id="item.id" :cont="contentTopList.length"></content-top>
       </div>
 
       <!-- 文章 -->
-      <div class="page-content-sec" v-for="(item, index) in contentObject" :key="`contentObject${index}`">
+      <div class="page-content-sec load-from-bottom" v-for="(item, index) in contentObject" :key="`contentObject${index}`">
         <div :ref="contentLine">
           <content-line :title="item.typeName" :icon="item.typeIcon"
           :id="`/${item.typeId}`"></content-line>
@@ -41,6 +41,8 @@
           :content="contentItem.content" :cover="contentItem.cover"
           :id="contentItem.id" :index="contentIndex"></content-page-item>
         </div>
+
+        <view-more :typeId="item.typeId"></view-more>
       </div>
     </section>
 
@@ -75,6 +77,10 @@ import indexList from '../components/indexList/indexList.vue'
 import topProgress from '../components/topProgress/topProgress.vue'
 // 公用ts
 import { handleScroll } from '../assets/ts/common'
+// 初始动画
+import '../assets/css/loadAnime.css'
+// 查看更多
+import viewMore from '../components/viewMore/viewMore.vue'
 import store from '@/store'
 
 export default {
@@ -572,7 +578,8 @@ fragment CommentFields on Comment {
     contentPageItem,
     indexList,
     blogFooter,
-    topProgress
+    topProgress,
+    viewMore
   }
 }
 </script>
