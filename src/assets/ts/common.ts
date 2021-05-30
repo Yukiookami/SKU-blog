@@ -33,7 +33,20 @@ const goToPage = ((routerUrl:string, id:number | string) => {
   })
 })
 
+/**
+ * 获取随机数
+ *
+ * @param {number} min
+ * @param {number} max
+ *
+ * @returns {number}
+ */
+const getRan = (min:number, max:number):number => {
+  return Math.round(Math.random() * (max - min) + min)
+}
+
 export {
   handleScroll,
-  goToPage
+  goToPage,
+  getRan
 }

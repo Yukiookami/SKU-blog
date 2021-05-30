@@ -150,6 +150,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/css/common.scss';
+
 .index-list-box {
   overflow: hidden;
   // height: calc(100vh - 200px);
@@ -166,7 +168,7 @@ export default {
 
   // 目录盒子
   .index-list-box-item {
-    font-family: 'Ubuntu',sans-serif;
+    font-family: $font-f;
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;

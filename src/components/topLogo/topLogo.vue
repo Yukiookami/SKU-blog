@@ -72,6 +72,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/css/common.scss';
 // logo
 .top-nav-logo {
 width: 110px;
@@ -81,7 +82,7 @@ width: 110px;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    font-family: 'Authentica';
+    font-family: $font-f-a;
     text-decoration: none;
 
     img {
@@ -102,7 +103,7 @@ width: 110px;
 
   &:hover {
     span {
-      background-color: #f8ba0b;
+      background-color: $color-blog-yel;
       color: #fff;
     }
   }

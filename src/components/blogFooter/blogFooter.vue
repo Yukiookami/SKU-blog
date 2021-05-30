@@ -26,6 +26,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/css/common.scss';
+
 .blog-footer {
   display: flex;
   flex-direction: column;
@@ -33,7 +35,7 @@ export default {
   justify-content: space-between;
   padding-bottom: 60px;
   margin-top: 100px;
-  font-family: 'Ubuntu', sans-serif;
+  font-family: $font-f;
   background: linear-gradient(rgba(0, 0, 0, 0) 70%, rgba(255, 192, 203, .2) 80%, rgba(255, 192, 203, .7));
 
   .sakura {

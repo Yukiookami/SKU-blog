@@ -32,8 +32,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/css/common.scss';
+
 .content-line {
-  font-family: 'Ubuntu',sans-serif;
+  font-family: $font-f;
   display: flex;
   align-items: center;
   width: 100%;

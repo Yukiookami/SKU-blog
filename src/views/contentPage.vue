@@ -585,6 +585,8 @@ fragment CommentFields on Comment {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/common.scss';
+
 // 页面
 .content-page {
   // padding-top: 70px;
@@ -614,7 +616,7 @@ fragment CommentFields on Comment {
     .page-title {
       font-size: 30px;
       // font-family: 'Noto Serif SC','Source Han Serif SC','Source Han Serif','source-han-serif-sc','PT Serif','SongTi SC','MicroSoft Yahei',Georgia,serif;;
-      font-family: 'Ubuntu',sans-serif;
+      font-family: $font-f;
       text-shadow: 2px 2px 5px rgba(0, 0, 0, .5);
       font-weight: 100;
 
@@ -630,7 +632,7 @@ fragment CommentFields on Comment {
 
       &::after,
       &::before {
-        color: #f8ba0b;
+        color: $color-blog-yel;
         font-size: 1.5em;
         font-weight: 100;
         vertical-align: sub;

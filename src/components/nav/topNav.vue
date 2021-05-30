@@ -91,6 +91,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/css/common.scss';
+
 .top-nav-sec {
   position: fixed;
   display: flex;
@@ -159,7 +161,7 @@ export default {
       transition: all .3s ease-in-out;
 
       &:hover {
-        color: #f8ba0b;
+        color: $color-blog-yel;
       }
     }
 
@@ -215,7 +217,7 @@ export default {
     }
 
     .search-from  {
-      font-family: 'Ubuntu',sans-serif;
+      font-family: $font-f;
       position: relative;
       padding-bottom: 200px;
       width: 600px;

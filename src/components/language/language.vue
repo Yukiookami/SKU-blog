@@ -33,8 +33,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/css/common.scss';
+
 .lang-button {
-  font-family: 'Ubuntu',sans-serif;
+  font-family: $font-f;
   position: fixed;
   display: flex;
   align-items: center;
@@ -46,7 +48,7 @@ export default {
   cursor: pointer;
 
   &:hover {
-    color: #f8ba0b;
+    color: $color-blog-yel;
   }
 
   .haguruma {

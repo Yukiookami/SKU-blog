@@ -34,6 +34,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/css/common.scss';
+
 .meun-item-sec {
   overflow: hidden;
   white-space: nowrap;
@@ -42,7 +44,7 @@ export default {
   justify-content: center;
   align-items: center;
   top: 0;
-  font-family: 'Ubuntu',sans-serif;
+  font-family: $font-f;
   font-size: 40px;
   height: 100vh;
   z-index: 99;

@@ -53,9 +53,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/css/common.scss';
+
 // 主区域
 .main-item {
-  font-family: 'Ubuntu',sans-serif;
+  font-family: $font-f;
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -76,7 +78,7 @@ export default {
     // 文章
     .sen-box {
       .sen-title  {
-        color: #f8ba0b;
+        color: $color-blog-yel;
       }
     }
   }

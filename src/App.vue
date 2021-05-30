@@ -34,6 +34,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import './assets/css/common.scss';
+
 *:focus {
   outline: none;
 }
@@ -53,13 +55,13 @@ body {
   padding: 0;
 }
 
-.router-loding-enter,
+.router-loding-enter-from,
 .router-loding-leave-to {
   opacity: 0;
 }
 
 .router-loding-enter-to,
-.router-loding-leave {
+.router-loding-leave-from {
   opacity: 1;
 }
 
@@ -77,7 +79,7 @@ body {
 
 /* 滚动条的滑块 */
 ::-webkit-scrollbar-thumb {
- background-color: #f8ba0b;
+ background-color: $color-blog-yel;
  border-radius: 3px;
 }
 

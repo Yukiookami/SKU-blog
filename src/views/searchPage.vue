@@ -212,6 +212,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/common.scss';
+
 // 主区域
 .sen-main-sec {
   min-height: calc(100vh - 248.3px);
@@ -233,7 +235,7 @@ export default {
     }
 
     .sen-cover-title-box {
-      font-family: 'Ubuntu',sans-serif;
+      font-family: $font-f;
       position: absolute;
       color: #fff;
       font-size: 30px;

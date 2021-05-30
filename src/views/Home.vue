@@ -117,6 +117,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/common.scss';
+
 // ページコート
 .blog-home-page {
   overflow: hidden;
@@ -220,7 +222,7 @@ export default {
 
       .blog-title-font {
         user-select: none;
-        font-family: 'Ubuntu',sans-serif;
+        font-family: $font-f;
         opacity: 0;
         text-shadow: 0 0 15px rgba(0, 0, 0, 1);
         transition: 1s ease-in-out;

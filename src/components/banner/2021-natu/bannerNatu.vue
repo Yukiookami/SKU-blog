@@ -1,14 +1,16 @@
 <template>
   <div @mousemove="getMouseMove" @mouseenter="getFirstPoint" @mouseleave="clearFirstPoint" class="banner-natu-box">
     <video height="180" width="2200" autoplay loop
-    muted
+    muted @canplaythrough="showVideo" class="hide-you"
+    :class="{'is-load': idLoad}"
     :style="`transform: translate(${tranX}px, ${tranY}px);`"
-    src="../../../assets/video/natu-banner.webm"></video>
+    :src="videoSrc"></video>
   </div>
 </template>
 
 <script lang="ts">
-import { reactive, toRefs } from 'vue'
+import { onMounted, reactive, toRefs } from 'vue'
+import { getRan } from '../../../assets/ts/common'
 
 export default {
   setup () {
@@ -42,6 +44,37 @@ export default {
         let moveX = event.clientX - state.firstPoint
         state.tranX = state.tranX - moveX * 0.0003
       },
+      videoSrc: '',
+      idLoad: false,
+      /**
+       * 判断当前时间，替换banner
+       */
+      getVideo: () => {
+        const nowDate = new Date()
+        let nowHour = nowDate.getHours()
+        // let nowHour = 20
+        let ran = getRan(1, 3)
+
+        if (nowHour >= 6 && nowHour <= 16) {
+          state.videoSrc = require(`../../../assets/video/natu-banner/day/day-${ran}.webm`)
+        } else if (nowHour > 16 && nowHour < 19) {
+          state.videoSrc = require(`../../../assets/video/natu-banner/tasogare/tasogare-${ran}.webm`)
+        } else {
+          state.videoSrc = require(`../../../assets/video/natu-banner/yoru/yoru-${ran}.webm`)
+        }
+      },
+      /**
+       * 显示视频，加载结束触发
+       *
+       * @event
+       */
+      showVideo: () => {
+        state.idLoad = true
+      }
+    })
+
+    onMounted(() => {
+      state.getVideo()
     })
 
     return {
@@ -66,7 +99,15 @@ export default {
   background-size: cover;
 
   video {
-    transition: all .2s linear;
+    transition: all .4s linear;
+  }
+
+  .hide-you {
+    opacity: 0;
+  }
+
+  .is-load {
+    opacity: 1;
   }
 }
 </style>

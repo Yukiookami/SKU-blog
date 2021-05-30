@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { onMounted, reactive, toRefs, watchEffect } from 'vue'
+import { reactive, toRefs, watchEffect } from 'vue'
 // 引入router对象
 import Router from '../../router'
 import { goToPage } from '../../assets/ts/common'
@@ -63,8 +63,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/css/common.scss';
+
 .content-top-sec {
-  font-family: 'Ubuntu',sans-serif;
+  font-family: $font-f;
   position: relative;
   overflow: hidden;
   height: 160px;

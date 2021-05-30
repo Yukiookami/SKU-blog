@@ -25,6 +25,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/css/common.scss';
+
 .view-more-box {
   width: 100%;
   padding: 20px 0;
@@ -41,8 +43,8 @@ export default {
     transition: all .3s ease-in-out;
 
     &:hover {
-      color: #f8ba0b;
-      border-color: #f8ba0b;;
+      color: $color-blog-yel;
+      border-color: $color-blog-yel;;
     }
   }
 

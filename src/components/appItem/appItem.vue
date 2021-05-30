@@ -35,12 +35,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/css/common.scss';
+
 .app-item {
   display: flex;
   align-items: center;
   padding: 1px 15px;
   margin: 10px;
-  font-family: 'Ubuntu',sans-serif;
+  font-family: $font-f;
   height: 80px;
   width: 190px;
   border-radius: 10px;
@@ -55,13 +57,13 @@ export default {
     .app-item-cover {
       width: 60px;
       border-radius: 10px;
-      border: 1px solid #f8ba0b;
+      border: 1px solid $color-blog-yel;
       padding: 2px;
     }
 
     .app-item-text-sec {
       .app-item-name {
-        color: #f8ba0b;
+        color: $color-blog-yel;
       }
     }
   }
