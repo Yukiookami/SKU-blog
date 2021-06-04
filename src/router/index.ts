@@ -66,6 +66,26 @@ const routes: Array<RouteRecordRaw> = [
       title: '搜索'
     }
   },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('../views/adminPage/adminHome.vue'),
+    meta: {
+      title: '用户管理',
+      requiresAuth: true
+    },
+    children: [
+      {
+        path: '/test',
+        name: 'test',
+        component: () => import('../views/adminPage/testPage.vue'),
+        meta: {
+          title: '搜索',
+          requiresAuth: true
+        }
+      }
+    ]
+  }
 ]
 
 const router = createRouter({

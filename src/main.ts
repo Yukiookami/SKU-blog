@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import axios from 'axios'
+import { VueCookieNext } from 'vue-cookie-next'
 // css resets
 import 'normalize.css'
 import installElementPlus from './plugins/element'
@@ -10,12 +12,28 @@ import 'nprogress/nprogress.css'
 
 const app = createApp(App)
 installElementPlus(app)
+app.use(VueCookieNext)
 app.use(store).use(router).mount('#app')
+
+app.config.globalProperties.$http = axios
+app.config.globalProperties.$cookie = VueCookieNext
 
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
   if (to.meta.title) {
     document.title = to.meta.title as string
+  }
+
+  // 判断是否需要登录
+  if(to.meta.requiresAuth) {
+    // 判断是否有cookie
+    if(VueCookieNext.getCookie("login_cookies")) {
+      next()
+    } else {
+      next({
+        path: '/program'
+      })
+    }
   }
 
   //页面加载进度条

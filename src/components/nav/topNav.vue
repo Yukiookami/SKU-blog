@@ -16,37 +16,51 @@
 
     <div class="top-nav-user-sec">
       <!-- 搜索 -->
-      <i @click="showSearch" class="el-icon-search search-bottoun"></i>
+      <i @click="showSearch(0)" class="el-icon-search search-bottoun"></i>
       <!-- 管理员登录 -->
-      <div class="top-nav-user-box">
+      <div @click="showSearch(1)" class="top-nav-user-box">
         <i class="el-icon-user"></i>
       </div>
     </div>
 
-    <!-- 搜索框 -->
+    <!-- 展开面板 -->
     <div class="search-from-main"
     :class="{'search-from-main-show': isShowSearch}">
       <img @click="showSearch" class="close" src="../../assets/img/fontIcon/close.svg" alt="">
-      <div class="search-from ">
-        <h3 class="search-title">{{searchText}}</h3>
-        <!-- 搜索 -->
-        <i class="el-icon-search search-bottoun"></i>
-        <input @keyup.enter="go" class="search-input" v-model="keyword" placeholder="Search">
+      <!-- 搜索部分 -->
+      <div v-if="!showWitch">
+        <div class="search-from">
+          <h3 class="search-title">{{searchText}}</h3>
+          <!-- 搜索 -->
+          <i class="el-icon-search search-bottoun"></i>
+          <input @keyup.enter="go" class="search-input" v-model="keyword" placeholder="Search">
+        </div>
       </div>
 
+      <!-- 登录部分 -->
+      <div class="search-from" v-else>
+        <input @keyup.enter="login" class="search-input login-input"
+        @focus="clearError"
+        :class="{'login-error': loginError}" v-model="username" placeholder="username">
+        <input @keyup.enter="login" type="password" class="search-input"
+        @focus="clearError"
+        :class="{'login-error': loginError}" v-model="password" placeholder="password">
+      </div>
       <img class="kanban" src="../../assets/img/search/kawai.gif" alt="">
     </div>
   </nav>
 </template>
 
 <script lang="ts">
-import { computed, reactive, toRefs } from 'vue'
+import { computed, getCurrentInstance, reactive, toRefs } from 'vue'
 import topLogo from '../topLogo/topLogo.vue'
 import store from '@/store'
 import { goToPage } from '../../assets/ts/common'
 
 export default {
   setup () {
+    const { ctx }:any = getCurrentInstance()
+
     const state = reactive({
       meunList: computed(() => store.state.meunList),
       // 控制小狐狸移动
@@ -60,23 +74,58 @@ export default {
       },
       // 搜索框文本
       searchText: '想要找点什么呢 ？',
-      // 是否显示搜索框
+      // 是否显示展开面板
       isShowSearch: false,
+      // 显示搜索框还是显示登录
+      showWitch: 0,
       /**
-       * 显示搜索界面，点击触发
+       * 显示展开界面，点击触发
        * @event
+       *
+       * @param {number} flag
        */
-      showSearch:() => {
+      showSearch:(flag:number = 0) => {
+        state.showWitch = flag
         state.isShowSearch = !state.isShowSearch
       },
       // 输入框keyword
       keyword: '',
+      // 用户名
+      username: '',
+      // 密码
+      password: '',
+      // 是否登录错误
+      loginError: false,
       /**
        * 跳转到搜索结果页面
+       * @event
        */
       go: () => {
         goToPage('search', state.keyword)
         state.showSearch()
+      },
+      /**
+       * 登录跳转到管理员页面
+       * @event
+       */
+      login: () => {
+        if (state.username === 'Yuki' && state.password === 'qy12138ly.') {
+          ctx.$cookie.setCookie("login_cookies", state.username, 60 * 60 * 24 * 30)
+
+          goToPage('admin', state.username)
+        } else {
+          state.loginError = true
+        }
+
+        state.username = ''
+        state.password = ''
+      },
+      /**
+       * 清除登录错误，重新聚焦时触发
+       * @event
+       */
+      clearError: () => {
+        state.loginError = false
       }
     })
 
@@ -255,6 +304,38 @@ export default {
         &::placeholder {
           color: rgb(196, 194, 194);
           font-weight: normal;
+        }
+      }
+
+      // 登录框
+      .login-input {
+        margin: 0 0 20px;
+      }
+
+      .login-error {
+        box-shadow: 0 0 6px rgb(227 23 13 / .4);
+        animation: loginError .3s linear;
+      }
+
+      @keyframes loginError {
+        from {
+          transform: translateX(0);
+        }
+
+        25% {
+          transform: translateX(10px);
+        }
+
+        50% {
+          transform: translateX(-10px);
+        }
+
+        75% {
+          transform: translateX(10px);
+        }
+
+        to {
+          transform: translateX(0px);
         }
       }
     }
