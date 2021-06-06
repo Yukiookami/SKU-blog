@@ -1,4 +1,5 @@
 import router from "../../router"
+import Base64 from './base64'
 
 // 判断上滑还是下滑
 let checkScroll = 0
@@ -24,13 +25,19 @@ const handleScroll = ():number => {
  * @param {string} routerUrl
  * @param {number} id
  */
-const goToPage = ((routerUrl:string, id:number | string) => {
-  router.push({
-    path: `/${routerUrl}`,
-    query: {
-      id: id
-    }
-  })
+const goToPage = ((routerUrl:string, id?: string) => {
+  if (id) {
+    router.push({
+      path: `/${routerUrl}`,
+      query: {
+        id: Base64.encode(id!)
+      }
+    })
+  } else {
+    router.push({
+      path: `/${routerUrl}`
+    })
+  }
 })
 
 /**

@@ -22,24 +22,24 @@ router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
   if (to.meta.title) {
     document.title = to.meta.title as string
-  }
 
-  // 判断是否需要登录
-  if(to.meta.requiresAuth) {
-    // 判断是否有cookie
-    if(VueCookieNext.getCookie("login_cookies")) {
-      next()
+    // 判断是否需要登录
+    if(to.meta.requiresAuth) {
+      // 判断是否有cookie
+      if(VueCookieNext.getCookie("login_cookies")) {
+        next()
+      } else {
+        next({
+          path: '/program'
+        })
+      }
     } else {
-      next({
-        path: '/program'
-      })
+      next()
     }
   }
 
   //页面加载进度条
   NProgress.start();
-
-  next()
 })
 
 router.afterEach(() => {

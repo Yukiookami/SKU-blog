@@ -29,6 +29,29 @@ export default createStore({
         icon: 'el-icon-star-off'
       }
     ],
+    // 管理端数组
+    adminList: [
+      {
+        router: '/add',
+        title: '文章增/修'
+      },
+      {
+        router: '/kanri',
+        title: '文章管理'
+      },
+      {
+        router: '/appKanri',
+        title: 'app管理'
+      },
+      {
+        router: '/homePageKanri',
+        title: '首页图片管理'
+      },
+      {
+        router: '/UserKanri',
+        title: '用户管理'
+      }
+    ],
     // 当前语言
     // 0中文 1日语
     langFlag: 0 as number

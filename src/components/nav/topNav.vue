@@ -85,8 +85,12 @@ export default {
        * @param {number} flag
        */
       showSearch:(flag:number = 0) => {
-        state.showWitch = flag
-        state.isShowSearch = !state.isShowSearch
+        if (flag && ctx.$cookie.getCookie("login_cookies")) {
+          goToPage('admin')
+        } else {
+          state.showWitch = flag
+          state.isShowSearch = !state.isShowSearch
+        }
       },
       // 输入框keyword
       keyword: '',
@@ -112,7 +116,7 @@ export default {
         if (state.username === 'Yuki' && state.password === 'qy12138ly.') {
           ctx.$cookie.setCookie("login_cookies", state.username, 60 * 60 * 24 * 30)
 
-          goToPage('admin', state.username)
+          goToPage('admin')
         } else {
           state.loginError = true
         }

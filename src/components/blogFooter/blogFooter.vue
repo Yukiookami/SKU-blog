@@ -29,6 +29,7 @@ export default {
 @import '../../assets/css/common.scss';
 
 .blog-footer {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,6 +38,7 @@ export default {
   margin-top: 100px;
   font-family: $font-f;
   background: linear-gradient(rgba(0, 0, 0, 0) 70%, rgba(255, 192, 203, .2) 80%, rgba(255, 192, 203, .7));
+  z-index: 999;
 
   .sakura {
     width: 30px;

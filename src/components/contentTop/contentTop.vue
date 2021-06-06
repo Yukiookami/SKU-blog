@@ -31,6 +31,7 @@ export default {
       } else {
         document.title = to.meta.title as string
       }
+
       next()
     })
 

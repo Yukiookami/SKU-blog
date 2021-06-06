@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { onMounted, reactive, ref, toRefs, watchEffect } from 'vue'
+import { nextTick, onMounted, reactive, ref, toRefs, watchEffect } from 'vue'
 import './css/kituneMove.css'
 
 export default {
@@ -100,14 +100,18 @@ export default {
     const starImg = ref(null as HTMLImageElement | null)
 
     const getHeight = async () => {
-      setTimeout(() => {
-        state.kituneHeight = starImg!.value!.clientHeight - 60
-      }, 2000)
+      nextTick(() => {
+        setTimeout(() => {
+          if (starImg!.value) {
+            state.kituneHeight = starImg!.value!.clientHeight - 60
+          }
+        }, 2000)
+      })
     }
 
     onMounted(() => {
-      getHeight()
       window.addEventListener('scroll', state.listenPageTop, true)
+      getHeight()
     })
 
     return {

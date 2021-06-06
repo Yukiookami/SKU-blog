@@ -40,7 +40,8 @@ import blogFooter from '../components/blogFooter/blogFooter.vue'
 // import { setYome } from '../assets/ts/yome'
 // 顶部滚动条
 import topProgress from '../components/topProgress/topProgress.vue'
-// 引入router对象
+// 引入base64
+import Base64 from '../assets/ts/base64'
 
 
 export default {
@@ -52,7 +53,7 @@ export default {
 
     const state = reactive({
       // id
-      id: computed(() => route.query.id),
+      id: computed(() => Base64.decode(route.query.id as string)),
       // 文章数据
       senObj: {
         id: "1",

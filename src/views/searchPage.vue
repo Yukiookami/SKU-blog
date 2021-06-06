@@ -44,6 +44,8 @@ import blogFooter from '../components/blogFooter/blogFooter.vue'
 import topProgress from '../components/topProgress/topProgress.vue'
 // classPageItem
 import classPageItem from '../components/classPageItem/classPageItem.vue'
+// 引入base64
+import Base64 from '../assets/ts/base64'
 
 export default {
   setup () {
@@ -54,7 +56,7 @@ export default {
 
     const state = reactive({
       // id
-      keyword: computed(() => route.query.id as string),
+      keyword: computed(() => Base64.decode(route.query.id as string)),
       // 文章数据
       classObj: {
         keyword: 'Vue 2.x',
