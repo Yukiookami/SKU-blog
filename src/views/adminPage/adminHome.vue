@@ -58,6 +58,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// 引入公共样式
+@import '../../assets/css/adminCss/adminCommon.scss';
+
 .admin-main-sec {
 
   .show-view {
@@ -72,7 +75,13 @@ export default {
     }
 
     .view-box {
-      width: 85%;
+      width: calc(85% - 60px);
+      margin-top: 60px;
+      margin-right: 10px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 0 5px rgba(255, 192, 203, 0.7);
     }
   }
 }

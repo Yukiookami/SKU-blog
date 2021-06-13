@@ -37,7 +37,7 @@ export default createStore({
       },
       {
         router: '/kanri',
-        title: '文章管理'
+        title: '文章删/查'
       },
       {
         router: '/appKanri',
