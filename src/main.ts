@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
         next()
       } else {
         next({
-          path: '/add'
+          path: '/program'
         })
       }
     } else {

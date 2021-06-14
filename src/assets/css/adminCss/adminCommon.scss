@@ -1,4 +1,15 @@
-// 主区域
-.ac-main-sec {
+// 输入功能盒子
+.input-box {
+  color: #333;
+  font-weight: 300;
   
+  span {
+    display: block;
+    font-size: 14px;
+  }
+  
+  .input-magin {
+    margin: 10px 0 20px 0;
+    width: 50%;
+  }
 }

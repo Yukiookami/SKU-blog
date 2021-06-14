@@ -86,7 +86,7 @@ export default {
        */
       showSearch:(flag:number = 0) => {
         if (flag && ctx.$cookie.getCookie("login_cookies")) {
-          goToPage('admin')
+          goToPage('add')
         } else {
           state.showWitch = flag
           state.isShowSearch = !state.isShowSearch
@@ -116,7 +116,7 @@ export default {
         if (state.username === 'Yuki' && state.password === 'qy12138ly.') {
           ctx.$cookie.setCookie("login_cookies", state.username, 60 * 60 * 24 * 30)
 
-          goToPage('admin')
+          goToPage('add')
         } else {
           state.loginError = true
         }
