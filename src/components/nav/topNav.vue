@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-04-20 21:06:28
+ * @LastEditTime: 2021-06-15 18:08:49
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /my-blog/src/components/nav/topNav.vue
+-->
 <template>
   <nav @mouseenter="changeMove"
   @mouseleave="changeMove" class="top-nav-sec">
@@ -84,7 +92,7 @@ export default {
        *
        * @param {number} flag
        */
-      showSearch:(flag:number = 0) => {
+      showSearch: (flag:number = 0) => {
         if (flag && ctx.$cookie.getCookie("login_cookies")) {
           goToPage('add')
         } else {

@@ -1,3 +1,9 @@
+<!--
+ * @Author: zxy
+ * @Date: 2021-05-30 17:10:10
+ * @LastEditTime: 2021-06-15 18:51:22
+ * @FilePath: /my-blog/src/views/adminPage/adminHome.vue
+-->
 <template>
   <div class="admin-main-sec">
     <!-- 导航 -->
@@ -34,10 +40,14 @@ import sidebar from '../../components/adminPage/sidebar.vue'
 
 export default {
   setup () {
-    const { ctx }:any  = getCurrentInstance()
+    const { ctx }:any = getCurrentInstance()
 
     const state = reactive({
-      // 拿到id
+      /**
+       * @description: 拿到id
+       * @param {*}
+       * @return {*}
+       */
       userId: computed(() => {
         return ctx.$cookie.getCookie("login_cookies")
       }),

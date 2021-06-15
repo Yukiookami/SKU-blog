@@ -1,3 +1,10 @@
+/*
+ * @Author: zxy
+ * @Date: 2021-04-18 00:15:31
+ * @LastEditTime: 2021-06-15 18:38:00
+ * @FilePath: /my-blog/.eslintrc.js
+ */
+
 module.exports = {
   root: true,
   env: {
@@ -5,7 +12,7 @@ module.exports = {
   },
   extends: [
     'plugin:vue/vue3-essential',
-    '@vue/standard',
+    // '@vue/standard',
     '@vue/typescript/recommended'
   ],
   parserOptions: {
