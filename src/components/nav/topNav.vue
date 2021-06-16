@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-20 21:06:28
- * @LastEditTime: 2021-06-15 18:08:49
+ * @LastEditTime: 2021-06-16 20:51:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /my-blog/src/components/nav/topNav.vue
@@ -28,6 +28,12 @@
       <!-- 管理员登录 -->
       <div @click="showSearch(1)" class="top-nav-user-box">
         <i class="el-icon-user"></i>
+        <img class="user-icon-show-box" :src="iconUrl" alt="" v-if="iconUrl">
+      </div>
+
+      <!-- 登出 -->
+      <div v-if="iconUrl" @click="nowGetOut()" class="login-out-box">
+        <img src="../../assets/img/fontIcon/loginOut.svg" alt="">
       </div>
     </div>
 
@@ -54,20 +60,21 @@
         @focus="clearError"
         :class="{'login-error': loginError}" v-model="password" placeholder="password">
       </div>
-      <img class="kanban" src="../../assets/img/search/kawai.gif" alt="">
+      <img class="kanban" src="../../assets/img/search/kawai.gif" @click="creatSuperUser()" alt="">
     </div>
   </nav>
 </template>
 
 <script lang="ts">
-import { computed, getCurrentInstance, reactive, toRefs } from 'vue'
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue'
 import topLogo from '../topLogo/topLogo.vue'
 import store from '@/store'
-import { goToPage } from '../../assets/ts/common'
+import { goToPage, loginOut, getIcon } from '../../assets/ts/common'
 
 export default {
   setup () {
     const { ctx }:any = getCurrentInstance()
+    const API = ctx.$API
 
     const state = reactive({
       meunList: computed(() => store.state.meunList),
@@ -121,10 +128,24 @@ export default {
        * @event
        */
       login: () => {
-        if (state.username === 'Yuki' && state.password === 'qy12138ly.') {
-          ctx.$cookie.setCookie("login_cookies", state.username, 60 * 60 * 24 * 30)
+        if (state.username && state.password) {
+          ctx.$http.post(`${API}api/users/login`, {
+            name: state.username,
+            password: state.password
+          }).then((res:any) => {
+            if(!res.data.status) {
+              state.loginError = true
+            } else {
+              let { token } = res.data
+              // const decoded = jwt_decode(token)
+              ctx.$cookie.setCookie("login_cookies", token, 60 * 60 * 24 * 7)
 
-          goToPage('add')
+              goToPage('add')
+            }
+          })
+          // ctx.$cookie.setCookie("login_cookies", state.username, 60 * 60 * 24 * 30)
+
+          // goToPage('add')
         } else {
           state.loginError = true
         }
@@ -138,7 +159,35 @@ export default {
        */
       clearError: () => {
         state.loginError = false
+      },
+      /**
+       * @description: 创建超级用户（给自己留的后门）
+       * @param {*}
+       * @return {*}
+       */
+      creatSuperUser: ():void => {
+        ctx.$http.post(`${API}api/users/register`, {
+          name: 'zouxinyu',
+          email: '1073898183@qq.com',
+          password: '510704199903200017',
+          power: 0
+        })
+      },
+      // 头像url
+      iconUrl: '',
+      /**
+       * @description: 登出
+       * @param {*}
+       * @return {*}
+       */
+      nowGetOut: ():void => {
+        loginOut('login_cookies')
+        state.iconUrl = getIcon()
       }
+    })
+
+    onMounted(() => {
+      state.iconUrl = getIcon()
     })
 
     return {
@@ -211,10 +260,10 @@ export default {
   // 用户区域
   .top-nav-user-sec {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     color: rgba(0, 0, 0, .5);
-    width: 70px;
+    width: 100px;
     font-size: 25px;
 
     .search-bottoun {
@@ -227,6 +276,7 @@ export default {
     }
 
     .top-nav-user-box {
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -235,6 +285,25 @@ export default {
       border-radius: 50%;
       border: 1px solid rgba(0, 0, 0, .5);
       cursor: pointer;
+
+      .user-icon-show-box {
+        position: absolute;
+        width: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+    }
+
+    .login-out-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 25px;
+      cursor: pointer;
+
+      img {
+        width: 100%;
+      }
     }
   }
 

@@ -2,7 +2,7 @@
   <div>
     <router-view class="router-view" v-slot="{ Component }">
       <transition name="router-loding">
-        <component :is="Component" />
+        <component :is="Component"/>
       </transition>
     </router-view>
     <language></language>
@@ -11,14 +11,14 @@
 
 <script>
 // 老婆
-// import { setYome } from './assets/ts/yome'
+import { setYome } from './assets/ts/yome'
 // 双语言
 import language from './components/language/language'
 
 export default {
   name: 'App',
   setup () {
-    // setYome
+    setYome
   },
   watch: {
     '$route' (to, from) {

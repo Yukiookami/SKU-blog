@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:52:03
- * @LastEditTime: 2021-06-15 21:25:45
+ * @LastEditTime: 2021-06-16 20:56:19
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/userSetPage.vue
 -->
 <template>
@@ -9,7 +9,7 @@
     <div class="content-sec">
       <div class="input-box">
         <span>用户名</span>
-        <el-input class="input-magin" v-model="changeUserObj.username" placeholder="请输入用户名"></el-input>
+        <el-input class="input-magin" v-model="changeUserObj.name" placeholder="请输入用户名"></el-input>
       </div>
 
       <div class="input-box">
@@ -38,22 +38,22 @@
     <div class="md-sec">
       <div class="input-box">
         <span>用户名</span>
-        <el-input class="input-magin" v-model="userObj.username" placeholder="请输入用户名"></el-input>
+        <el-input class="input-magin" v-model="userObj.name" placeholder="请输入用户名"></el-input>
       </div>
 
       <div class="input-box">
-        <span>原密码</span>
-        <el-input class="input-magin" v-model="userObj.password" placeholder="请输入原密码"></el-input>
+        <span>密码</span>
+        <el-input class="input-magin" v-model="userObj.password" placeholder="请输入密码"></el-input>
+      </div>
+
+      <div class="input-box">
+        <span>确认密码</span>
+        <el-input class="input-magin" v-model="userObj.aPassword" placeholder="请再输入密码"></el-input>
       </div>
 
       <div class="input-box">
         <span>邮箱</span>
         <el-input class="input-magin" v-model="userObj.email" placeholder="请输入邮箱"></el-input>
-      </div>
-
-      <div class="input-box">
-        <span>确认新密码</span>
-        <el-input class="input-magin" v-model="userObj.aPassword" placeholder="请再输入新密码"></el-input>
       </div>
 
       <el-button type="primary" @click="addUser(userObj)" round>新增</el-button>
@@ -62,14 +62,20 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs } from 'vue'
+import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue'
+import { ElMessage } from 'element-plus'
+import { loginOut, getIcon } from '../../../assets/ts/common'
+import jwt_decode from "jwt-decode";
 
 export default {
   setup () {
+    const { ctx }:any = getCurrentInstance()
+    const API = ctx.$API
+
     const state = reactive({
       changeUserObj: {
         // 用户名
-        username: '',
+        name: '',
         // 原密码
         password: '',
         // 邮箱
@@ -81,7 +87,7 @@ export default {
       },
       userObj: {
         // 用户名
-        username: '',
+        name: '',
         // 密码
         password: '',
         // 邮箱
@@ -94,17 +100,118 @@ export default {
        * @param {object} changeUserObj
        * @return {*}
        */
-      changeUser: (changeUserObj: object):void => {
+      changeUser: (changeUserObj: any):void => {
+        let emptyFlag = false
 
+        for (let i in changeUserObj) {
+          if (!changeUserObj[i]) {
+            emptyFlag = true
+          }
+        }
+
+        if (!emptyFlag) {
+          if (changeUserObj.nPassword === changeUserObj.aNPassword) {
+            ctx.$http.post(`${API}api/users/changeUser`, {
+              name: changeUserObj.name,
+              password: changeUserObj.password,
+              email: changeUserObj.email,
+              nPassword: changeUserObj.nPassword
+            }).then((res:any) => {
+              if(res.data.errors) {
+                let { errors } = res.data
+                let errorMsg = ''
+
+                for (let i in errors) {
+                  errorMsg += errors[i]
+                }
+
+                ElMessage.warning(errorMsg)
+              } else if (!res.data.status) {
+                ElMessage.warning(res.data.msg)
+              } else {
+                ElMessage.success(`修改用户${res.data.name}成功！`)
+
+                for (let i in changeUserObj) {
+                  changeUserObj[i] = ''
+                }
+
+                let token = ctx.$cookie.getCookie("login_cookies")
+                const decoded:any = jwt_decode(token)
+
+                if (decoded.name === res.data.name) {
+                  state.nowGetOut()
+                }
+              }
+            })
+          } else if (changeUserObj.nPassword === changeUserObj.password) {
+            ElMessage.warning('新旧密码不能相同')
+          } else {
+            ElMessage.warning('两次密码必须相同')
+          }
+        } else {
+          ElMessage.warning('请填写完整信息')
+        }
       },
       /**
        * @description: 新增用户
        * @param {*}
        * @return {*}
        */
-      addUser: (addUserObj: object):void => {
+      addUser: (addUserObj: any):void => {
+        let emptyFlag = false
 
+        for (let i in addUserObj) {
+          if (!addUserObj[i]) {
+            emptyFlag = true
+          }
+        }
+
+        if (!emptyFlag) {
+          if (addUserObj.password === addUserObj.aPassword) {
+            ctx.$http.post(`${API}api/users/register`, {
+              name: addUserObj.name,
+              password: addUserObj.password,
+              email: addUserObj.email
+            }).then((res:any) => {
+              if(res.data.errors) {
+                let { errors } = res.data
+                let errorMsg = ''
+
+                for (let i in errors) {
+                  errorMsg += errors[i]
+                }
+
+                ElMessage.warning(errorMsg)
+              } else {
+                ElMessage.success(`新增用户${res.data.name}成功！`)
+
+                for (let i in addUserObj) {
+                  addUserObj[i] = ''
+                }
+              }
+            })
+          } else {
+            ElMessage.warning('两次密码必须相同')
+          }
+        } else {
+          ElMessage.warning('请填写完整信息')
+        }
       },
+      // 头像url
+      iconUrl: '',
+      /**
+       * @description: 登出
+       * @param {*}
+       * @return {*}
+       */
+      nowGetOut: ():void => {
+        loginOut('login_cookies')
+        state.iconUrl = getIcon()
+      }
+    })
+
+    onMounted(() => {
+      state.iconUrl = getIcon()
     })
 
     return {

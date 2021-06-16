@@ -1,9 +1,16 @@
+/*
+ * @Author: zxy
+ * @Date: 2021-04-18 00:15:31
+ * @LastEditTime: 2021-06-16 14:48:39
+ * @FilePath: /my-blog/src/main.ts
+ */
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
 import { VueCookieNext } from 'vue-cookie-next'
+import API from './assets/ts/API'
 // css resets
 import 'normalize.css'
 import installElementPlus from './plugins/element'
@@ -17,6 +24,7 @@ app.use(store).use(router).mount('#app')
 
 app.config.globalProperties.$http = axios
 app.config.globalProperties.$cookie = VueCookieNext
+app.config.globalProperties.$API = API
 
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
