@@ -22,9 +22,9 @@
       <div class="blog-back-show blog-back-show-expand carousel-box"
       :class="{'blog-back-show-load-checked': loadCheck,
       'blog-back-show-load-size': changeSize}"
-      :style="{backgroundImage: `url(${require(`../assets/img/homeBack/back-${carIndex}.jpg`)})`}">
+      :style="{backgroundImage: `url(${nowShowImg})`}">
         <h1 class="blog-title-font"
-        :class="{'blog-title-font-show': changeSize}">HI! YOUKOSO!</h1>
+        :class="{'blog-title-font-show': changeSize}">Hi! YOUKOSO!</h1>
 
         <div class="blog-back-nami blog-back-nami-black blog-back-nami-box"></div>
         <div class="blog-back-nami-slowly blog-back-nami-white blog-back-nami-box"></div>
@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { computed, reactive, toRefs } from 'vue'
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue'
 import topLogo from '../components/topLogo/topLogo.vue'
 import indexNav from '../components/home/indexNav.vue'
 import '../../common/font.css'
@@ -53,6 +53,9 @@ import store from '@/store'
 
 export default {
   setup () {
+    const { ctx }:any = getCurrentInstance()
+    const API = ctx.$API
+
     const state = reactive({
       // 显示长短线
       showLongLine: false,
@@ -75,6 +78,25 @@ export default {
       loadCheck: false,
       // 改变背景图大小
       changeSize: false,
+      // 当前显示的图片
+      nowShowImg: require('../assets/img/homeBack/back-1.jpg'),
+      // 静态轮播图存储地址
+      staticImgArr: [
+        {
+          coverUrl: require('../assets/img/homeBack/back-1.jpg')
+        },
+        {
+          coverUrl: require('../assets/img/homeBack/back-2.jpg')
+        },
+        {
+          coverUrl: require('../assets/img/homeBack/back-3.jpg')
+        },
+        {
+          coverUrl: require('../assets/img/homeBack/back-4.jpg')
+        }
+      ],
+      // 动态获取网络图片
+      netImgarr: [],
       /**
        * 显示背景图片，图片加载完成后触发
        *
@@ -89,20 +111,51 @@ export default {
         state.carousel()
       },
       // 图片轮播index
-      carIndex: 1,
+      carIndex: 0,
       /**
        * @description 轮播图
        */
       carousel: () => {
         setInterval(() => {
-          if (state.carIndex === 4) {
-            state.carIndex = 1
+          if (state.netImgarr.length < 2) {
+            state.changeCarIndex(state.staticImgArr)
+          } else {
+            state.changeCarIndex(state.netImgarr)
           }
-          state.carIndex++
         }, 10000)
+      },
+      /**
+       * @description: 更改轮播图index,并且返回当前图片链接
+       * @param {*} arr
+       * @return {*}
+       */
+      changeCarIndex: (arr:any):void => {
+        if (state.carIndex === arr.length - 1) {
+          state.carIndex = 0
+        } else {
+          state.carIndex++
+        }
+
+        state.nowShowImg = arr[state.carIndex].coverUrl
+      },
+      /**
+       * @description: 获得cover数组
+       * @param {*}
+       * @return {*}
+       */
+      getAllImg: ():void => {
+        ctx.$http.get(`${API}api/homePage/getAllCover`)
+          .then((res:any) => {
+            state.netImgarr = res.data.list
+            console.log(state.netImgarr)
+          })
       },
       // 菜单栏
       meunList: computed(() => store.state.meunList)
+    })
+
+    onMounted(() => {
+      state.getAllImg()
     })
 
     return {
