@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-26 14:58:55
- * @LastEditTime: 2021-06-26 15:13:10
+ * @LastEditTime: 2021-06-26 20:24:01
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/imgUpLoad.vue
 -->
 <template>
@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue'
+import { getCurrentInstance, reactive, toRefs } from 'vue'
 import { ElMessage } from 'element-plus'
 
 export default {

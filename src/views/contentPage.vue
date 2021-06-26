@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { computed, reactive, toRefs, getCurrentInstance, onMounted, ref, onBeforeUpdate } from 'vue'
+import { computed, reactive, toRefs, getCurrentInstance, onMounted, ref, onBeforeUpdate, onBeforeUnmount } from 'vue'
 // import { useRouter } from 'vue-router'
 // 2021 春
 import bannerHaru from '../components/banner/2021-haru/bannerHaru.vue'
@@ -76,7 +76,7 @@ import indexList from '../components/indexList/indexList.vue'
 // 进度条
 import topProgress from '../components/topProgress/topProgress.vue'
 // 公用ts
-import { handleScroll } from '../assets/ts/common'
+import { handleScroll, throttle } from '../assets/ts/common'
 // 初始动画
 import '../assets/css/loadAnime.css'
 // 查看更多
@@ -118,6 +118,12 @@ export default {
         // 判断上下滑动
         state.checkScrollFlag = handleScroll()
       },
+      /**
+       * @description: 进行节流操作
+       * @param {*}
+       * @return {*}
+       */
+      throttleFun: '' as any,
       /**
        * 改变目录index
        *
@@ -557,9 +563,16 @@ fragment CommentFields on Comment {
     })
 
     onMounted(() => {
-      window.addEventListener('scroll', state.listenPageTop, true)
+      state.throttleFun = throttle(state.listenPageTop, 100)
+
+      window.addEventListener('scroll', state.throttleFun, true)
       // 记得在请求后调用
       state.setArrLeagth()
+    })
+
+    onBeforeUnmount(() => {
+      // 销毁滚动事件
+      window.removeEventListener('scroll', state.throttleFun, true)
     })
 
     return {

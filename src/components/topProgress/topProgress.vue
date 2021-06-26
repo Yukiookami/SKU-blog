@@ -1,9 +1,17 @@
+<!--
+ * @Author: zxy
+ * @Date: 2021-05-05 19:14:15
+ * @LastEditTime: 2021-06-26 21:24:11
+ * @FilePath: /my-blog/src/components/topProgress/topProgress.vue
+-->
 <template>
   <progress class="top-pro" max="100" :value="proValue"></progress>
 </template>
 
 <script lang="ts">
-import { onMounted, reactive, toRefs } from 'vue'
+import { onBeforeUnmount, onMounted, reactive, toRefs } from 'vue'
+// 公用ts
+import { throttle } from '../../assets/ts/common'
 
 export default {
   setup () {
@@ -29,11 +37,23 @@ export default {
         if (scrollAvail) {
           state.proValue = (scrollTop / scrollAvail) * 100
         }
-      }
+      },
+      /**
+       * @description: 进行节流操作
+       * @param {*}
+       * @return {*}
+       */
+      throttleFun: '' as any,
     })
 
     onMounted(() => {
-      window.addEventListener('scroll', state.calPro, true)
+      state.throttleFun = throttle(state.calPro, 100)
+
+      window.addEventListener('scroll', state.throttleFun, true)
+    })
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('scroll', state.throttleFun, true)
     })
 
     return {

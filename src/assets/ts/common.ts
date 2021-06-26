@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-25 17:45:52
- * @LastEditTime: 2021-06-26 14:15:24
+ * @LastEditTime: 2021-06-26 21:14:12
  * @FilePath: /my-blog/src/assets/ts/common.ts
  */
 import router from "../../router"
@@ -88,10 +88,29 @@ const getIcon = ():string => {
   }
 }
 
+/**
+ * @description: 节流
+ * @param {function} fn
+ * @param {numebr} gapTime
+ * @return {function}
+ */
+const throttle = (fn:any, gapTime:number):any => {
+  let _lastTime:any = null;
+
+  return function () {
+    let _nowTime = + new Date()
+    if (_nowTime - _lastTime > gapTime || !_lastTime) {
+      fn();
+      _lastTime = _nowTime
+    }
+  }
+}
+
 export {
   handleScroll,
   goToPage,
   getRan,
   loginOut,
-  getIcon
+  getIcon,
+  throttle
 }
