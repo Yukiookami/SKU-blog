@@ -34,7 +34,7 @@ router.beforeEach((to, from, next) => {
     // 判断是否需要登录
     if(to.meta.requiresAuth) {
       // 判断是否有cookie
-      if(VueCookieNext.getCookie("login_cookies")) {
+      if(VueCookieNext.getCookie("login_SKU_cookies")) {
         next()
       } else {
         next({

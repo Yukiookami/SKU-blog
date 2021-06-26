@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-20 21:06:28
- * @LastEditTime: 2021-06-16 20:51:59
+ * @LastEditTime: 2021-06-26 14:13:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /my-blog/src/components/nav/topNav.vue
@@ -100,7 +100,7 @@ export default {
        * @param {number} flag
        */
       showSearch: (flag:number = 0) => {
-        if (flag && ctx.$cookie.getCookie("login_cookies")) {
+        if (flag && ctx.$cookie.getCookie("login_SKU_cookies")) {
           goToPage('add')
         } else {
           state.showWitch = flag
@@ -138,12 +138,12 @@ export default {
             } else {
               let { token } = res.data
               // const decoded = jwt_decode(token)
-              ctx.$cookie.setCookie("login_cookies", token, 60 * 60 * 24 * 7)
+              ctx.$cookie.setCookie("login_SKU_cookies", token, 60 * 60 * 24 * 7)
 
               goToPage('add')
             }
           })
-          // ctx.$cookie.setCookie("login_cookies", state.username, 60 * 60 * 24 * 30)
+          // ctx.$cookie.setCookie("login_SKU_cookies", state.username, 60 * 60 * 24 * 30)
 
           // goToPage('add')
         } else {
@@ -181,7 +181,7 @@ export default {
        * @return {*}
        */
       nowGetOut: ():void => {
-        loginOut('login_cookies')
+        loginOut('login_SKU_cookies')
         state.iconUrl = getIcon()
       }
     })

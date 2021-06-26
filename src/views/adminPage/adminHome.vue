@@ -49,7 +49,7 @@ export default {
        * @return {*}
        */
       userId: computed(() => {
-        return ctx.$cookie.getCookie("login_cookies")
+        return ctx.$cookie.getCookie("login_SKU_cookies")
       }),
     })
 

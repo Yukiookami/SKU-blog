@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:52:03
- * @LastEditTime: 2021-06-16 20:56:19
+ * @LastEditTime: 2021-06-26 14:37:40
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/userSetPage.vue
 -->
 <template>
@@ -57,6 +57,13 @@
       </div>
 
       <el-button type="primary" @click="addUser(userObj)" round>新增</el-button>
+
+      <div class="input-box del-box">
+        <span>用户名</span>
+        <el-input class="input-magin" v-model="delObj.name" placeholder="请输入用户名"></el-input>
+      </div>
+
+      <el-button type="primary" @click="delUser(delObj)" round>删除</el-button>
     </div>
   </div>
 </template>
@@ -94,6 +101,10 @@ export default {
         email: '',
         // 确认密码
         aPassword: ''
+      },
+      delObj: {
+        // 用户名
+        name: '',
       },
       /**
        * @description: 修改用户
@@ -135,7 +146,7 @@ export default {
                   changeUserObj[i] = ''
                 }
 
-                let token = ctx.$cookie.getCookie("login_cookies")
+                let token = ctx.$cookie.getCookie("login_SKU_cookies")
                 const decoded:any = jwt_decode(token)
 
                 if (decoded.name === res.data.name) {
@@ -154,7 +165,7 @@ export default {
       },
       /**
        * @description: 新增用户
-       * @param {*}
+       * @param {*} addUserObj
        * @return {*}
        */
       addUser: (addUserObj: any):void => {
@@ -197,6 +208,29 @@ export default {
           ElMessage.warning('请填写完整信息')
         }
       },
+      /**
+       * @description: 删除用户
+       * @param {*} delObj
+       * @return {*}
+       */
+      delUser: (delObj: any):void => {
+        if (delObj.name) {
+          ctx.$http.delete(`${API}api/users/delUser`, {
+            data: {
+              name: delObj.name
+            }
+          }).then((res:any) => {
+            if (res.data.status) {
+              ElMessage.success(`删除用户${res.data.res.name}成功！`)
+              delObj.name = ''
+            } else {
+              ElMessage.error(res.data.err)
+            }
+          })
+        } else {
+          ElMessage.warning('请输入用户名')
+        }
+      },
       // 头像url
       iconUrl: '',
       /**
@@ -205,7 +239,7 @@ export default {
        * @return {*}
        */
       nowGetOut: ():void => {
-        loginOut('login_cookies')
+        loginOut('login_SKU_cookies')
         state.iconUrl = getIcon()
       }
     })
@@ -238,5 +272,9 @@ export default {
 
 .md-sec {
   width: 47%;
+}
+
+.del-box {
+  margin-top: 30px;
 }
 </style>

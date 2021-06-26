@@ -1,3 +1,9 @@
+<!--
+ * @Author: zxy
+ * @Date: 2021-06-06 14:23:44
+ * @LastEditTime: 2021-06-26 14:58:34
+ * @FilePath: /my-blog/src/components/adminPage/sidebar.vue
+-->
 <template>
   <aside class="sidebar-sec">
     <el-col class="sidebar-main">
@@ -24,6 +30,10 @@
         <el-menu-item index="UserKanri">
           <i class="el-icon-user"></i>
           <template #title>用户管理</template>
+        </el-menu-item>
+        <el-menu-item index="imgUpLoad">
+          <i class="el-icon-upload"></i>
+          <template #title>图片上传</template>
         </el-menu-item>
       </el-menu>
     </el-col>

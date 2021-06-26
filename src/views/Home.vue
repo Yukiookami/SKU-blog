@@ -147,7 +147,6 @@ export default {
         ctx.$http.get(`${API}api/homePage/getAllCover`)
           .then((res:any) => {
             state.netImgarr = res.data.list
-            console.log(state.netImgarr)
           })
       },
       // 菜单栏

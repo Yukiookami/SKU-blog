@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-25 17:45:52
- * @LastEditTime: 2021-06-16 20:44:19
+ * @LastEditTime: 2021-06-26 14:15:24
  * @FilePath: /my-blog/src/assets/ts/common.ts
  */
 import router from "../../router"
@@ -77,7 +77,8 @@ const loginOut = (keyName:string):void => {
  * @return {sting}
  */
 const getIcon = ():string => {
-  let token = VueCookieNext.getCookie("login_cookies")
+  let token = VueCookieNext.getCookie("login_SKU_cookies")
+
   if (token) {
     const decoded:any = jwt_decode(token)
 
