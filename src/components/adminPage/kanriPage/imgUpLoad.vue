@@ -10,7 +10,7 @@
       <el-upload
         class="upload-demo"
         drag
-        :action="`${API}api/upload/photo`"
+        :action="`${API}api/upload/uploadFile`"
         :on-success="showUrl"
         name="file"
         multiple>

@@ -17,7 +17,8 @@
 </template>
 
 <script lang="ts">
-import { nextTick, onMounted, reactive, ref, toRefs, watchEffect } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, reactive, ref, toRefs, watchEffect } from 'vue'
+import { throttle } from '../../assets/ts/common'
 import './css/kituneMove.css'
 
 export default {
@@ -84,6 +85,12 @@ export default {
         // 判断显示小狐狸
         state.checkWinShow()
       },
+      /**
+       * @description: 进行节流操作
+       * @param {*}
+       * @return {*}
+       */
+      throttleFun: '' as any
     })
 
     watchEffect(() => {
@@ -110,8 +117,14 @@ export default {
     }
 
     onMounted(() => {
-      window.addEventListener('scroll', state.listenPageTop, true)
+      state.throttleFun = throttle(state.listenPageTop, 100)
+
+      window.addEventListener('scroll', state.throttleFun, true)
       getHeight()
+    })
+
+    onBeforeUnmount(() => {
+
     })
 
     return {

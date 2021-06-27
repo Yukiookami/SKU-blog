@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:51:21
- * @LastEditTime: 2021-06-17 21:47:39
+ * @LastEditTime: 2021-06-27 22:23:53
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/homePageKanriPage.vue
 -->
 <template>
@@ -32,7 +32,7 @@
       <el-upload
         class="upload-demo"
         drag
-        :action="`${API}api/upload/photo`"
+        :action="`${API}api/upload/uploadFile`"
         :on-success="imgAdd"
         name="file"
         multiple>

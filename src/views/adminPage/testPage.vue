@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-05-30 18:57:53
- * @LastEditTime: 2021-06-17 16:24:31
+ * @LastEditTime: 2021-06-27 22:23:43
  * @FilePath: /my-blog/src/views/adminPage/testPage.vue
 -->
 <template>
@@ -11,7 +11,7 @@
     <el-input type="text" v-model="token" />
     <el-upload
       class="upload-demo"
-      action="http://localhost:12138/api/upload/photo"
+      action="http://localhost:12138/api/upload/uploadFile"
       :on-preview="handlePreview"
       :on-remove="handleRemove"
       :before-remove="beforeRemove"
