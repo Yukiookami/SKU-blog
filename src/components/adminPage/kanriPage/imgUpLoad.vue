@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-26 14:58:55
- * @LastEditTime: 2021-06-26 20:24:01
+ * @LastEditTime: 2021-06-28 18:03:29
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/imgUpLoad.vue
 -->
 <template>
@@ -13,6 +13,7 @@
         :action="`${API}api/upload/uploadFile`"
         :on-success="showUrl"
         name="file"
+        :before-upload="beforeAvatarUpload"
         multiple>
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -35,6 +36,7 @@
 <script lang="ts">
 import { getCurrentInstance, reactive, toRefs } from 'vue'
 import { ElMessage } from 'element-plus'
+import { imageRegexp } from '../../../assets/ts/Regexp'
 
 export default {
   setup () {
@@ -46,6 +48,19 @@ export default {
       showUrl: (res:any):void => {
         state.imgUrl = res.url
         ElMessage.success('上传成功')
+      },
+      /**
+       * @description: 检测上传类型是否为图片
+       * @param {*}
+       * @return {*}
+       */
+      beforeAvatarUpload: (file:any):boolean => {
+        if (imageRegexp.test(file.type)) {
+          return true
+        } else {
+          ElMessage.error('请确认上传类型是否正确')
+          return false
+        }
       }
     })
 

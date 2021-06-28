@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:50:41
- * @LastEditTime: 2021-06-27 22:45:09
+ * @LastEditTime: 2021-06-28 20:35:20
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/addPage.vue
 -->
 <template>
@@ -18,7 +18,15 @@
 
       <div class="input-box">
         <span>作者</span>
-        <el-input class="input-magin" v-model="contentObj.sakusya" placeholder="请输入作者"></el-input>
+        <div class="title-box">
+          <el-input class="input-magin" v-model="contentObj.sakusya" placeholder="请输入作者"></el-input>
+
+          <el-radio-group v-model="contentObj.contentType">
+            <el-radio-button label="program">编程</el-radio-button>
+            <el-radio-button label="japanese">日语</el-radio-button>
+            <el-radio-button label="component">组件</el-radio-button>
+          </el-radio-group>
+        </div>
       </div>
 
       <div class="input-box">
@@ -39,6 +47,7 @@
         drag
         :action="`${API}api/upload/uploadFile`"
         :on-success="mdAdd"
+        :before-upload="beforeAvatarUpload"
         name="file"
         multiple>
         <i class="el-icon-upload"></i>
@@ -64,6 +73,7 @@
 
 <script lang="ts">
 import { getCurrentInstance, reactive, toRefs } from 'vue'
+import { ElMessage } from 'element-plus'
 
 export default {
   setup () {
@@ -81,12 +91,31 @@ export default {
         // 文章内容
         content: '',
         // 是否置顶
-        isTop: false
+        isTop: false,
+        // 文章类型（属于哪一种页面）
+        contentType: 'program',
       },
       // markdown转换预览
       mdcontent: '',
+      /**
+       * @description: 检测上传类型是否为图片
+       * @param {*}
+       * @return {*}
+       */
+      beforeAvatarUpload: (file:any):boolean => {
+        if (file.type === 'text/markdown') {
+          return true
+        } else {
+          ElMessage.error('请确认上传类型是否正确')
+          return false
+        }
+      },
+      /**
+       * @description: 上传markdown
+       * @param {*}
+       * @return {*}
+       */
       mdAdd: ((res:any) => {
-        console.log(state.contentObj.isTop)
         let { url } = res
       })
     })
