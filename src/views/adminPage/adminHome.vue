@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-05-30 17:10:10
- * @LastEditTime: 2021-06-15 18:51:22
+ * @LastEditTime: 2021-06-29 15:50:12
  * @FilePath: /my-blog/src/views/adminPage/adminHome.vue
 -->
 <template>
@@ -9,7 +9,7 @@
     <!-- 导航 -->
     <top-nav></top-nav>
     <!-- 返回小狐狸 -->
-    <bakc-top></bakc-top>
+    <!-- <bakc-top></bakc-top> -->
     <!-- 顶部进度条 -->
     <top-progress></top-progress>
 

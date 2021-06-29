@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:51:21
- * @LastEditTime: 2021-06-28 18:06:53
+ * @LastEditTime: 2021-06-29 14:44:38
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/homePageKanriPage.vue
 -->
 <template>
@@ -85,8 +85,13 @@ export default {
        * @return {*}
        */
       beforeAvatarUpload: (file:any):boolean => {
-        if (imageRegexp.test(file.type)) {
+        const sizeFlag = file.size / 1024 / 1024 < 10
+
+        if (imageRegexp.test(file.type) && sizeFlag) {
           return true
+        } else if (!sizeFlag) {
+          ElMessage.error('图片大小不能超过10MB')
+          return false
         } else {
           ElMessage.error('请确认上传类型是否正确')
           return false
