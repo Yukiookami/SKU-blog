@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-26 14:58:55
- * @LastEditTime: 2021-06-29 14:44:45
+ * @LastEditTime: 2021-06-30 21:49:36
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/imgUpLoad.vue
 -->
 <template>
@@ -40,8 +40,8 @@ import { imageRegexp } from '../../../assets/ts/Regexp'
 
 export default {
   setup () {
-    const { ctx }:any = getCurrentInstance()
-    const API = ctx.$API
+    const { proxy }:any = getCurrentInstance()
+    const API = proxy.$API
 
     const state = reactive({
       imgUrl: '',

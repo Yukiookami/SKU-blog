@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-25 17:45:52
- * @LastEditTime: 2021-06-26 21:14:12
+ * @LastEditTime: 2021-06-30 20:43:10
  * @FilePath: /my-blog/src/assets/ts/common.ts
  */
 import router from "../../router"
@@ -33,12 +33,13 @@ const handleScroll = ():number => {
  * @param {string} routerUrl
  * @param {number} id
  */
-const goToPage = ((routerUrl:string, id?: string) => {
+const goToPage = ((routerUrl:string, id?:string, type?:string) => {
   if (id) {
     router.push({
       path: `/${routerUrl}`,
       query: {
-        id: Base64.encode(id!)
+        id: Base64.encode(id!),
+        type: Base64.encode(type!)
       }
     })
   } else {
@@ -106,11 +107,23 @@ const throttle = (fn:any, gapTime:number):any => {
   }
 }
 
+/**
+ * @description: 处理服务器时间戳
+ * @param {string} time
+ * @return {string}
+ */
+const timeChange = (time:string):string => {
+  let date = time.slice(0, 10)
+
+  return date
+}
+
 export {
   handleScroll,
   goToPage,
   getRan,
   loginOut,
   getIcon,
-  throttle
+  throttle,
+  timeChange
 }

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-20 21:06:28
- * @LastEditTime: 2021-06-26 14:13:31
+ * @LastEditTime: 2021-06-30 21:48:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /my-blog/src/components/nav/topNav.vue
@@ -73,8 +73,8 @@ import { goToPage, loginOut, getIcon } from '../../assets/ts/common'
 
 export default {
   setup () {
-    const { ctx }:any = getCurrentInstance()
-    const API = ctx.$API
+    const { proxy }:any = getCurrentInstance()
+    const API = proxy.$API
 
     const state = reactive({
       meunList: computed(() => store.state.meunList),
@@ -100,7 +100,7 @@ export default {
        * @param {number} flag
        */
       showSearch: (flag:number = 0) => {
-        if (flag && ctx.$cookie.getCookie("login_SKU_cookies")) {
+        if (flag && proxy.$cookie.getCookie("login_SKU_cookies")) {
           goToPage('add')
         } else {
           state.showWitch = flag
@@ -129,7 +129,7 @@ export default {
        */
       login: () => {
         if (state.username && state.password) {
-          ctx.$http.post(`${API}api/users/login`, {
+          proxy.$http.post(`${API}api/users/login`, {
             name: state.username,
             password: state.password
           }).then((res:any) => {
@@ -138,7 +138,7 @@ export default {
             } else {
               let { token } = res.data
               // const decoded = jwt_decode(token)
-              ctx.$cookie.setCookie("login_SKU_cookies", token, 60 * 60 * 24 * 7)
+              proxy.$cookie.setCookie("login_SKU_cookies", token, 60 * 60 * 24 * 7)
 
               goToPage('add')
             }
@@ -166,7 +166,7 @@ export default {
        * @return {*}
        */
       creatSuperUser: ():void => {
-        ctx.$http.post(`${API}api/users/register`, {
+        proxy.$http.post(`${API}api/users/register`, {
           name: 'zouxinyu',
           email: '1073898183@qq.com',
           password: '510704199903200017',

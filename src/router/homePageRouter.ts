@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-06-26 15:01:05
- * @LastEditTime: 2021-06-26 15:01:41
+ * @LastEditTime: 2021-06-30 22:10:40
  * @FilePath: /my-blog/src/router/homePageRouter.ts
  */
 import Home from '../views/Home.vue'
@@ -24,8 +24,8 @@ export default [
     }
   },
   {
-    path: '/nihongo',
-    name: 'nihongo',
+    path: '/japanese',
+    name: 'japanese',
     component: () => import('../views/contentPage.vue'),
     meta: {
       title: '日语学习'

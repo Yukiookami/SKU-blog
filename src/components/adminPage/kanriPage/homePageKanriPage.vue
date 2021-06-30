@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:51:21
- * @LastEditTime: 2021-06-29 14:44:38
+ * @LastEditTime: 2021-06-30 21:49:51
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/homePageKanriPage.vue
 -->
 <template>
@@ -56,8 +56,8 @@ import { imageRegexp } from '../../../assets/ts/Regexp'
 
 export default {
   setup () {
-    const { ctx }:any = getCurrentInstance()
-    const API = ctx.$API
+    const { proxy }:any = getCurrentInstance()
+    const API = proxy.$API
 
     const state = reactive({
       // 文章列表
@@ -68,7 +68,7 @@ export default {
        * @return {*}
        */
       imgAdd: (res:any):void => {
-        ctx.$http.post(`${API}api/homePage/saveCover`, {
+        proxy.$http.post(`${API}api/homePage/saveCover`, {
           coverUrl: res.url
         }).then((res:any) => {
           if (res.data.status) {
@@ -103,7 +103,7 @@ export default {
        * @return {*}
        */
       getAllImg: ():void => {
-        ctx.$http.get(`${API}api/homePage/getAllCover`)
+        proxy.$http.get(`${API}api/homePage/getAllCover`)
           .then((res:any) => {
             state.tableData = res.data.list
           })
@@ -114,7 +114,7 @@ export default {
        * @return {*}
        */
       delCover: (row:any) => {
-        ctx.$http.delete(`${API}api/homePage/deleteCover`, {
+        proxy.$http.delete(`${API}api/homePage/deleteCover`, {
           data: {
             id: row._id
           }

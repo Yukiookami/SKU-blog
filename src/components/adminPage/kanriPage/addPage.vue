@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:50:41
- * @LastEditTime: 2021-06-29 18:40:22
+ * @LastEditTime: 2021-06-30 21:34:53
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/addPage.vue
 -->
 <template>
@@ -76,6 +76,10 @@
             </div>
           </template>
         </el-upload>
+
+        <div class="cover-img">
+          <img :src="contentObj.coverImg" alt="">
+        </div>
       </div>
     </div>
 
@@ -103,7 +107,7 @@
         type="textarea"
         :autosize="{ minRows: 7, maxRows: 7}"
         placeholder="前書きを入力してください"
-        v-model="contentObj.content">
+        v-model="contentObjJP.content">
       </el-input>
 
       <div class="up-img-box">
@@ -140,7 +144,8 @@
         <el-radio-button label="japanese">日本語</el-radio-button>
       </el-radio-group>
 
-      <el-button @click="upMdData" type="success" plain>新增/修改</el-button>
+      <el-button type="primary" @click="upMdData" v-if="!isChange" round>新增</el-button>
+      <el-button type="success" @click="changeMdData(isChange)" v-else round>修改</el-button>
     </div>
     <v-md-editor
       v-if="mdContentType === 'chinese'"
@@ -161,13 +166,18 @@
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue'
 import { ElMessage } from 'element-plus'
 import { imageRegexp } from '../../../assets/ts/Regexp'
+import Base64 from '../../../assets/ts/base64'
+import { useRoute } from 'vue-router'
 
 export default {
   setup () {
-    const { ctx }:any = getCurrentInstance()
-    const API = ctx.$API
+    const { proxy }:any = getCurrentInstance()
+    const API = proxy.$API
+    const route = useRoute()
 
     const state:any = reactive({
+      // 页面为修改还是新增
+      isChange: '',
       // 获得图片链接
       imgUrl: '',
       // md类型
@@ -260,7 +270,7 @@ export default {
        */
       imgAdd: (res:any) => {
         let { url } = res
-        console.log(url, 'img')
+        state.contentObj.coverImg = url
       },
       /**
        * @description: 获得图片链接
@@ -277,26 +287,28 @@ export default {
        * @param {string} html
        * @return {*}
        */
-      saveMd: (text:string, html:string) => {
-        localStorage.setItem('mdContent', text)
+      saveMd: (text:string, html:string):void => {
+        localStorage.setItem('_mdContent', text)
+        ElMessage.success('保存成功')
       },
-      saveMdJa: (text:string, html:string) => {
-        localStorage.setItem('mdContentJa', text)
+      saveMdJa: (text:string, html:string):void => {
+        localStorage.setItem('_mdContentJa', text)
+        ElMessage.success('保存成功')
       },
       /**
        * @description: 获得存储数据
        * @param {*}
        * @return {*}
        */
-      getMd: () => {
-        let text = localStorage.getItem('mdContent')
+      getMd: ():void => {
+        let text = localStorage.getItem('_mdContent')
 
         if (text) {
           state.contentObj.markdownContent = text
         }
       },
-      getMdJa: () => {
-        let text = localStorage.getItem('mdContentJa')
+      getMdJa: ():void => {
+        let text = localStorage.getItem('_mdContentJa')
 
         if (text) {
           state.contentObjJP.markdownContent = text
@@ -307,14 +319,123 @@ export default {
        * @param {*}
        * @return {*}
        */
-      upMdData: () => {
+      upMdData: ():void => {
+        let contentObj = state.contentObj
+        let contentObjJP = state.contentObjJP
 
+        let emptyFlag = false
+
+        for(let i in contentObj) {
+          if (contentObj[i] === '' || contentObjJP[i] === '') {
+            console.log(i)
+            emptyFlag = true
+          }
+        }
+
+        if (!emptyFlag) {
+          proxy.$http.post(`${API}api/content/addContent`, {
+            cnContentInfo: contentObj,
+            jaContentInfo: contentObjJP,
+            contentType: contentObj.contentType
+          }).then((res:any) => {
+            console.log(res)
+            if (res.data.status) {
+              ElMessage.success('上传成功')
+
+              // 重置状态
+              for(let i in contentObj) {
+                if (i === 'isTop') {
+                  contentObj[i] = false
+                } else if (i === 'sakusya') {
+                  contentObj[i] = 'skuZxy'
+                  contentObjJP[i] = 'skuZxy'
+                } else if (i === 'contentType' || i === 'lange') {
+                  continue
+                } else {
+                  contentObj[i] = ''
+                  contentObjJP[i] = ''
+                }
+              }
+
+              localStorage.removeItem('_mdContent')
+              localStorage.removeItem('_mdContentJa')
+            } else {
+              ElMessage.error(`上传失败`)
+            }
+          })
+        } else {
+          ElMessage.warning('请完整填写信息')
+        }
+      },
+      /**
+       * @description: 获取指定文章信息用于修改
+       * @param {*}
+       * @return {*}
+       */
+      getContentData: (id:string, contentType:string) => {
+        proxy.$http.get(`${API}api/content/getContent?id=${id}&&contentType=${contentType}`)
+          .then((res:any) => {
+            let contentObj = state.contentObj
+            let contentObjJP = state.contentObjJP
+            let list = res.data.list
+
+            for(let i in contentObj) {
+              contentObj[i] = list.cnContentInfo[i]
+              contentObjJP[i] = list.jaContentInfo[i]
+            }
+          })
+      },
+      /**
+       * @description: 修改文章
+       * @param {*}
+       * @return {*}
+       */
+      changeMdData: (changeObj:any) => {
+        let contentObj = state.contentObj
+        let contentObjJP = state.contentObjJP
+
+        let emptyFlag = false
+
+        for(let i in contentObj) {
+          if (contentObj[i] === '' || contentObjJP[i] === '') {
+            console.log(i)
+            emptyFlag = true
+          }
+        }
+
+        if (!emptyFlag) {
+          proxy.$http.put(`${API}api/content/putContent`, {
+            cnContentInfo: contentObj,
+            jaContentInfo: contentObjJP,
+            contentType: contentObj.contentType,
+            id: state.isChange.id
+          }).then((res:any) => {
+            if (res.data.status) {
+              ElMessage.success('修改成功')
+            } else {
+              ElMessage.error('修改失败')
+            }
+          })
+        } else {
+          ElMessage.warning('请完整填写信息')
+        }
       }
     })
 
     onMounted(() => {
       state.getMd()
       state.getMdJa()
+
+      if (route.query.id) {
+        let id = Base64.decode(route.query.id as string)
+        let contentType = Base64.decode(route.query.type as string)
+        state.isChange = {
+          id,
+          contentType
+        }
+
+        state.getContentData(id, contentType)
+      }
     })
 
     return {
@@ -348,6 +469,14 @@ export default {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+
+  .cover-img {
+    width: 50%;
+
+    img {
+      width: 100%;
+    }
+  }
 }
 
 .title-box {
@@ -364,10 +493,7 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 100%;
-  }
-
-  .choose-button {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 }
 </style>

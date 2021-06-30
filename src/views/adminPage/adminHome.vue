@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-05-30 17:10:10
- * @LastEditTime: 2021-06-29 15:50:12
+ * @LastEditTime: 2021-06-30 21:48:01
  * @FilePath: /my-blog/src/views/adminPage/adminHome.vue
 -->
 <template>
@@ -40,7 +40,7 @@ import sidebar from '../../components/adminPage/sidebar.vue'
 
 export default {
   setup () {
-    const { ctx }:any = getCurrentInstance()
+    const { proxy }:any = getCurrentInstance()
 
     const state = reactive({
       /**
@@ -49,7 +49,7 @@ export default {
        * @return {*}
        */
       userId: computed(() => {
-        return ctx.$cookie.getCookie("login_SKU_cookies")
+        return proxy.$cookie.getCookie("login_SKU_cookies")
       }),
     })
 

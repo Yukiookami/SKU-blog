@@ -88,13 +88,21 @@ export default {
     // 老婆
     // setYome
 
+    const { proxy }:any = getCurrentInstance()
+    const API = proxy.$API
+
     const state = reactive({
+      // 当前页面类型
+      contentType: 'program',
       /**
        * 获取当前页面路由
        */
       pageTag: computed(() => {
-        const { ctx }:any = getCurrentInstance()
-        const pageName:string = ctx.$router.currentRoute.value.path
+        const pageRouter = proxy.$router.currentRoute.value
+        const pageName:string = pageRouter.path
+        state.contentType = pageRouter.name
+        // 利用计算属性运行请求事件 合理性存疑
+        state.getContentData()
 
         let page = store.state.meunList.find(ele => ele.router === pageName)
         return page?.pageTitle
@@ -538,7 +546,17 @@ fragment CommentFields on Comment {
             }
           ]
         }
-      ]
+      ],
+      /**
+       * @description: 获得文章数据
+       * @param {*}
+       * @return {*}
+       */
+      getContentData: () => {
+        let contentType = state.contentType
+
+        proxy.$http.get()
+      }
     })
 
     // 获得锚点元素

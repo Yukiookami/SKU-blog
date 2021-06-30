@@ -53,8 +53,8 @@ import store from '@/store'
 
 export default {
   setup () {
-    const { ctx }:any = getCurrentInstance()
-    const API = ctx.$API
+    const { proxy }:any = getCurrentInstance()
+    const API = proxy.$API
 
     const state = reactive({
       // 显示长短线
@@ -144,7 +144,7 @@ export default {
        * @return {*}
        */
       getAllImg: ():void => {
-        ctx.$http.get(`${API}api/homePage/getAllCover`)
+        proxy.$http.get(`${API}api/homePage/getAllCover`)
           .then((res:any) => {
             state.netImgarr = res.data.list
           })

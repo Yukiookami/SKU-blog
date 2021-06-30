@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:52:03
- * @LastEditTime: 2021-06-26 14:37:40
+ * @LastEditTime: 2021-06-30 21:49:24
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/userSetPage.vue
 -->
 <template>
@@ -76,8 +76,8 @@ import jwt_decode from "jwt-decode";
 
 export default {
   setup () {
-    const { ctx }:any = getCurrentInstance()
-    const API = ctx.$API
+    const { proxy }:any = getCurrentInstance()
+    const API = proxy.$API
 
     const state = reactive({
       changeUserObj: {
@@ -122,7 +122,7 @@ export default {
 
         if (!emptyFlag) {
           if (changeUserObj.nPassword === changeUserObj.aNPassword) {
-            ctx.$http.post(`${API}api/users/changeUser`, {
+            proxy.$http.post(`${API}api/users/changeUser`, {
               name: changeUserObj.name,
               password: changeUserObj.password,
               email: changeUserObj.email,
@@ -146,7 +146,7 @@ export default {
                   changeUserObj[i] = ''
                 }
 
-                let token = ctx.$cookie.getCookie("login_SKU_cookies")
+                let token = proxy.$cookie.getCookie("login_SKU_cookies")
                 const decoded:any = jwt_decode(token)
 
                 if (decoded.name === res.data.name) {
@@ -179,7 +179,7 @@ export default {
 
         if (!emptyFlag) {
           if (addUserObj.password === addUserObj.aPassword) {
-            ctx.$http.post(`${API}api/users/register`, {
+            proxy.$http.post(`${API}api/users/register`, {
               name: addUserObj.name,
               password: addUserObj.password,
               email: addUserObj.email
@@ -215,7 +215,7 @@ export default {
        */
       delUser: (delObj: any):void => {
         if (delObj.name) {
-          ctx.$http.delete(`${API}api/users/delUser`, {
+          proxy.$http.delete(`${API}api/users/delUser`, {
             data: {
               name: delObj.name
             }

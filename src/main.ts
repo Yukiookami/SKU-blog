@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-18 00:15:31
- * @LastEditTime: 2021-06-29 17:32:38
+ * @LastEditTime: 2021-06-30 21:43:02
  * @FilePath: /my-blog/src/main.ts
  */
 import { createApp } from 'vue'
@@ -24,6 +24,10 @@ import '@kangc/v-md-editor/lib/theme/style/github.css';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+
+// 预览组件
+import VMdPreview from '@kangc/v-md-editor/lib/preview';
+import '@kangc/v-md-editor/lib/style/preview.css';
 
 // 主题
 import Prism from 'prismjs';
@@ -74,11 +78,17 @@ import 'codemirror/addon/scroll/simplescrollbars.css';
 import 'codemirror/lib/codemirror.css';
 // markdown编译器end
 
-// 编译器中间件
-VMdEditor.Codemirror = Codemirror;
+// 预览组件
+VMdPreview.use(vuepressTheme, {
+  Prism,
+});
+// 编辑器
 VMdEditor.use(vuepressTheme, {
   Prism,
 });
+
+// 编译器中间件
+VMdEditor.Codemirror = Codemirror;
 VMdEditor.use(createTodoListPlugin());
 VMdEditor.use(createMermaidPlugin());
 VMdEditor.use(createEmojiPlugin());
@@ -91,6 +101,7 @@ const app = createApp(App)
 installElementPlus(app)
 app.use(VueCookieNext)
 app.use(VMdEditor);
+app.use(VMdPreview)
 app.use(store).use(router).mount('#app')
 
 app.config.globalProperties.$http = axios

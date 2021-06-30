@@ -1,3 +1,9 @@
+/*
+ * @Author: zxy
+ * @Date: 2021-04-18 00:15:31
+ * @LastEditTime: 2021-06-30 22:11:02
+ * @FilePath: /my-blog/src/store/index.ts
+ */
 import { createStore } from 'vuex'
 
 export default createStore({
@@ -11,7 +17,7 @@ export default createStore({
         icon: 'el-icon-cpu'
       },
       {
-        router: '/nihongo',
+        router: '/japanese',
         title: '日语学习',
         pageTitle: 'Japanese learning',
         icon: 'el-icon-tableware'

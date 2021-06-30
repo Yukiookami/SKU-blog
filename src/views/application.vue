@@ -85,8 +85,8 @@ export default {
        * 获取当前页面路由
        */
       pageTag: computed(() => {
-        const { ctx }:any = getCurrentInstance()
-        const pageName:string = ctx.$router.currentRoute.value.path
+        const { proxy }:any = getCurrentInstance()
+        const pageName:string = proxy.$router.currentRoute.value.path
 
         let page = store.state.meunList.find(ele => ele.router === pageName)
         return page?.pageTitle

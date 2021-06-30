@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-18 00:15:31
- * @LastEditTime: 2021-06-29 17:18:58
+ * @LastEditTime: 2021-06-30 21:40:27
  * @FilePath: /my-blog/src/shims-vue.d.ts
  */
 /* eslint-disable */
@@ -23,3 +23,4 @@ declare module '@kangc/v-md-editor/lib/plugins/emoji/index'
 declare module '@kangc/v-md-editor/lib/plugins/line-number/index';
 declare module '@kangc/v-md-editor/lib/plugins/highlight-lines/index'
 declare module '@kangc/v-md-editor/lib/plugins/copy-code/index'
+declare module '@kangc/v-md-editor/lib/preview'

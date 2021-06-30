@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 14:23:44
- * @LastEditTime: 2021-06-26 14:58:34
+ * @LastEditTime: 2021-06-30 21:47:49
  * @FilePath: /my-blog/src/components/adminPage/sidebar.vue
 -->
 <template>
@@ -47,7 +47,7 @@ import { useRoute } from 'vue-router'
 
 export default {
   setup () {
-    const { ctx }:any = getCurrentInstance()
+    const { proxy }:any = getCurrentInstance()
     const route = useRoute()
 
     const state = reactive({
@@ -59,7 +59,7 @@ export default {
        * 获取当前页面路由
        */
       pageTag: computed(() => {
-        const pageName:string = ctx.$router.currentRoute.value.path
+        const pageName:string = proxy.$router.currentRoute.value.path
 
         let page = store.state.meunList.find(ele => ele.router === pageName)
         return page?.pageTitle
