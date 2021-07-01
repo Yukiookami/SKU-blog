@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:51:21
- * @LastEditTime: 2021-06-30 21:43:46
+ * @LastEditTime: 2021-07-01 20:06:51
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/artKanriPage.vue
 -->
 <template>
@@ -61,6 +61,10 @@
       <el-table-column
         prop="tag"
         label="tag">
+      </el-table-column>
+      <el-table-column
+        prop="typeClass"
+        label="文章类型">
       </el-table-column>
       <el-table-column
         prop="操作"

@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-18 00:15:31
- * @LastEditTime: 2021-06-30 21:43:02
+ * @LastEditTime: 2021-07-01 18:01:20
  * @FilePath: /my-blog/src/main.ts
  */
 import { createApp } from 'vue'
@@ -16,6 +16,8 @@ import 'normalize.css'
 import installElementPlus from './plugins/element'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+// google事件优化
+import 'default-passive-events'
 // markdown编辑器
 import VMdEditor from '@kangc/v-md-editor/lib/codemirror-editor';
 import '@kangc/v-md-editor/lib/style/codemirror-editor.css';

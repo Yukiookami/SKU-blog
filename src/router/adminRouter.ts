@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-06-26 15:00:02
- * @LastEditTime: 2021-06-26 15:00:43
+ * @LastEditTime: 2021-07-01 14:49:40
  * @FilePath: /my-blog/src/router/adminRouter.ts
  */
 export default [
@@ -38,6 +38,15 @@ export default [
         component: () => import('../components/adminPage/kanriPage/artKanriPage.vue'),
         meta: {
           title: '文章管理',
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/typeClass',
+        name: 'typeClass',
+        component: () => import('../components/adminPage/kanriPage/typeClassKanri.vue'),
+        meta: {
+          title: '类型管理',
           requiresAuth: true
         }
       },

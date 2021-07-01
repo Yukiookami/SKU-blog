@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 14:23:44
- * @LastEditTime: 2021-06-30 21:47:49
+ * @LastEditTime: 2021-07-01 19:47:42
  * @FilePath: /my-blog/src/components/adminPage/sidebar.vue
 -->
 <template>
@@ -16,6 +16,7 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="add">文章增/改</el-menu-item>
+            <el-menu-item index="typeClass">类型管理</el-menu-item>
             <el-menu-item index="kanri">文章删/查</el-menu-item>
           </el-menu-item-group>
         </el-submenu>

@@ -53,7 +53,7 @@ export default {
     })
 
     watchEffect(() => {
-      props.cont > 1 ? state.boxWidth = (100 / props.cont) - 1 : 100
+      props.cont > 1 ? state.boxWidth = (100 / props.cont) - 1 : state.boxWidth = 100
     })
 
     return {
