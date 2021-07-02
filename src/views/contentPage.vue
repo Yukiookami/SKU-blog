@@ -31,7 +31,7 @@
       <div class="page-content-sec load-from-bottom" v-for="(item, index) in contentObject" :key="`contentObject${index}`">
         <div :ref="contentLine">
           <content-line :title="item.typeName" :icon="item.typeIcon"
-          :id="`/${item.typeId}`"></content-line>
+          :id="`/${item.typeName}`"></content-line>
         </div>
 
         <div :ref="contentPageItem" v-for="(contentItem, contentIndex) in item.contentList"
@@ -42,7 +42,7 @@
           :id="contentItem.id" :index="contentIndex"></content-page-item>
         </div>
 
-        <view-more :typeId="item.typeId"></view-more>
+        <view-more :typeId="item.typeName"></view-more>
       </div>
     </section>
 
@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { computed, reactive, toRefs, getCurrentInstance, onMounted, ref, onBeforeUpdate, onBeforeUnmount } from 'vue'
+import { computed, reactive, toRefs, getCurrentInstance, onMounted, ref, onBeforeUpdate, onBeforeUnmount, watch } from 'vue'
 // import { useRouter } from 'vue-router'
 // 2021 春
 import bannerHaru from '../components/banner/2021-haru/bannerHaru.vue'
@@ -92,6 +92,8 @@ export default {
     const API = proxy.$API
 
     const state = reactive({
+      // 当前语言
+      langFlag: computed(() => store.state.langFlag),
       // 当前页面类型
       contentType: 'program',
       /**
@@ -119,12 +121,12 @@ export default {
        * @event
        */
       listenPageTop: () => {
+        // 判断上下滑动
+        state.checkScrollFlag = handleScroll()
+
         // 更改index
         state.changeIndex(contentLineArr, 0, 150, -100, state.checkScrollFlag)
         state.changeIndex(contentPageItemArr, 1, 80, -100, state.checkScrollFlag)
-
-        // 判断上下滑动
-        state.checkScrollFlag = handleScroll()
       },
       /**
        * @description: 进行节流操作
@@ -258,7 +260,6 @@ export default {
       contentObject: [
         {
           typeName: 'Vue 2.x',
-          typeId: 'Vue2',
           typeIcon: require('../assets/img/fontIcon/vue2.xLogo.svg'),
           typeCover: require('../assets/img/testImg/type-cover-1.jpeg'),
           contentList: [
@@ -278,6 +279,13 @@ export default {
           ]
         }
       ],
+      // 原始数组数据
+      motoData: {
+        // 原始文章数据
+        contentData: [],
+        // 原始typeClass数据
+        typeClassData: []
+      },
       /**
        * @description: 获得文章数据
        * @param {*}
@@ -288,9 +296,105 @@ export default {
 
         proxy.$http.get(`${API}api/content/getAllContent?contentType=${contentType}`)
           .then((res:any) => {
-            console.log(res)
+            state.motoData.contentData = res.data.list
+            
+            proxy.$http.get(`${API}api/typeClass/getAllTypeClass`)
+              .then((res:any) => {
+                state.motoData.typeClassData = res.data.list
+                state.setResData()
+              })
           })
-      }
+      },
+      /**
+       * @description: 处理获得数据
+       * @param {*}
+       * @return {*}
+       */      
+      setResData: () => {
+        let {contentData, typeClassData} = state.motoData
+
+        let newData = state.getFinCityList(contentData)
+        let newTypeData:any = []
+
+        typeClassData.forEach((ele:any) => {
+          newData.forEach((newDataEle:any) => {
+            if (!state.langFlag) {
+              // 中文
+              if (newDataEle[0].typeClass === ele.cnTypeClassInfo.typeName) {
+                let obj = {
+                  typeId: ele._id,
+                  ...ele.cnTypeClassInfo,
+                  contentList: newDataEle
+                }
+
+                newTypeData.push(obj)
+              }
+            } else {
+              if (newDataEle[0].typeClass === ele.jaTypeClassInfo.typeName) {
+                let obj = {
+                  typeId: ele._id,
+                  ...ele.jaTypeClassInfo,
+                  contentList: newDataEle
+                }
+
+                newTypeData.push(obj)
+              }
+            }
+          })
+        })
+
+        console.log(newTypeData)
+      },
+      /**
+       * @description: 处理文章数组分组
+       * @param {*}
+       * @return {*}
+       */
+      getFinCityList: (oldData:any) => {
+        const s = new Set()
+
+        let newData:any = []
+
+        if (!state.langFlag) {
+          // 中文
+          oldData.forEach((ele:any) => {
+            s.add(ele.cnContentInfo.typeClass)
+          })
+
+          newData = Array.from({ length: s.size }, () => [])
+
+          oldData.forEach((ele:any) => {
+            let index = [...s].indexOf(ele.cnContentInfo.typeClass)
+
+            let obj = {
+              contentId: ele._id,
+              ...ele.cnContentInfo
+            }
+
+            newData[index].push(obj)
+          })
+        } else {
+          // 日语
+          oldData.forEach((ele:any) => {
+            s.add(ele.jaContentInfo.typeClass)
+          })
+
+          newData = Array.from({ length: s.size }, () => [])
+
+          oldData.forEach((ele:any) => {
+            let index = [...s].indexOf(ele.jaContentInfo.typeClass)
+
+            let obj = {
+              contentId: ele._id,
+              ...ele.jaContentInfo
+            }
+
+            newData[index].push(obj)
+          })
+        }
+
+        return newData
+      },      
     })
 
     // 获得锚点元素
@@ -308,6 +412,12 @@ export default {
         contentPageItemArr.push(e)
       }
     })
+
+    // 监听语言变化
+    watch(() => state.langFlag,
+      (nowLang) => {
+        state.setResData()
+      })
 
     onBeforeUpdate (() => {
       contentLineArr = []

@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts">
-import { computed, onBeforeUpdate, onMounted, reactive, ref, toRefs, watch } from 'vue'
-import { handleScroll } from '../../assets/ts/common'
+import { computed, onBeforeUnmount, onBeforeUpdate, onMounted, reactive, ref, toRefs, watch } from 'vue'
+import { handleScroll, throttle } from '../../assets/ts/common'
 import indexListItem from './indexListItem/indexListItem.vue'
 
 export default {
@@ -41,6 +41,9 @@ export default {
        * 监听是否触顶
        */
       listenPageTop: () => {
+        // 监听上下滑动
+          state.checkScrollFlag = handleScroll()
+
         if (indexListBox.value) {
           let winTop:number = indexListBox.value!.getBoundingClientRect().top
 
@@ -49,9 +52,6 @@ export default {
           } else {
             state.getTop = false
           }
-
-          // 监听上下滑动
-          state.checkScrollFlag = handleScroll()
         }
       },
       /**
@@ -110,7 +110,13 @@ export default {
        */
       goToTop: (top:number) => {
         parentOfTitleDom.value!.scrollTop = top
-      }
+      },
+      /**
+       * @description: 进行节流操作
+       * @param {*}
+       * @return {*}
+       */
+      throttleFun: '' as any,
     })
 
     // 获得锚点元素
@@ -128,12 +134,20 @@ export default {
 
     onMounted(() => {
       state.topH = indexListBox.value!.getBoundingClientRect().top
-      window.addEventListener('scroll', state.listenPageTop, true)
+
+      state.throttleFun = throttle(state.listenPageTop, 100)
+
+      window.addEventListener('scroll', state.throttleFun, true)
 
       watch(() => state.comTitleIndex,
       (comTitleIndex) => {
         state.checkDo(comTitleIndex)
       })
+    })
+
+    onBeforeUnmount(() => {
+      // 销毁滚动事件
+      window.removeEventListener('scroll', state.throttleFun, true)
     })
 
     return {
