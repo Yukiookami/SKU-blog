@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:51:21
- * @LastEditTime: 2021-07-01 20:06:51
+ * @LastEditTime: 2021-07-03 14:58:34
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/artKanriPage.vue
 -->
 <template>
@@ -18,6 +18,8 @@
         <el-radio-button label="japanese">日本語</el-radio-button>
       </el-radio-group>
     </div>
+
+    <el-switch v-model="isTop" active-text="只显示置顶文章" inactive-text="显示所有文章"></el-switch>
 
     <el-input
       placeholder="请输入内容"
@@ -67,6 +69,10 @@
         label="文章类型">
       </el-table-column>
       <el-table-column
+        prop="isTop"
+        label="置顶文章">
+      </el-table-column>
+      <el-table-column
         prop="操作"
         label="操作">
         <template #default="scope">
@@ -79,7 +85,7 @@
 </template>
 
 <script lang="ts">
-import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue'
+import { getCurrentInstance, onMounted, reactive, toRefs, watch } from 'vue'
 import { timeChange } from '../../../assets/ts/common'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { goToPage } from '../../../assets/ts/common'
@@ -101,6 +107,8 @@ export default {
       keyword: '',
       // 请求得到的结果数组
       resList: [],
+      // 是否只显示置顶文章
+      isTop: false,
       /**
        * @description: 模糊搜索
        * @param {striing} keyword
@@ -197,7 +205,34 @@ export default {
        */
       putContent: (row:any) => {
         goToPage('add', row.id, row.contentType)
+      },
+      // 置顶暂存数组
+      topLinArr: [],
+      /**
+       * @description: 切换置顶文章数组
+       * @param {boolean} val
+       * @return {*}
+       */      
+      changeTopList: (val:boolean):void => {
+        if (val === true) {
+          state.topLinArr = state.tableData
+          let newArr:any = []
+
+          state.tableData.forEach((ele:any) => {
+            if (ele.isTop) {
+              newArr.push(ele)
+            }
+          })
+
+          state.tableData = newArr
+        } else {
+          state.tableData = state.topLinArr
+        }
       }
+    })
+
+    watch(() => state.isTop, (val) => {
+      state.changeTopList(val)
     })
 
     onMounted(() => {
@@ -221,5 +256,6 @@ export default {
 .sel-box {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 </style>

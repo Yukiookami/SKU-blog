@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:50:41
- * @LastEditTime: 2021-07-01 20:00:37
+ * @LastEditTime: 2021-07-04 16:32:12
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/addPage.vue
 -->
 <template>
@@ -369,7 +369,6 @@ export default {
             jaContentInfo: contentObjJP,
             contentType: contentObj.contentType
           }).then((res:any) => {
-            console.log(res)
             if (res.data.status) {
               ElMessage.success('上传成功')
 

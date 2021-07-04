@@ -19,6 +19,7 @@
     "koa-logger": "^3.2.1",
     "koa-static": "^5.0.0",
     "nprogress": "^0.2.0",
+    "tocbot": "^4.12.3",
     "vue": "^3.0.0",
     "vue-cookie-next": "^1.0.3",
     "vue-router": "^4.0.0-0",

@@ -7,7 +7,7 @@
     <div class="content-page-item-content-box">
       <div class="content-box-create-time">
         <img src="../../assets/img/fontIcon/time.svg" alt="">
-        <span>{{createTime}}</span>
+        <span>发布于{{createTime}}</span>
       </div>
 
       <h3 @click="goToContentPage" class="content-box-title">
@@ -17,7 +17,7 @@
       <!-- 标签 -->
       <div class="content-box-tag-sec">
         <content-page-item-tag v-for="(item, index) in tag" :key="`tag${index}`"
-        :tagName="item.tagName" :tagId="item.tagId"></content-page-item-tag>
+        :tagName="item"></content-page-item-tag>
       </div>
 
       <p @click="goToContentPage" class="content-box-content">
@@ -45,7 +45,7 @@
     <div class="content-page-item-content-box content-box-flex-right">
       <div class="content-box-create-time">
         <img src="../../assets/img/fontIcon/time.svg" alt="">
-        <span>{{createTime}}</span>
+        <span>发布于{{createTime}}</span>
       </div>
 
       <h3 @click="goToContentPage" class="content-box-title">
@@ -55,7 +55,7 @@
       <!-- 标签 -->
       <div class="content-box-tag-sec">
         <content-page-item-tag v-for="(item, index) in tag" :key="`tag${index}`"
-        :tagName="item.tagName"></content-page-item-tag>
+        :tagName="item"></content-page-item-tag>
       </div>
 
       <p @click="goToContentPage" class="content-box-content">
@@ -78,7 +78,7 @@ import Router from '../../router'
 import { goToPage } from '../../assets/ts/common'
 
 export default {
-  props: ['createTime', 'title', 'tag', 'content', 'cover', 'id', 'index'],
+  props: ['createTime', 'title', 'tag', 'content', 'cover', 'id', 'index', 'contentType'],
   setup (props:any) {
     // 定义路由
     const router = useRouter()
@@ -101,7 +101,7 @@ export default {
        *
        */
       goToContentPage: () => {
-        goToPage('article', props.id)
+        goToPage('article', props.id, props.contentType)
       },
       itemExtent: false,
       /**
@@ -153,6 +153,11 @@ export default {
         width: 14px;
         margin-right: 5px;
       }
+    }
+
+    // 标签
+    .content-box-tag-sec {
+      display: flex;
     }
 
     // 标题

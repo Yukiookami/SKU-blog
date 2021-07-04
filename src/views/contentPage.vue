@@ -18,28 +18,29 @@
 
       <h1 class="page-title">{{pageTag}}</h1>
 
-      <content-line title="START:DASH!!" :icon="require('../assets/img/fontIcon/anchor.svg')"></content-line>
+      <content-line title="START:DASH!!" v-if="contentTopList.length" :icon="require('../assets/img/fontIcon/anchor.svg')"></content-line>
 
       <!-- 置顶文章 -->
-      <div class="page-top-content-sec">
+      <div class="page-top-content-sec" v-if="contentTopList.length">
         <content-top class="load-from-bottom" v-for="(item, index) in contentTopList" :key="`contentTop${index}`"
-        :cover="item.cover" :title="item.title" :content="item.topContent"
-        :id="item.id" :cont="contentTopList.length"></content-top>
+        :cover="item[0].coverImg" :title="item[0].title" :content="item[0].content"
+        :id="item[0].contentId" :cont="contentTopList.length" :contentType="contentType"></content-top>
       </div>
 
       <!-- 文章 -->
       <div class="page-content-sec load-from-bottom" v-for="(item, index) in contentObject" :key="`contentObject${index}`">
         <div :ref="contentLine">
           <content-line :title="item.typeName" :icon="item.typeIcon"
-          :id="`/${item.typeName}`"></content-line>
+          :id="item.typeId"></content-line>
         </div>
 
         <div :ref="contentPageItem" v-for="(contentItem, contentIndex) in item.contentList"
         :key="`contentItem${contentIndex}`" >
-          <content-page-item :createTime="contentItem.createTime"
+          <content-page-item :createTime="contentItem.date"
           :title="contentItem.title" :tag="contentItem.tag"
-          :content="contentItem.content" :cover="contentItem.cover"
-          :id="contentItem.id" :index="contentIndex"></content-page-item>
+          :content="contentItem.content" :cover="contentItem.coverImg"
+          :id="contentItem.contentId" :index="contentIndex" 
+          :contentType="contentType"></content-page-item>
         </div>
 
         <view-more :typeId="item.typeName"></view-more>
@@ -76,7 +77,7 @@ import indexList from '../components/indexList/indexList.vue'
 // 进度条
 import topProgress from '../components/topProgress/topProgress.vue'
 // 公用ts
-import { handleScroll, throttle } from '../assets/ts/common'
+import { handleScroll, throttle, timeChange } from '../assets/ts/common'
 // 初始动画
 import '../assets/css/loadAnime.css'
 // 查看更多
@@ -105,6 +106,7 @@ export default {
         state.contentType = pageRouter.name
         // 利用计算属性运行请求事件 合理性存疑
         state.getContentData()
+        state.getTopContent()
 
         let page = store.state.meunList.find(ele => ele.router === pageName)
         return page?.pageTitle
@@ -240,45 +242,9 @@ export default {
         state.goToContent(index, contentItemIndex, titleFlag)
       },
       // 置顶文章数组
-      contentTopList: [
-        {
-          id: 1,
-          cover: require('../assets/img/testImg/cover-1.jpg'),
-          title: 'SAKURA',
-          topContent: '本站的web press主题',
-          content: '置顶文章',
-          tag: [
-            {
-              tagName: 'Vue 2.x',
-              tagID: "Vue 2.x"
-            }
-          ],
-          createTime: '发布于2021-4-26'
-        }
-      ],
+      contentTopList: [],
       // 文章数组
-      contentObject: [
-        {
-          typeName: 'Vue 2.x',
-          typeIcon: require('../assets/img/fontIcon/vue2.xLogo.svg'),
-          typeCover: require('../assets/img/testImg/type-cover-1.jpeg'),
-          contentList: [
-            {
-              id: "1",
-              createTime: '发布于2021-4-26',
-              title: 'Docker 部署 Zabbix + Grafana',
-              tag: [
-                {
-                  tagName: 'Vue 2.x',
-                  tagID: "Vue 2.x"
-                }
-              ],
-              content: ``,
-              cover: require('../assets/img/testImg/content-cover-1.jpeg')
-            }
-          ]
-        }
-      ],
+      contentObject: [],
       // 原始数组数据
       motoData: {
         // 原始文章数据
@@ -330,6 +296,7 @@ export default {
                 newTypeData.push(obj)
               }
             } else {
+              // 日语
               if (newDataEle[0].typeClass === ele.jaTypeClassInfo.typeName) {
                 let obj = {
                   typeId: ele._id,
@@ -343,7 +310,9 @@ export default {
           })
         })
 
-        console.log(newTypeData)
+        state.contentObject = newTypeData
+        // 设置目录数组
+        state.setArrLeagth()
       },
       /**
        * @description: 处理文章数组分组
@@ -366,6 +335,11 @@ export default {
           oldData.forEach((ele:any) => {
             let index = [...s].indexOf(ele.cnContentInfo.typeClass)
 
+            if(typeof ele.jaContentInfo.tag === 'string') {
+              ele.cnContentInfo.tag = ele.cnContentInfo.tag.split(',')
+              ele.cnContentInfo.date = timeChange(ele.cnContentInfo.date)
+            }
+
             let obj = {
               contentId: ele._id,
               ...ele.cnContentInfo
@@ -384,6 +358,11 @@ export default {
           oldData.forEach((ele:any) => {
             let index = [...s].indexOf(ele.jaContentInfo.typeClass)
 
+            if(typeof ele.jaContentInfo.tag === 'string') {
+              ele.jaContentInfo.tag = ele.jaContentInfo.tag.split(',')
+              ele.jaContentInfo.date = timeChange(ele.jaContentInfo.date)
+            }
+
             let obj = {
               contentId: ele._id,
               ...ele.jaContentInfo
@@ -394,7 +373,19 @@ export default {
         }
 
         return newData
-      },      
+      },    
+      /**
+       * @description: 获得置顶文章
+       * @param {*}
+       * @return {*}
+       */      
+      getTopContent: () => {
+        proxy.$http.get(`${API}api/content/getTopContent?contentType=${state.contentType}&&topNum=3`)
+          .then((res:any) => {
+            let newArr = state.getFinCityList(res.data.list)
+            state.contentTopList = newArr
+          })
+      }  
     })
 
     // 获得锚点元素

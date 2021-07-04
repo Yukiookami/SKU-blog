@@ -1,11 +1,17 @@
+<!--
+ * @Author: zxy
+ * @Date: 2021-05-01 21:48:17
+ * @LastEditTime: 2021-07-03 15:33:49
+ * @FilePath: /my-blog/src/components/blogFooter/blogFooter.vue
+-->
 <template>
   <div class="blog-footer">
     <img class="sakura" src="../../assets/img/footerImg/sakura.svg" alt="">
     <span class="creater">
       Crafted with<img src="../../assets/img/fontIcon/heart.svg" alt="">by
-      <em class="myself">Suukinu</em>
+      <em class="myself">SkuZxy</em>
     </span>
-    <span class="record">© 2020 Suukinu 沪ICP备17028213号</span>
+    <span class="record">© 2021 SkuZxy 蜀ICP备2021015594号</span>
   </div>
 </template>
 

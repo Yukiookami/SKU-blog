@@ -144,6 +144,7 @@ export default {
   transition: all 1s ease-in-out;
   transform: rotate(-90deg);
   transform-origin: 0% 0%;
+  z-index: 99999999;
 
   .star-img {
     width: 250px;

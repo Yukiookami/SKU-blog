@@ -22,7 +22,7 @@ import { goToPage } from '../../assets/ts/common'
 
 export default {
   // 封面，标题，内容，id，总数
-  props: ['cover', 'title', 'content', 'id', 'cont'],
+  props: ['cover', 'title', 'content', 'id', 'cont', 'contentType'],
   setup (props:any) {
     Router.beforeEach((to, from, next) => {
       /* 路由发生变化修改页面title */
@@ -48,7 +48,7 @@ export default {
       boxWidth: 0,
       // 跳转文章页面
       goToSenPage: () => {
-        goToPage('article', props.id)
+        goToPage('article', props.id, props.contentType)
       }
     })
 
