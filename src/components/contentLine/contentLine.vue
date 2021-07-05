@@ -1,3 +1,9 @@
+<!--
+ * @Author: zxy
+ * @Date: 2021-04-25 14:49:37
+ * @LastEditTime: 2021-07-05 15:50:46
+ * @FilePath: /my-blog/src/components/contentLine/contentLine.vue
+-->
 <template>
   <div class="content-line" @click="go">
     <div class="content-line-icon-box">
@@ -13,13 +19,13 @@ import { reactive, toRefs } from 'vue'
 import { goToPage } from '../../assets/ts/common'
 
 export default {
-  props: ['icon', 'title', 'id'],
+  props: ['icon', 'title', 'id', 'contentType'],
   setup (props:any) {
     const state = reactive({
       count: 0,
       go: () => {
         if (props.id) {
-          goToPage('class', props.id)
+          goToPage('class', props.id, props.contentType)
         }
       }
     })

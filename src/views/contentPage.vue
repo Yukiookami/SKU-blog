@@ -31,7 +31,7 @@
       <div class="page-content-sec load-from-bottom" v-for="(item, index) in contentObject" :key="`contentObject${index}`">
         <div :ref="contentLine">
           <content-line :title="item.typeName" :icon="item.typeIcon"
-          :id="item.typeId"></content-line>
+          :id="item.typeId" :contentType="contentType"></content-line>
         </div>
 
         <div :ref="contentPageItem" v-for="(contentItem, contentIndex) in item.contentList"
@@ -43,7 +43,7 @@
           :contentType="contentType"></content-page-item>
         </div>
 
-        <view-more :typeId="item.typeName"></view-more>
+        <view-more :typeId="item.typeId" :contentType="contentType"></view-more>
       </div>
     </section>
 
@@ -416,7 +416,7 @@ export default {
     })
 
     onMounted(() => {
-      state.throttleFun = throttle(state.listenPageTop, 100)
+      state.throttleFun = throttle(state.listenPageTop, 10)
 
       window.addEventListener('scroll', state.throttleFun, true)
       // 记得在请求后调用

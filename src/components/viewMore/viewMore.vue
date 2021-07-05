@@ -1,3 +1,9 @@
+<!--
+ * @Author: zxy
+ * @Date: 2021-05-17 20:06:48
+ * @LastEditTime: 2021-07-05 16:21:39
+ * @FilePath: /my-blog/src/components/viewMore/viewMore.vue
+-->
 <template>
   <div class="view-more-box">
     <span @click="go">view more</span>
@@ -9,11 +15,11 @@ import { reactive, toRefs } from 'vue'
 import { goToPage } from '../../assets/ts/common'
 
 export default {
-  props: ['typeId'],
+  props: ['typeId', 'contentType'],
   setup (props:any) {
     const state = reactive({
       go: () => {
-        goToPage('class', props.typeId)
+        goToPage('class', props.typeId, props.contentType)
       }
     })
 

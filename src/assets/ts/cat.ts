@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-07-04 16:38:57
- * @LastEditTime: 2021-07-04 18:36:03
+ * @LastEditTime: 2021-07-05 15:38:27
  * @FilePath: /my-blog/src/assets/ts/cat.ts
  */
 export default function (opts:any) {
@@ -97,7 +97,6 @@ export default function (opts:any) {
    */
   function coolScrollHandler() {
     const wrapHeight = $scroll_wrap.clientHeight
-    console.log($scroll_wrap)
     let pathStart = pathLength,
       pathEnd = 0,
       visibleItems = 0

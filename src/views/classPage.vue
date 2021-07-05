@@ -18,9 +18,9 @@
 
       <section class="class-sen-sec">
         <class-page-item v-for="(item, index) in classObj.contentList"
-        :key="`classPageItem${index}`" :cover="item.cover"
-        :id="item.id" :createTime="item.createTime" :title="item.title"
-        :author="item.author" :content="item.content"></class-page-item>
+        :key="`classPageItem${index}`" :cover="item.coverImg"
+        :id="item.id" :createTime="item.date" :title="item.title"
+        :author="item.sakusya" :content="item.content" :contentType="contentType"></class-page-item>
       </section>
     </div>
 
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { computed, onMounted, reactive, toRefs, watch } from 'vue'
+import { computed, getCurrentInstance, onMounted, reactive, toRefs, watch } from 'vue'
 import { useRoute } from 'vue-router'
 // 顶部导航
 import topNav from '../components/nav/topNav.vue'
@@ -44,8 +44,11 @@ import blogFooter from '../components/blogFooter/blogFooter.vue'
 import topProgress from '../components/topProgress/topProgress.vue'
 // classPageItem
 import classPageItem from '../components/classPageItem/classPageItem.vue'
+// 引入公用ts
+import { timeChange } from '../assets/ts/common'
 // 引入Base64
 import Base64 from '../assets/ts/base64'
+import store from '@/store'
 
 export default {
   setup () {
@@ -54,136 +57,89 @@ export default {
     // 老婆
     // setYome
 
+    const { proxy }:any = getCurrentInstance()
+    const API = proxy.$API
+
     const state = reactive({
       // id
-      id: computed(() =>  Base64.decode(route.query.id as string)),
+      id: computed(() => Base64.decode(route.query.id as string)),
+      // type
+      contentType: computed(() => Base64.decode(route.query.type as string)),
       // 文章数据
-      classObj: {
-        typeName: 'Vue 2.x',
-        typeCover: require('../assets/img/testImg/type-cover-1.jpeg'),
-        contentList: [
-          {
-            id: "1",
-            createTime: '发布于2021-4-26',
-            title: 'Docker 部署 Zabbix + Grafana',
-            author: 'suukinu',
-            tag: [
-              {
-                tagName: 'Vue 2.x'
-              }
-            ],
-            content: `
-  当我们需要用 GraphQL 查询多层套嵌的数据，比如像 WordPress 这样套嵌的评论信息时，通常的写法是：
-
-  {
-  posts(first: 100) {
-  nodes {
-    id
-    title
-    comments {
-      nodes {
-        ...CommentFields
-        replies: children {
-          nodes {
-            ...CommentFields
-            replies: children {
-              nodes {
-                ...CommentFields
-                replies: children {
-                  nodes {
-                    ...CommentFields
-                    replies: children {
-                      nodes {
-                        ...CommentFields
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  }
-  }
-
-  fragment CommentFields on Comment {
-  id
-  date
-  type
-  approved
-  content
-  }
-  以上的写法只实现了四层套嵌评论的查询，很麻烦对不对？这或许是 GraphQL 的缺陷，但这也或许正体现了 GraphQL 的设计理念——所得即所查。
-
-  找了一下，没有现成的轮子，就自己写一个套嵌实现吧（注意 graphql 查询语句要顶头写，多余的缩进会影响递归结果）：`,
-            cover: require('../assets/img/testImg/class-cover-1.jpeg')
-          },
-          {
-            id: "1",
-            createTime: '发布于2021-4-26',
-            title: 'GraphQL实现递归查询',
-            author: 'suukinu',
-            tag: [
-              {
-                tagName: 'Vue 2.x'
-              }
-            ],
-            content: `当我们需要用 GraphQL 查询多层套嵌的数据，比如像 WordPress 这样套嵌的评论信息时，通常的写法是：
-
-  {
-  posts(first: 100) {
-  nodes {
-    id
-    title
-    comments {
-      nodes {
-        ...CommentFields
-        replies: children {
-          nodes {
-            ...CommentFields
-            replies: children {
-              nodes {
-                ...CommentFields`,
-            cover: require('../assets/img/testImg/class-cover-1.jpeg')
-          },
-          {
-            id: "1",
-            createTime: '发布于2021-4-26',
-            title: 'Docker 部署 Zabbix + Grafana',
-            author: 'suukinu',
-            tag: [
-              {
-                tagName: 'Vue 2.x'
-              }
-            ],
-            content: '',
-            cover: require('../assets/img/testImg/class-cover-1.jpeg')
-          },
-          {
-            id: "1",
-            createTime: '发布于2021-4-26',
-            title: 'Docker 部署 Zabbix + Grafana',
-            author: 'suukinu',
-            tag: [
-              {
-                tagName: 'Vue 2.x'
-              }
-            ],
-            content: '',
-            cover: require('../assets/img/testImg/class-cover-1.jpeg')
-          }
-        ]
-      },
+      classObj: {} as any,
+      // 存储请求结果
+      typeRes: '',
+      contentRes: '',
       /**
-       * 根据id请求数据
+       * 根据id请求类型与文章
        */
       getSen: () => {
+        proxy.$http.get(`${API}api/typeClass/getTypeClassById?id=${state.id}`)
+          .then((res:any) => {
+            state.typeRes = res
+            state.changeTypeByLang(res)
 
+            state.getConent()
+          })
+      },
+      /**
+       * @description: 根据类型名称请求文章数据
+       * @param {*}
+       * @return {*}
+       */ 
+      getConent: () => {
+        proxy.$http.get(`${API}api/content/getContentByTypeName?typeName=${state.classObj.typeName}&&contentType=${state.contentType}`)
+          .then((res:any) => {
+            state.contentRes = res.data.list
+            state.changeContentByLang(res.data.list)
+          })
+      },    
+      /**
+       * @description: 根据语言更改type内容
+       * @param {*} res
+       * @return {*}
+       */      
+      changeTypeByLang: (res:any) => {
+        let lang = store.state.langFlag
+        let { cnTypeClassInfo, jaTypeClassInfo } = res.data.data
+
+        if (!lang) {
+          // 中文
+          state.classObj = cnTypeClassInfo
+        } else {
+          // 日语
+          state.classObj = jaTypeClassInfo
+        }
+      },
+      /**
+       * @description: 根据语言更改文章内容
+       * @param {*} arr
+       * @return {*}
+       */ 
+      changeContentByLang: (arr:any) => {
+        let lang = store.state.langFlag
+        let newArr:any = []
+
+        arr.forEach((ele:any) => {
+          let { cnContentInfo, jaContentInfo } = ele
+
+          if (!lang) {
+            cnContentInfo.date = timeChange(cnContentInfo.date)
+            cnContentInfo.id = ele._id
+            newArr.push(cnContentInfo)
+          } else {
+            cnContentInfo.id = ele._id
+            jaContentInfo.date = timeChange(jaContentInfo.date)
+            newArr.push(jaContentInfo)
+          }
+        })
+
+        state.classObj.contentList = newArr
       }
     })
+
+    // 请求
+    state.getSen()
 
     onMounted(() => {
       // 设置并监听标题
@@ -196,6 +152,12 @@ export default {
         if(classObj.typeName) {
           document.title = classObj.typeName
         }
+      })
+
+      watch(() => store.state.langFlag,
+      () => {
+        state.changeTypeByLang(state.typeRes)
+        state.changeContentByLang(state.contentRes)
       })
     })
 

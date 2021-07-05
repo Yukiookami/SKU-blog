@@ -7,7 +7,7 @@
       <div class="create-msg">
         <span>
           <img class="time" src="../../assets/img/fontIcon/time.svg" alt="">
-          時間：{{createTime}}</span>
+          時間：发布于{{createTime}}</span>
         <span>
           <i class="el-icon-user"></i>
           作者：{{author}}
@@ -31,7 +31,7 @@ import { goToPage } from '../../assets/ts/common'
 
 export default {
   // 封面，id，时间，标题，作者，内容
-  props: ['cover', 'id', 'createTime', 'title', 'author', 'content'],
+  props: ['cover', 'id', 'createTime', 'title', 'author', 'content', 'contentType'],
   setup (props:any) {
     const state = reactive({
       /**
@@ -41,7 +41,7 @@ export default {
        *
        */
       go: () => {
-        goToPage('article', props.id)
+        goToPage('article', props.id, props.contentType)
       },
     })
 
@@ -99,6 +99,7 @@ export default {
       border-radius: 50%;
       padding: 2px;
       user-select: none;
+      object-fit: cover;
     }
 
     // 作者和时间
