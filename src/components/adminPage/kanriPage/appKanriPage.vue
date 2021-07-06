@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:51:21
- * @LastEditTime: 2021-06-15 20:43:56
+ * @LastEditTime: 2021-07-06 15:39:53
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/appKanriPage.vue
 -->
 <template>
@@ -10,7 +10,7 @@
       <div class="text-info-sec">
         <div class="input-box">
           <span>名称</span>
-          <el-input class="input-magin" v-model="appObj.name" placeholder="请输入名称"></el-input>
+          <el-input class="input-magin" v-model="appObj.appName" placeholder="请输入名称"></el-input>
         </div>
 
         <div class="input-box">
@@ -20,7 +20,14 @@
 
         <div class="input-box">
           <span>平台</span>
-          <el-input class="input-magin" v-model="appObj.tag" placeholder="请输入平台"></el-input>
+          <el-select class="pla-box" v-model="appObj.appPlatform" placeholder="请选择平台">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </div>
       </div>
 
@@ -28,19 +35,20 @@
         <!-- icon上传 -->
         <el-upload
           class="avatar-uploader"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          :action="`${API}api/upload/uploadFile`"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
+          :before-upload="beforeAvatarUploadImage"
         >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <img v-if="appObj.appCover" :src="appObj.appCover" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
 
         <!-- 安装包上传 -->
         <el-upload
           class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          :action="`${API}api/upload/uploadFile`"
+          :on-success="pakUpSuc"
           multiple
           :file-list="fileList"
         >
@@ -53,7 +61,8 @@
 
       <!-- 提交 -->
       <div class="up-button">
-        <el-button type="primary" @click="addApp" round>新增</el-button>
+        <el-button type="primary" @click="addApp" round v-if="!isChange">新增</el-button>
+        <el-button type="success" @click="changeApp" round v-else>修改</el-button>
       </div>
     </div>
 
@@ -73,19 +82,8 @@
       :data="tableData"
       height="330"
       border>
-
-      <el-table-column type="expand">
-        <template #default="props">
-          <el-form label-position="left" inline class="table-content">
-            <el-form-item label="文章内容">
-              <span>{{ props.row.content }}</span>
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
-
       <el-table-column
-        prop="name"
+        prop="appName"
         label="名称">
       </el-table-column>
       <el-table-column
@@ -93,27 +91,32 @@
         label="url">
       </el-table-column>
       <el-table-column
-        prop="package"
+        prop="appPackage"
         label="安装包">
       </el-table-column>
       <el-table-column
-        prop="createTime"
+        prop="date"
         label="发布时间">
       </el-table-column>
       <el-table-column
-        prop="platform"
+        prop="appPlatform"
         label="平台">
       </el-table-column>
       <el-table-column
-        prop="icon"
+        prop="appCover"
         label="图标">
+        <template #default="scope">
+          <div class="image-box">
+            <img :src="scope.row.appCover" alt="">
+          </div>
+        </template>
       </el-table-column>
       <el-table-column
         prop="操作"
         label="操作">
         <template #default="scope">
-          <el-button @click="search(scope.row)" type="text" size="small">删除</el-button>
-          <el-button type="text" size="small">编辑</el-button>
+          <el-button @click="deleteApp(scope.row)" type="text" size="small">删除</el-button>
+          <el-button @click="getAppById(scope.row)" type="text" size="small">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -121,32 +124,50 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs } from 'vue'
+import { getCurrentInstance, reactive, toRefs } from 'vue'
+import { ElMessage } from 'element-plus'
+import { imageRegexp } from '../../../assets/ts/Regexp'
+import { timeChange } from '../../../assets/ts/common'
 
 export default {
   setup () {
+    const { proxy }:any = getCurrentInstance()
+    const API = proxy.$API
+
     const state = reactive({
-      // 文章列表
-      tableData: [
-        {
-          name: "test",
-          appUrl: "zxy",
-          createTime: "2021-6-15",
-          package: '',
-          platform: "macOS",
-          icon: ''
-        }
-      ],
+      // 表明是修改还是新增状态
+      isChange: '',
+      // 应用列表
+      tableData: [],
+      // 平台列表
+      options: [{
+        value: 'Web application',
+        label: 'Web application'
+      }, {
+        value: 'Windows application',
+        label: 'Windows application'
+      }, {
+        value: 'Mac application',
+        label: 'Mac application'
+      }, {
+        value: 'IOS',
+        label: 'IOS'
+      }, {
+        value: 'Android',
+        label: 'Android'
+      }],
       // 添加app
       appObj: {
         // 名称
-        name: '',
+        appName: "",
         // 链接
         appUrl: '',
         // 平台
-        platform: '',
+        appPlatform: 'Web application',
         // 图标
-        icon: ''
+        appCover: '',
+        // 包
+        appPackage: ''
       },
       // 搜索关键字
       keyword: '',
@@ -160,16 +181,40 @@ export default {
       },
       // 文件列表
       fileList: [],
-      // icon地址
-      iconUrl: '',
       /**
        * @description: 图片上传成功
        * @param {*} res
        * @param {*} file
        * @return {*}
        */
-      handleAvatarSuccess(res:any, file:any) {
-        state.iconUrl = URL.createObjectURL(file.raw);
+      handleAvatarSuccess: (res:any, file:any):void => {
+        state.appObj.appCover = res.url
+      },
+      /**
+       * @description: 检测上传类型是否为图片
+       * @param {*}
+       * @return {*}
+       */
+      beforeAvatarUploadImage: (file:any):boolean => {
+        const sizeFlag = file.size / 1024 / 1024 < 2
+
+        if (imageRegexp.test(file.type) && sizeFlag) {
+          return true
+        } else if (!sizeFlag) {
+          ElMessage.error('图片大小不能超过2MB')
+          return false
+        } else {
+          ElMessage.error('请确认上传类型是否正确')
+          return false
+        }
+      },
+      /**
+       * @description: app上传
+       * @param {*}
+       * @return {*}
+       */      
+      pakUpSuc: (res:any) => {
+        state.appObj.appPackage = res.url
       },
       /**
        * @description: 新增app
@@ -177,12 +222,131 @@ export default {
        * @return {*}
        */
       addApp: ():void => {
+        let addObj:any = state.appObj
+        let emptyFlag = false
 
+        for (let i in addObj) {
+          if (!addObj[i] && i !== 'appPackage') {
+            emptyFlag = true
+          }
+        }
+
+        if (!emptyFlag) {
+          console.log(state.appObj)
+          proxy.$http.post(`${API}api/appKanri/addApp`, {
+            ...addObj
+          }).then((res:any) => {
+            if (res.data.status) {
+              ElMessage.success('保存成功')
+
+              for (let i in addObj) {
+                if (i !== 'appPackage') {
+                  addObj[i] = ''
+                }
+              }
+
+              state.getAllApp()
+            }
+          })
+        } else {
+          ElMessage.warning('请完整填写信息')
+        }
+      },
+      /**
+       * @description: 获取所有APP数据
+       * @param {*}
+       * @return {*}
+       */      
+      getAllApp: () => {
+        proxy.$http.get(`${API}api/appKanri/getAllApp`)
+          .then((res:any) => {
+            let list = res.data.list
+            list.forEach((ele:any) => {
+              ele.date = timeChange(ele.date)
+            })
+
+            state.tableData = res.data.list
+          })
+      },
+      /**
+       * @description: 根据id获得app数据
+       * @param {*}
+       * @return {*}
+       */      
+      getAppById: (row:any) => {
+        state.isChange = row._id
+        proxy.$http.get(`${API}api/appKanri/getAppById?id=${row._id}`)
+          .then((res:any) => {
+            let appObj:any = state.appObj
+            for (let i in appObj) {
+              appObj[i] = res.data.data[i]
+            }
+          })
+      },
+      /**
+       * @description: 根据id修改APP
+       * @param {*}
+       * @return {*}
+       */      
+      changeApp: () => {
+        let addObj:any = state.appObj
+        let emptyFlag = false
+
+        for (let i in addObj) {
+          if (!addObj[i] && i !== 'appPackage') {
+            emptyFlag = true
+            console.log(i)
+          }
+        }
+
+        if (!emptyFlag) {
+          proxy.$http.put(`${API}api/appKanri/changeAppById`, {
+            id: state.isChange,
+            changeObj: addObj
+          }).then((res:any) => {
+            if (res.data.status) {
+              ElMessage.success('修改成功')
+
+              for (let i in addObj) {
+                if (i !== 'appPackage') {
+                  addObj[i] = ''
+                }
+              }
+
+              state.getAllApp()
+              state.isChange = ''
+            }
+          })
+        } else {
+          ElMessage.warning('请完整填写信息')
+        }
+      },
+      /**
+       * @description: 根据id删除app
+       * @param {*}
+       * @return {*}
+       */      
+      deleteApp: (row:any) => {
+        proxy.$http.delete(`${API}api/appKanri/deleteAppById`, {
+          data: {
+            id: row._id
+          }
+        }).then((res:any) => {
+          if (res.data.status) {
+            ElMessage.success('删除成功')
+            state.getAllApp()
+          } else {
+            ElMessage.error('删除失败')
+          }
+        })
       }
     })
 
+    state.getAllApp()
+
     return {
       ...toRefs(state),
+      API
     }
   }
 }
@@ -226,6 +390,12 @@ export default {
       text-align: center;
       border: 1px dashed #ccc;
     }
+
+    .avatar {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
   }
 
   // 提交
@@ -242,5 +412,20 @@ export default {
 // 搜索框
 .search-input {
   margin-bottom: 10px;
+}
+
+.image-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  img {
+    width: 30%;
+  }
+}
+
+.pla-box {
+  margin-top: 10px;
 }
 </style>

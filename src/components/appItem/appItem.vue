@@ -1,5 +1,5 @@
 <template>
-  <div class="app-item">
+  <div @click="jump" class="app-item">
     <img class="app-item-cover" :src="cover" alt="">
 
     <div class="app-item-text-sec">
@@ -14,7 +14,7 @@ import { computed, reactive, toRefs } from 'vue'
 
 export default {
   // 封面，应用名
-  props: ['cover', 'appName', 'isPay'],
+  props: ['cover', 'appName', 'isPay', 'router', 'appPackage'],
   setup (props:any) {
     const state = reactive({
       count: 0,
@@ -24,7 +24,17 @@ export default {
         } else {
           return '付费'
         }
-      })
+      }),
+      /**
+       * @description: 跳转
+       * @param {*}
+       * @return {*}
+       */      
+      jump: () => {
+        if (!props.appPackage) {
+          window.open(props.router)
+        }
+      }
     })
 
     return {

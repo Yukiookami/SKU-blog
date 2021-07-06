@@ -10,13 +10,20 @@
 
     <section class="main-content-sec">
       <!-- 文章目录 -->
-      <div ref="indexList" class="main-content-index-list-box">
+      <div ref="indexList" v-if="contentObject.length" class="main-content-index-list-box">
         <index-list :senArr="contentObject" :titleIndex="contentLineIndex"
         :contentIndex="contentPageItemIndex" :numberList="arrLength"
         @goTo="goTo"></index-list>
       </div>
 
       <h1 class="page-title">{{pageTag}}</h1>
+
+      <!-- 空状态 -->
+      <div class="empty-box">
+        <el-empty v-if="!contentObject.length" :image-size="200" 
+        :image="`${require('../assets/img/statusImg/empty.png')}`"
+        :description="descriptionText"></el-empty>
+      </div>
 
       <content-line title="START:DASH!!" v-if="contentTopList.length" :icon="require('../assets/img/fontIcon/anchor.svg')"></content-line>
 
@@ -93,6 +100,8 @@ export default {
     const API = proxy.$API
 
     const state = reactive({
+      // 页面为空时的描述文字
+      descriptionText: '当前页面还没有发布的内容，敬请期待!',
       // 当前语言
       langFlag: computed(() => store.state.langFlag),
       // 当前页面类型
@@ -407,6 +416,12 @@ export default {
     // 监听语言变化
     watch(() => state.langFlag,
       (nowLang) => {
+        if (!nowLang) {
+          state.descriptionText = '当前页面还没有发布的内容，敬请期待!'
+        } else {
+          state.descriptionText = '準備しております！お楽しみに！'
+        }
+
         state.setResData()
       })
 
@@ -476,6 +491,17 @@ export default {
       position: absolute;
       top: 380px;
       right: -250px;
+    }
+
+    // 空状态
+    .empty-box {
+      width: calc(60vw);
+      height: calc(100vh - 519px);
+      box-shadow: 0 0 5px #e5e9ef;
+      border-radius: 30px;
+      background-repeat: no-repeat;
+      background-position: 75% 100%;
+      background-image: url('../assets/img/statusImg/jingle.png')
     }
 
     // 标题

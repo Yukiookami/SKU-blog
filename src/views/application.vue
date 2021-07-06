@@ -16,40 +16,45 @@
       <content-line title="Web application" :icon="require('../assets/img/fontIcon/webapp.svg')"></content-line>
       <div class="app-item-sec">
         <template class="load-from-bottom" v-for="(item, index) in appList" :key="`web${index}`">
-          <app-item :cover="item.cover" :appName="item.appName"
-          :isPay="item.isPay" v-if="item.type === 0"></app-item>
+          <app-item :cover="item.appCover" :appName="item.appName" :router="item.appUrl"
+          :appPackage="item.appPackge"
+          :isPay="0" v-if="item.appPlatform === 'Web application'"></app-item>
         </template>
       </div>
 
       <content-line title="Windows application" :icon="require('../assets/img/fontIcon/app.svg')"></content-line>
       <div class="app-item-sec">
-        <template class="load-from-bottom" v-for="(item, index) in appList" :key="`web${index}`">
-          <app-item :cover="item.cover" :appName="item.appName"
-          :isPay="item.isPay" v-if="item.type === 1"></app-item>
+        <template class="load-from-bottom" v-for="(item, index) in appList" :key="`win${index}`">
+          <app-item :cover="item.appCover" :appName="item.appName" :router="item.appUrl"
+          :appPackage="item.appPackge"
+          :isPay="0" v-if="item.appPlatform === 'Windows application'"></app-item>
         </template>
       </div>
 
       <content-line title="Mac application" :icon="require('../assets/img/fontIcon/macapp.svg')"></content-line>
       <div class="app-item-sec">
-        <template class="load-from-bottom" v-for="(item, index) in appList" :key="`web${index}`">
-          <app-item :cover="item.cover" :appName="item.appName"
-          :isPay="item.isPay" v-if="item.type === 2"></app-item>
+        <template class="load-from-bottom" v-for="(item, index) in appList" :key="`mac${index}`">
+          <app-item :cover="item.appCover" :appName="item.appName" :router="item.appUrl"
+          :appPackage="item.appPackge"
+          :isPay="0" v-if="item.appPlatform === 'Mac application'"></app-item>
         </template>
       </div>
 
       <content-line title="IOS" :icon="require('../assets/img/fontIcon/iosapp.svg')"></content-line>
       <div class="app-item-sec">
-        <template class="load-from-bottom" v-for="(item, index) in appList" :key="`web${index}`">
-          <app-item :cover="item.cover" :appName="item.appName"
-          :isPay="item.isPay" v-if="item.type === 3"></app-item>
+        <template class="load-from-bottom" v-for="(item, index) in appList" :key="`ios${index}`">
+          <app-item :cover="item.appCover" :appName="item.appName" :router="item.appUrl"
+          :appPackage="item.appPackge"
+          :isPay="0" v-if="item.appPlatform === 'IOS'"></app-item>
         </template>
       </div>
 
       <content-line title="Android" :icon="require('../assets/img/fontIcon/androidapp.svg')"></content-line>
       <div class="app-item-sec">
-        <template v-for="(item, index) in appList" :key="`web${index}`">
-          <app-item :cover="item.cover" :appName="item.appName"
-          :isPay="item.isPay" v-if="item.type === 4"></app-item>
+        <template v-for="(item, index) in appList" :key="`and${index}`">
+          <app-item :cover="item.appCover" :appName="item.appName" :router="item.appUrl"
+          :appPackage="item.appPackge"
+          :isPay="0" v-if="item.appPlatform === 'Android'"></app-item>
         </template>
       </div>
     </main>
@@ -80,6 +85,9 @@ import '../assets/css/loadAnime.css'
 
 export default {
   setup () {
+    const { proxy }:any = getCurrentInstance()
+    const API = proxy.$API
+
     const state = reactive({
       /**
        * 获取当前页面路由
@@ -92,27 +100,21 @@ export default {
         return page?.pageTitle
       }),
       // appList
-      appList: [
-        {
-          cover: require('../assets/img/testImg/app-cover-1.jpeg'),
-          appName: 'Amaroq',
-          isPay: 0,
-          type: 0
-        },
-        {
-          cover: require('../assets/img/testImg/app-cover-1.jpeg'),
-          appName: 'Amaroq',
-          isPay: 1,
-          type: 0
-        },
-        {
-          cover: require('../assets/img/testImg/app-cover-1.jpeg'),
-          appName: 'Amaroq',
-          isPay: 1,
-          type: 1
-        }
-      ]
+      appList: [],
+      /**
+       * @description: 获得所有app数据
+       * @param {*}
+       * @return {*}
+       */      
+      getAllApp: () => {
+        proxy.$http.get(`${API}api/appKanri/getAllApp`)
+          .then((res:any) => {
+            state.appList = res.data.list
+          })
+      }
     })
+
+    state.getAllApp()
 
     return {
       ...toRefs(state),
