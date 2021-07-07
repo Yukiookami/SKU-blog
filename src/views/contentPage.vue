@@ -19,8 +19,8 @@
       <h1 class="page-title">{{pageTag}}</h1>
 
       <!-- 空状态 -->
-      <div class="empty-box">
-        <el-empty v-if="!contentObject.length" :image-size="200" 
+      <div v-if="!contentObject.length" class="empty-box">
+        <el-empty :image-size="200" 
         :image="`${require('../assets/img/statusImg/empty.png')}`"
         :description="descriptionText"></el-empty>
       </div>
