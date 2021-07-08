@@ -21,7 +21,9 @@
       <!-- 背景轮播图以及标题图片特效 -->
       <div class="blog-back-show blog-back-show-expand carousel-box"
       :class="{'blog-back-show-load-checked': loadCheck,
-      'blog-back-show-load-size': changeSize}"
+      'blog-back-show-load-size': changeSize,
+      'blog-back-show-hide-dot': changeRotate,
+      'blog-back-show-show-dot': !changeRotate && dotCont}"
       :style="{backgroundImage: `url(${nowShowImg})`}">
         <!-- 标题 -->
         <h1 class="blog-title-font"
@@ -78,7 +80,7 @@ export default {
       // 联系方式
       caList: [
         {
-          icon: require('../assets/img/homeBack/github.png'),
+          icon: require('../assets/img/homeBack/github.svg'),
           text: '',
           url: 'https://github.com/Yukiookami'
         },
@@ -107,6 +109,8 @@ export default {
       showLongLine: false,
       // 更改为叉
       changeRotate: false,
+      // 判断是第几次触发
+      dotCont: 0,
       /**
        * 更改线，点击菜单按钮触发
        *
@@ -118,6 +122,7 @@ export default {
           state.showLongLine = !state.showLongLine
         } else if (flag === "rotate") {
           state.changeRotate = !state.changeRotate
+          state.dotCont++
         }
       },
       // 判断是否加载图片完成
@@ -225,7 +230,7 @@ export default {
   width: calc(100vw - 3px);
   background-image: url('../assets/img/homeBack/sakura-back.png');
   // background-image: url('../assets/homeBack/little-monster.png');
-  z-index: 2147483640;
+  z-index: 1000;
 
   // header
   .blog-home-page-header {
@@ -421,6 +426,22 @@ export default {
       &::before {
         opacity: 1;
         transition-delay: 4s;
+      }
+    }
+
+    // 隐藏点阵
+    .blog-back-show-hide-dot {
+      &::before {
+        opacity: 0;
+        transition-delay: 0s;
+      }
+    }
+
+    // 显示点阵但是延时变低
+    .blog-back-show-show-dot {
+      &::before {
+        opacity: 1;
+        transition-delay: 1s;
       }
     }
 

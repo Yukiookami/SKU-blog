@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-18 00:15:31
- * @LastEditTime: 2021-07-04 15:26:59
+ * @LastEditTime: 2021-07-09 00:09:58
  * @FilePath: /my-blog/src/main.ts
  */
 import { createApp } from 'vue'
@@ -18,6 +18,8 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 // google事件优化
 import 'default-passive-events'
+// 内容复制到剪切板
+import VueClipboard from 'vue3-clipboard'
 
 // markdown编辑器
 import VMdEditor from '@kangc/v-md-editor/lib/codemirror-editor';
@@ -105,6 +107,7 @@ installElementPlus(app)
 app.use(VueCookieNext)
 app.use(VMdEditor);
 app.use(VMdPreview)
+app.use(VueClipboard)
 app.use(store).use(router).mount('#app')
 
 app.config.globalProperties.$http = axios

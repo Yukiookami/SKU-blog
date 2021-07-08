@@ -89,7 +89,7 @@ function loadWidget(config) {
 			}, 3000);
 		});
 		const devtools = () => {};
-		console.log("%c", devtools);
+		// console.log("%c", devtools);
 		devtools.toString = () => {
 			showMessage("哈哈，你打开了控制台，是想要看看我的小秘密吗？", 6000, 9);
 		};
@@ -214,12 +214,12 @@ function loadWidget(config) {
 		if (useCDN) {
 			if (!modelList) await loadModelList();
 			const target = randomSelection(modelList.models[modelId]);
-			// loadlive2d("live2d", `${cdnPath}model/${target}/index.json`);
-      loadlive2d("live2d", `/live2dw/live2d-widget-model-koharu/assets/koharu.model.json`);
+			loadlive2d("live2d", `${cdnPath}model/${target}/index.json`);
+      // loadlive2d("live2d", `/live2dw/live2d-widget-model-koharu/assets/koharu.model.json`);
 		} else {
-			// loadlive2d("live2d", `${apiPath}get/?id=${modelId}-${modelTexturesId}`);
-      loadlive2d("live2d", `/live2dw/live2d-widget-model-koharu/assets/koharu.model.json`);
-			console.log(`Live2D 模型 ${modelId}-${modelTexturesId} 加载完成`);
+			loadlive2d("live2d", `${apiPath}get/?id=${modelId}-${modelTexturesId}`);
+      // loadlive2d("live2d", `/live2dw/live2d-widget-model-koharu/assets/koharu.model.json`);
+			// console.log(`Live2D 模型 ${modelId}-${modelTexturesId} 加载完成`);
 		}
 	}
 

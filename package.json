@@ -26,6 +26,7 @@
     "vue-cookie-next": "^1.0.3",
     "vue-live2d": "^1.2.4",
     "vue-router": "^4.0.0-0",
+    "vue3-clipboard": "^1.0.0",
     "vue3-cookies": "^1.0.1",
     "vue3-lazyload": "*",
     "vuex": "^4.0.0-0"

@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-07-08 02:08:36
- * @LastEditTime: 2021-07-08 02:26:25
+ * @LastEditTime: 2021-07-09 00:45:34
  * @FilePath: /my-blog/public/live2d/autoload.js
  */
 // 注意：live2d_path 参数应使用绝对路径
