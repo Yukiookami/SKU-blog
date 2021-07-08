@@ -6,19 +6,22 @@
       </transition>
     </router-view>
     <language></language>
+    <!-- <vue-live2d
+      :model="[1, 53]">
+    </vue-live2d> -->
   </div>
 </template>
 
 <script>
-// 老婆
-import { setYome } from './assets/ts/yome'
 // 双语言
 import language from './components/language/language'
+// 新live2d,暂时不用
+// import vueLive2d from 'vue-live2d'
 
 export default {
   name: 'App',
   setup () {
-    setYome
+
   },
   watch: {
     '$route' (to, from) {
@@ -28,7 +31,8 @@ export default {
     }
   },
   components: {
-    language
+    language,
+    // vueLive2d
   }
 }
 </script>

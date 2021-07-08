@@ -23,9 +23,26 @@
       :class="{'blog-back-show-load-checked': loadCheck,
       'blog-back-show-load-size': changeSize}"
       :style="{backgroundImage: `url(${nowShowImg})`}">
+        <!-- 标题 -->
         <h1 class="blog-title-font"
         :class="{'blog-title-font-show': changeSize}">Hi! YOUKOSO!</h1>
 
+        <!-- 联系方式 -->
+        <div class="cantact-me-box"
+        :class="{'cantact-me-box-show': changeSize}">
+          <div class="test-box">
+            <img src="../assets/img/homeBack/ying-l.svg" alt="">
+            <span>Any application that can be written in JavaScript, will eventually be written in JavaScript.</span>
+            <img src="../assets/img/homeBack/ying-r.svg" alt="">
+          </div>
+
+          <div class="cantact-icon-sec">
+            <home-ca-icon v-for="(item, index) in caList" :key="`caList${index}`"
+            :icon="item.icon" :url="item.url" :text="item.text"></home-ca-icon>
+          </div>
+        </div>
+
+        <!-- 波浪 -->
         <div class="blog-back-nami blog-back-nami-black blog-back-nami-box"></div>
         <div class="blog-back-nami-slowly blog-back-nami-white blog-back-nami-box"></div>
       </div>
@@ -49,6 +66,7 @@ import topLogo from '../components/topLogo/topLogo.vue'
 import indexNav from '../components/home/indexNav.vue'
 import '../../common/font.css'
 import '../assets/css/homeBack.css'
+import homeCaIcon from '../components/home/homeCaIcon.vue'
 import store from '@/store'
 
 export default {
@@ -57,6 +75,34 @@ export default {
     const API = proxy.$API
 
     const state = reactive({
+      // 联系方式
+      caList: [
+        {
+          icon: require('../assets/img/homeBack/github.png'),
+          text: '',
+          url: 'https://github.com/Yukiookami'
+        },
+        {
+          icon: require('../assets/img/homeBack/QQ.svg'),
+          text: '1073898183',
+          url: ''
+        },
+        {
+          icon: require('../assets/img/homeBack/weixin.svg'),
+          text: 'ookami_123',
+          url: ''
+        },
+        {
+          icon: require('../assets/img/homeBack/wangyiyun.png'),
+          text: '',
+          url: 'https://music.163.com/#/user/home?id=356514660'
+        },
+        {
+          icon: require('../assets/img/homeBack/email.svg'),
+          text: 'zouxinyu17@gmail.com',
+          url: ''
+        },
+      ],
       // 显示长短线
       showLongLine: false,
       // 更改为叉
@@ -163,7 +209,8 @@ export default {
   },
   components: {
     indexNav,
-    topLogo
+    topLogo,
+    homeCaIcon
   }
 }
 </script>
@@ -255,6 +302,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       height: 100%;
       width: 100%;
       background: no-repeat center center;
@@ -272,8 +320,56 @@ export default {
         transition: .5s ease-in-out;
       }
 
+      // 联系方式
+      .cantact-me-box {
+        position: relative;
+        min-width: 600px;
+        font-size: 18px;
+        color: #fff;
+        background: rgba(0,0,0,.5);
+        padding: 15px;
+        margin-top: 22px;
+        letter-spacing: 0;
+        line-height: 30px;
+        height: 60px;
+        border-radius: 10px;
+        box-sizing: initial;
+        white-space: nowrap;
+        opacity: 0;
+        transition: 1s ease-in-out;
+        font-family: $font-f;
+
+        .test-box {
+          display: flex;
+          align-items: center;
+          
+          img {
+            width: 30px;
+          }
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: -30px;
+          left: 30%;
+          margin-left: -15px;
+          border-width: 15px;
+          border-style: solid;
+          border-color: transparent transparent rgba(0,0,0,.5) transparent;
+        }
+
+        .cantact-icon-sec {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 30px;
+        }
+      }
+
       .blog-title-font {
         user-select: none;
+        margin: 30px 0 0 0;
         font-family: $font-f;
         opacity: 0;
         text-shadow: 0 0 15px rgba(0, 0, 0, 1);
@@ -284,6 +380,11 @@ export default {
       }
 
       .blog-title-font-show {
+        transition-delay: 5s;
+        opacity: 1;
+      }
+
+      .cantact-me-box-show {
         transition-delay: 5s;
         opacity: 1;
       }

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-20 21:06:28
- * @LastEditTime: 2021-06-30 21:48:59
+ * @LastEditTime: 2021-07-08 02:36:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /my-blog/src/components/nav/topNav.vue
@@ -13,7 +13,7 @@
     <top-logo :moveYou="moveYou"></top-logo>
 
     <!-- nav部分 -->
-    <div class="top-nav-main">
+    <div class="top-nav-main" v-cloak>
       <router-link v-for="(item, index) in meunList" :key="`navList${index}`"
       :to="item.router"
       class="top-nav-span">
@@ -38,7 +38,8 @@
     </div>
 
     <!-- 展开面板 -->
-    <div class="search-from-main"
+    <div class="search-from-main" v-cloak
+    style="opacity: 0;"
     :class="{'search-from-main-show': isShowSearch}">
       <img @click="showSearch" class="close" src="../../assets/img/fontIcon/close.svg" alt="">
       <!-- 搜索部分 -->
@@ -52,7 +53,7 @@
       </div>
 
       <!-- 登录部分 -->
-      <div class="search-from" v-else>
+      <div class="search-from" v-else v-cloak>
         <input @keyup.enter="login" class="search-input login-input"
         @focus="clearError"
         :class="{'login-error': loginError}" v-model="username" placeholder="username">
@@ -70,6 +71,10 @@ import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue'
 import topLogo from '../topLogo/topLogo.vue'
 import store from '@/store'
 import { goToPage, loginOut, getIcon } from '../../assets/ts/common'
+// 页面闪烁罪魁祸首 live2D
+// 老婆
+// import { setYome } from '../../assets/ts/yome'
+
 
 export default {
   setup () {
@@ -103,8 +108,8 @@ export default {
         if (flag && proxy.$cookie.getCookie("login_SKU_cookies")) {
           goToPage('add')
         } else {
-          state.showWitch = flag
           state.isShowSearch = !state.isShowSearch
+          state.showWitch = flag
         }
       },
       // 输入框keyword
@@ -188,6 +193,7 @@ export default {
 
     onMounted(() => {
       state.iconUrl = getIcon()
+      // setYome
     })
 
     return {
@@ -202,6 +208,11 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/css/common.scss';
+
+// 防止页面闪烁
+[v-cloak] {
+  display: none !important;
+}
 
 .top-nav-sec {
   position: fixed;
@@ -332,11 +343,10 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
-    opacity: 0;
     visibility: hidden;
     background-color: rgba(255, 255, 255, .99);
-    transition: visibility .25s ease,opacity .25s ease;
-    z-index: 99999999;
+    transition: all .25s ease;
+    z-index: 99999;
 
     .close {
       position: absolute;
@@ -344,6 +354,7 @@ export default {
       right: 40px;
       width: 30px;
       cursor: pointer;
+      z-index: 99999;
     }
 
     .search-from  {
@@ -432,7 +443,7 @@ export default {
   // 显示搜索框
   .search-from-main-show {
     visibility: visible;
-    opacity: 1;
+    opacity: 1 !important; 
     animation: showSearch .5s linear;
     transform-origin: center;
   }

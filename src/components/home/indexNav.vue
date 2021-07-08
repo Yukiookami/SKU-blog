@@ -1,3 +1,9 @@
+<!--
+ * @Author: zxy
+ * @Date: 2021-04-19 01:07:40
+ * @LastEditTime: 2021-07-08 22:39:12
+ * @FilePath: /my-blog/src/components/home/indexNav.vue
+-->
 <template>
   <router-link class="meun-item-sec" :to="router"
   :style="{width: `${boxWidth}vw`,
@@ -49,7 +55,8 @@ export default {
   height: 100vh;
   z-index: 99;
   // background-color: #191919;
-  background-color: #f5f5f5;
+  // background-color: #f5f5f5;
+  backdrop-filter: blur(20px);
   cursor: pointer;
   user-select: none;
   transition: .7s ease-in-out;
@@ -68,19 +75,20 @@ export default {
   &::before {
     content: '';
     position: absolute;
-    top: 50%;
+    top: 51%;
     bottom: 0;
     left: calc(50% - 8rem);
     display: block;
     height: 20px;
     width: 0;
-    background-color: #fff;
+    // background-color: #fff;
+    background-color: rgb(106, 104, 104, .5);
     z-index: -1;
     transition: .5s ease-in-out;
   }
 
   &:hover {
-    background-color: #e3e3e3;
+    // background-color: #e3e3e3;
 
     &::before {
       width: 15rem;
@@ -89,8 +97,8 @@ export default {
 
   .link-title {
     position: relative;
-    color: #191919;
-
+    // color: #191919;
+    color: #fff;
   }
 }
 </style>

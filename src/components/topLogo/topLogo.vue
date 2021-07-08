@@ -2,7 +2,9 @@
   <div class="top-nav-logo">
     <router-link class="top-nav-link-box" to="/">
       <span>SKU</span>
-      <img ref="logoKitune" src="../../assets/logo-blog-0.png" alt="">
+      <img ref="logoKitune" v-if="nowCont === 0" src="../../assets/logo-blog-0.png" alt="">
+      <!-- <img ref="logoKitune" v-else-if="nowCont === 1" src="../../assets/logo-blog-1.png" alt="">
+      <img ref="logoKitune" v-else-if="nowCont === 2" src="../../assets/logo-blog-2.png" alt=""> -->
     </router-link>
   </div>
 </template>
@@ -18,32 +20,34 @@ export default {
     const state = reactive({
       // 计时器
       timer: '',
+      // 当前计数
+      nowCont: 0,
       /**
        * 让小狐狸动起来
        */
       runKitune: () => {
-        let cont = 0
-        let junbanFlag = 0
+        // let cont = 0
+        // let junbanFlag = 0
 
-        state.timer = setInterval(() => {
-          if (cont === 2) {
-            cont--
-            junbanFlag = 0
-          } else if (cont === 0) {
-            cont++
-            junbanFlag = 1
-          } else if (junbanFlag) {
-            cont++
-          } else {
-            cont--
-          }
+        // state.timer = setInterval(() => {
+        //   if (cont === 2) {
+        //     cont--
+        //     junbanFlag = 0
+        //   } else if (cont === 0) {
+        //     cont++
+        //     junbanFlag = 1
+        //   } else if (junbanFlag) {
+        //     cont++
+        //   } else {
+        //     cont--
+        //   }
 
-          if (logoKitune.value) {
-            logoKitune.value.src = require(`../../assets/logo-blog-${cont}.png`)
-          } else {
-            clearInterval(state.timer)
-          }
-        }, 100)
+        //   if (logoKitune.value) {
+        //     state.nowCont = cont
+        //   } else {
+        //     clearInterval(state.timer)
+        //   }
+        // }, 150)
       },
       /**
        * 让小狐狸停下

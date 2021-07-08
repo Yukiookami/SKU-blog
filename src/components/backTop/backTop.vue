@@ -2,7 +2,7 @@
   <div class="go-to-top"
   :class="{'show': showKi}"
   @click="goBackToTop">
-    <img ref="starImg" class="star-img" :class="{'star-move': showKi}"
+    <img v-cloak ref="starImg" class="star-img" :class="{'star-move': showKi}"
     src="../../assets/img/pageTools/star.png" alt="">
   </div>
 
@@ -12,7 +12,7 @@
   @mouseenter="showKitune"
   @mouseleave="showKitune"
   @click="goBackToTop">
-    <img :class="{'kitune-move': showKi || kituneFlag}" :src="kituneImg" alt="">
+    <img v-cloak :class="{'kitune-move': showKi || kituneFlag}" :src="kituneImg" alt="">
   </div>
 </template>
 

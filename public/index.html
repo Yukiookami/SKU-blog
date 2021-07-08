@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-04-18 00:15:31
- * @LastEditTime: 2021-06-29 16:56:48
+ * @LastEditTime: 2021-07-08 02:36:32
  * @FilePath: /my-blog/public/index.html
 -->
 <!DOCTYPE html>
@@ -16,14 +16,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
     <!-- 引入markdown流程图 -->
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
-    <!-- 引入live2d -->
-    <script type="text/javascript" src="/live2dw/lib/L2Dwidget.min.js"></script>
+    <!-- 新live2d -->
+    <!-- 可行但是不够智能 -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script> -->
   </head>
   <body>
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
+    <!-- 执行live2d，最最新 -->
+    <script src="./live2d/autoload.js"></script>
+    <!-- 引入live2d -->
+    <!-- 会造成页面重渲染，弃用 -->
+    <!-- <script type="text/javascript" src="/live2dw/lib/L2Dwidget.min.js"></script> -->
     <!-- built files will be auto injected -->
   </body>
 </html>
