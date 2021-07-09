@@ -214,10 +214,12 @@ function loadWidget(config) {
 		if (useCDN) {
 			if (!modelList) await loadModelList();
 			const target = randomSelection(modelList.models[modelId]);
-			loadlive2d("live2d", `${cdnPath}model/${target}/index.json`);
+			// loadlive2d("live2d", `${cdnPath}model/${target}/index.json`);
+      loadlive2d("live2d", `https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/bilibili-live/22/index.json`);
       // loadlive2d("live2d", `/live2dw/live2d-widget-model-koharu/assets/koharu.model.json`);
 		} else {
-			loadlive2d("live2d", `${apiPath}get/?id=${modelId}-${modelTexturesId}`);
+      loadlive2d("live2d", `${cdnPath}model/${target}/index.json`);
+			// loadlive2d("live2d", `${apiPath}get/?id=${modelId}-${modelTexturesId}`);
       // loadlive2d("live2d", `/live2dw/live2d-widget-model-koharu/assets/koharu.model.json`);
 			// console.log(`Live2D 模型 ${modelId}-${modelTexturesId} 加载完成`);
 		}

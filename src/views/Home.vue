@@ -25,6 +25,7 @@
       'blog-back-show-hide-dot': changeRotate,
       'blog-back-show-show-dot': !changeRotate && dotCont}"
       :style="{backgroundImage: `url(${nowShowImg})`}">
+
         <!-- 标题 -->
         <h1 class="blog-title-font"
         :class="{'blog-title-font-show': changeSize}">Hi! YOUKOSO!</h1>

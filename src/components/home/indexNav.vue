@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-04-19 01:07:40
- * @LastEditTime: 2021-07-08 22:39:12
+ * @LastEditTime: 2021-07-09 20:26:31
  * @FilePath: /my-blog/src/components/home/indexNav.vue
 -->
 <template>
@@ -50,7 +50,7 @@ export default {
   justify-content: center;
   align-items: center;
   top: 0;
-  font-family: $font-f;
+  font-family: $font-f-nav;
   font-size: 40px;
   height: 100vh;
   z-index: 99;

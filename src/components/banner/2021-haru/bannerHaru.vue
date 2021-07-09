@@ -366,8 +366,9 @@
     z-index: 0;
     margin: 0 auto;
     padding: 0;
-    min-height: 155px;
-    height: 9.375vw;
+    // min-height: 155px;
+    // height: 9.375vw;
+    height: 180px;
     min-width: 999px;
     background-color: #f9f9f9;
     background-image: url('../../../assets/img/banner-image/allBanner.png');

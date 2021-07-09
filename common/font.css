@@ -5,10 +5,15 @@
 
 @font-face {
   font-family: 'Asmelina-Harley';
-  src: url(./Asmelina-Harley//Asmelina-Harley-2.ttf);
+  src: url(./Asmelina-Harley/Asmelina-Harley-2.ttf);
 }
 
 @font-face {
   font-family: 'Authentica';
-  src: url(./Authentica//Authentica-3.ttf);
+  src: url(./Authentica/Authentica-3.ttf);
+}
+
+@font-face {
+  font-family: 'ZCOOL KuaiLe';
+  src: url(./kuaile/ZCOOLKuaiLe-Regular.ttf);
 }
