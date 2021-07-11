@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-18 00:15:31
- * @LastEditTime: 2021-07-09 00:09:58
+ * @LastEditTime: 2021-07-12 00:30:15
  * @FilePath: /my-blog/src/main.ts
  */
 import { createApp } from 'vue'
@@ -18,15 +18,15 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 // google事件优化
 import 'default-passive-events'
-// 内容复制到剪切板
-import VueClipboard from 'vue3-clipboard'
 
 // markdown编辑器
-import VMdEditor from '@kangc/v-md-editor/lib/codemirror-editor';
-import '@kangc/v-md-editor/lib/style/codemirror-editor.css';
-import '@kangc/v-md-editor/lib/theme/style/github.css';
+// import VMdEditor from '@kangc/v-md-editor/lib/codemirror-editor';
+// import '@kangc/v-md-editor/lib/style/codemirror-editor.css';
 
+// 轻量版
+import VMdEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
+
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 
@@ -61,26 +61,26 @@ import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index
 import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
 
 // codemirror 编辑器的相关资源
-import Codemirror from 'codemirror';
-// mode
-import 'codemirror/mode/markdown/markdown';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/mode/css/css';
-import 'codemirror/mode/htmlmixed/htmlmixed';
-import 'codemirror/mode/vue/vue';
-// edit
-import 'codemirror/addon/edit/closebrackets';
-import 'codemirror/addon/edit/closetag';
-import 'codemirror/addon/edit/matchbrackets';
-// placeholder
-import 'codemirror/addon/display/placeholder';
-// active-line
-import 'codemirror/addon/selection/active-line';
-// scrollbar
-import 'codemirror/addon/scroll/simplescrollbars';
-import 'codemirror/addon/scroll/simplescrollbars.css';
-// style
-import 'codemirror/lib/codemirror.css';
+// import Codemirror from 'codemirror';
+// // mode
+// import 'codemirror/mode/markdown/markdown';
+// import 'codemirror/mode/javascript/javascript';
+// import 'codemirror/mode/css/css';
+// import 'codemirror/mode/htmlmixed/htmlmixed';
+// import 'codemirror/mode/vue/vue';
+// // edit
+// import 'codemirror/addon/edit/closebrackets';
+// import 'codemirror/addon/edit/closetag';
+// import 'codemirror/addon/edit/matchbrackets';
+// // placeholder
+// import 'codemirror/addon/display/placeholder';
+// // active-line
+// import 'codemirror/addon/selection/active-line';
+// // scrollbar
+// import 'codemirror/addon/scroll/simplescrollbars';
+// import 'codemirror/addon/scroll/simplescrollbars.css';
+// // style
+// import 'codemirror/lib/codemirror.css';
 // markdown编译器end
 
 // 预览组件
@@ -93,7 +93,7 @@ VMdEditor.use(vuepressTheme, {
 });
 
 // 编译器中间件
-VMdEditor.Codemirror = Codemirror;
+// VMdEditor.Codemirror = Codemirror;
 VMdEditor.use(createTodoListPlugin());
 VMdEditor.use(createMermaidPlugin());
 VMdEditor.use(createEmojiPlugin());
@@ -107,7 +107,7 @@ installElementPlus(app)
 app.use(VueCookieNext)
 app.use(VMdEditor);
 app.use(VMdPreview)
-app.use(VueClipboard)
+// app.use(VueClipboard)
 app.use(store).use(router).mount('#app')
 
 app.config.globalProperties.$http = axios
@@ -141,6 +141,9 @@ router.beforeEach((to, from, next) => {
 router.afterEach(() => {
   // 在即将进入新的页面组件前，关闭掉进度条
   NProgress.done()
+
+  // 每次进入页面滚动到顶部
+  window.scrollTo(0, 0)
 })
 
 NProgress.configure({
