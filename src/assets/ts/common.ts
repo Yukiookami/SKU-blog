@@ -1,13 +1,14 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-25 17:45:52
- * @LastEditTime: 2021-06-30 20:43:10
+ * @LastEditTime: 2021-07-11 15:25:46
  * @FilePath: /my-blog/src/assets/ts/common.ts
  */
 import router from "../../router"
 import Base64 from './base64'
 import { VueCookieNext } from 'vue-cookie-next'
 import jwt_decode from "jwt-decode";
+import store from "@/store";
 
 // 判断上滑还是下滑
 let checkScroll = 0
@@ -118,6 +119,59 @@ const timeChange = (time:string):string => {
   return date
 }
 
+/**
+ * @description: 判断是否为PC端
+ */
+const isPC = () => {
+  let system:any = {};
+  var p = navigator.platform;
+  var u = navigator.userAgent;
+  let isPCFalg = false
+
+  system.win = p.indexOf("Win") == 0;
+  system.mac = p.indexOf("Mac") == 0;
+  system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+
+  for (let i in system) {
+    if (system[i]) {
+      isPCFalg = true
+    } 
+  }
+
+  store.commit('setNowOs', isPCFalg)
+
+  !isPCFalg && goToPage('notPc') 
+}
+
+/**
+ * @description: 判断是否缩放
+ * @param {*}
+ * @return {*}
+ */
+ function detectZoom (){
+  var ratio = 0,
+    screen:any = window.screen,
+    ua = navigator.userAgent.toLowerCase();
+
+   if (window.devicePixelRatio !== undefined) {
+      ratio = window.devicePixelRatio;
+  }
+  else if (~ua.indexOf('msie')) {
+    if (screen.deviceXDPI && screen.logicalXDPI) {
+      ratio = screen.deviceXDPI / screen.logicalXDPI;
+    }
+  }
+  else if (window.outerWidth !== undefined && window.innerWidth !== undefined) {
+    ratio = window.outerWidth / window.innerWidth;
+  }
+
+   if (ratio){
+    ratio = Math.round(ratio * 100);
+  }
+
+   return ratio;
+};
+
 export {
   handleScroll,
   goToPage,
@@ -125,5 +179,7 @@ export {
   loginOut,
   getIcon,
   throttle,
-  timeChange
+  timeChange,
+  isPC,
+  detectZoom
 }

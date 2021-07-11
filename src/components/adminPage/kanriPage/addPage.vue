@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:50:41
- * @LastEditTime: 2021-07-04 16:32:12
+ * @LastEditTime: 2021-07-11 16:04:51
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/addPage.vue
 -->
 <template>
@@ -38,12 +38,12 @@
       <div class="title-box type-box">
         <span>类型</span>
         <el-select v-model="contentObj.typeClass" placeholder="请选择">
-          <el-option
-            v-for="(item, index) in typeClassList"
-            :key="`typeList${index}`"
-            :label="item.typeName"
-            :value="item.typeName">
-          </el-option>
+          <template v-for="(item, index) in typeClassList" :key="`typeList${index}`">
+            <el-option v-if="item.contentType === contentObj.contentType"
+              :label="item.typeName"
+              :value="item.typeName">
+            </el-option>
+          </template>
         </el-select>
       </div>
 
@@ -115,17 +115,17 @@
         <el-input class="input-magin" v-model="contentObjJP.tag" placeholder="タグを入力してください"></el-input>
       </div>
 
-      <!-- <div class="title-box type-box">
+      <div class="title-box type-box">
         <span>タイプ</span>
         <el-select v-model="contentObjJP.typeClass" placeholder="選択してください">
-          <el-option
-            v-for="(item, index) in typeClassList"
-            :key="index"
-            :label="item.typeName"
-            :value="item.typeName">
-          </el-option>
+          <template v-for="(item, index) in typeClassListJP" :key="`typeList${index}`">
+            <el-option v-if="item.contentType === contentObj.contentType"
+              :label="item.typeName"
+              :value="item.typeName">
+            </el-option>
+          </template>
         </el-select>
-      </div> -->
+      </div>
 
       <el-input
         type="textarea"
@@ -208,7 +208,7 @@ export default {
       mdContentType: 'chinese',
       // 分类数组
       typeClassList: [],
-      // typeClassListJP: [],
+      typeClassListJP: [],
       // 中文文章信息
       contentObj: {
         // 文章标题
@@ -253,7 +253,7 @@ export default {
         // 语言
         lange: 'ja',
         // 文章所属大类
-        typeClass: computed(() => state.contentObj.typeClass)
+        typeClass: ''
       },
       /**
        * @description: 检测上传类型是否为markdown
@@ -469,7 +469,7 @@ export default {
           })
           
           state.typeClassList = cnList
-          // state.typeClassList = jaList
+          state.typeClassListJP = jaList
         })
     }
     })

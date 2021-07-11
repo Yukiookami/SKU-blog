@@ -6,22 +6,42 @@
       </transition>
     </router-view>
     <language></language>
-    <!-- <vue-live2d
-      :model="[1, 53]">
-    </vue-live2d> -->
   </div>
 </template>
 
 <script>
 // 双语言
 import language from './components/language/language'
-// 新live2d,暂时不用
-// import vueLive2d from 'vue-live2d'
+// 判断是否为PC端
+import { isPC, detectZoom } from './assets/ts/common'
+import { ElMessage } from 'element-plus'
+import { reactive, toRefs } from '@vue/reactivity'
+import { computed } from '@vue/runtime-core'
+import store from './store'
 
 export default {
   name: 'App',
   setup () {
+    isPC()
+    
+    const state = reactive({
+      lang: computed(() => store.state.langFlag),
+      nowOs: computed(() => store.state.nowOs)
+    })
 
+    let isZoom = detectZoom()
+
+    if (isZoom !== 100 && state.nowOs) {
+      if (!state.lang) {
+        ElMessage.warning('当前页面可能被缩放，请将比例调整至100%以获得最佳体验')
+      } else {
+        ElMessage.warning('現在のページはズームされている可能性があり、最高な体験を得るために比率を100%に調整してください')
+      }
+    }
+
+    return {
+      ...toRefs(state),
+    }
   },
   watch: {
     '$route' (to, from) {
@@ -32,7 +52,6 @@ export default {
   },
   components: {
     language,
-    // vueLive2d
   }
 }
 </script>
@@ -42,7 +61,6 @@ export default {
 
 *:focus {
   outline: none;
-  touch-action: pan-y;
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 

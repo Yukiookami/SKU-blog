@@ -61,6 +61,7 @@ export default {
     const API = proxy.$API
 
     const state = reactive({
+      lang: computed(() => store.state.langFlag),
       // id
       id: computed(() => Base64.decode(route.query.id as string)),
       // type
@@ -88,7 +89,7 @@ export default {
        * @return {*}
        */ 
       getConent: () => {
-        proxy.$http.get(`${API}api/content/getContentByTypeName?typeName=${state.classObj.typeName}&&contentType=${state.contentType}`)
+        proxy.$http.get(`${API}api/content/getContentByTypeName?typeName=${state.classObj.typeName}&&contentType=${state.contentType}&&lang=${state.lang}`)
           .then((res:any) => {
             state.contentRes = res.data.list
             state.changeContentByLang(res.data.list)

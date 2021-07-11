@@ -57,7 +57,7 @@
     <!-- 菜单栏 -->
     <div>
       <index-nav v-for="(item, index) in meunList" :key="index"
-      :router="item.router" :index="index" :title="item.title"
+      :router="item.router" :index="index" :title="item.title" :jpTitle="item.jpTitle"
       :cont="meunList.length" :changeRotate="changeRotate"></index-nav>
     </div>
   </div>

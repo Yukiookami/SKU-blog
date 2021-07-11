@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import { computed, reactive, toRefs } from 'vue'
+import store from '@/store'
 
 export default {
   // 封面，应用名
@@ -18,11 +19,20 @@ export default {
   setup (props:any) {
     const state = reactive({
       count: 0,
+      lang: computed(() => store.state.langFlag),
       pay: computed(() => {
         if (!props.isPay) {
-          return '免费'
+          if (!state.lang) {
+            return '免费'
+          } else {
+            return '無料'
+          }
         } else {
-          return '付费'
+          if (!state.lang) {
+            return '付费'
+          } else {
+            return '有料'
+          }
         }
       }),
       /**

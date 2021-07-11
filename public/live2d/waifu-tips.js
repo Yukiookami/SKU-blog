@@ -42,7 +42,17 @@ function loadWidget(config) {
 	let userAction = false,
 		userActionTimer,
 		messageTimer,
-		messageArray = ["好久不见，日子过得好快呢……", "大坏蛋！你都多久没理人家了呀，嘤嘤嘤～", "嗨～快来逗我玩吧！", "拿小拳拳锤你胸口！", "记得把小家加入 Adblock 白名单哦！"];
+		messageArray = [
+      "好久不见，日子过得好快呢……",
+      "大坏蛋！你都多久没理人家了呀，嘤嘤嘤～",
+      "钟声已经响起，缺神你在哪里",
+      "嗨～快来逗我玩吧！",
+      "八点了，该摸了",
+      "记得把小家加入 Adblock 白名单哦！",
+      "wei,zaima？",
+      "有人在这个频道上吗？",
+      "有六根薯条在地上滑！！",
+      "Rua！！！"];
 	window.addEventListener("mousemove", () => userAction = true);
 	window.addEventListener("keydown", () => userAction = true);
 	setInterval(() => {

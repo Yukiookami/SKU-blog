@@ -1,27 +1,74 @@
+<!--
+ * @Author: zxy
+ * @Date: 2021-05-15 16:46:11
+ * @LastEditTime: 2021-07-11 15:28:48
+ * @FilePath: /my-blog/src/components/language/language.vue
+-->
 <template>
-  <div @click="changeLang" class="lang-button">
-    <span>Change language</span>
+  <div class="lang-button">
+    <div class="lang-box" :class="{'show-lang-box': showLang}">
+      <span @click="changeLang(0)" :class="{'sel': !lang}">中文</span>
+      <span @click="changeLang(1)" :class="{'sel': lang}">日本語</span>
+    </div>
+
+    <span @click="changeLangShow">Change language</span>
     <i class="el-icon-s-tools haguruma"></i>
   </div>
 </template>
 
 <script lang="ts">
-import { reactive, toRefs } from 'vue'
+import { computed, reactive, toRefs } from 'vue'
+import { detectZoom } from '../../assets/ts/common'
 import store from '@/store'
+import { ElMessage } from 'element-plus'
 
 export default {
   setup () {
     const state = reactive({
+      lang: computed(() => store.state.langFlag),
+      nowOs: computed(() => store.state.nowOs),
       /**
        * 更改语言 点击触发
        * @event
        */
-      changeLang: () => {
-        if (store.state.langFlag) {
-          store.commit("setLangFlag", 0)
-        } else {
-          store.commit("setLangFlag", 1)
+      changeLang: (flag:number) => {
+        if (flag !== state.lang) {
+          if (!flag) {
+            store.commit("setLangFlag", 0)
+            ElMessage.success('正在将网页语言切换为中文')
+          } else {
+            store.commit("setLangFlag", 1)
+            ElMessage.success('日本語に転換しています')
+          }
         }
+
+        state.changeLangShow()
+        setTimeout(state.isZoomFn, 4000)
+      },
+      /**
+       * @description: 判断页面是否缩放
+       * @param {*}
+       * @return {*}
+       */    
+      isZoomFn: () => {
+        let isZoom = detectZoom()
+
+        if (isZoom !== 100 && state.nowOs) {
+          if (!state.lang) {
+            ElMessage.warning('当前页面可能被缩放，请将比例调整至100%以获得最佳体验')
+          } else {
+            ElMessage.warning('現在のページはズームされている可能性があり、最高な体験を得るために比率を100%に調整してください')
+          }
+        }
+      }, 
+      showLang: false,
+      /**
+       * @description: 更改语言面板显示状态
+       * @param {*}
+       * @return {*}
+       */      
+      changeLangShow: () => {
+        state.showLang = !state.showLang
       }
     })
 
@@ -49,6 +96,51 @@ export default {
 
   &:hover {
     color: $color-blog-yel;
+  }
+
+  .lang-box {
+    position: absolute;
+    top: -55px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, .8);
+    height: 20px;
+    line-height: 20px;
+    border-radius: 5px;
+    transition: all .3s ease-in-out;
+    transform: translateY(30px);
+    opacity: 0;
+    pointer-events: none;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      margin-left: -15px;
+      border-width: 15px;
+      border-style: solid;
+      border-color: rgba(255, 255, 255, .8) transparent transparent transparent;
+    }
+
+    span {
+      color: #333;
+      transition: all .3s ease-in-out;
+      margin: 0 3px;
+      
+      &:hover {
+        color: $color-blog-yel;
+      }
+    }
+    
+    .sel {
+      color: $color-blog-yel;
+    }
+  }
+
+  .show-lang-box {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .haguruma {

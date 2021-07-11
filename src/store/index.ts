@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-18 00:15:31
- * @LastEditTime: 2021-06-30 23:27:29
+ * @LastEditTime: 2021-07-11 15:25:58
  * @FilePath: /my-blog/src/store/index.ts
  */
 import { createStore } from 'vuex'
@@ -13,24 +13,28 @@ export default createStore({
       {
         router: '/program',
         title: '编程基础',
+        jpTitle: 'プログラミング',
         pageTitle: 'Programming Basics',
         icon: 'el-icon-cpu'
       },
       {
         router: '/japanese',
         title: '日语学习',
+        jpTitle: '日本語の勉強',
         pageTitle: 'Japanese learning',
         icon: 'el-icon-tableware'
       },
       {
         router: '/component',
         title: '组件实现',
+        jpTitle: 'コンポーネント',
         pageTitle: 'Component Implementation',
         icon: 'el-icon-bangzhu'
       },
       {
         router: '/application',
         title: '个人应用',
+        jpTitle: '面白いアプリ',
         pageTitle: 'Personal application',
         icon: 'el-icon-star-off'
       }
@@ -60,11 +64,16 @@ export default createStore({
     ],
     // 当前语言
     // 0中文 1日语
-    langFlag: 0 as number
+    langFlag: 0 as number,
+    // 当前系统是否为PC
+    nowOs: false
   },
   mutations: {
     setLangFlag: (state, lang) => {
       state.langFlag = lang
+    },
+    setNowOs: (state, os) => {
+      state.nowOs = os
     }
   },
   actions: {

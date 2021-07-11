@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-20 21:06:28
- * @LastEditTime: 2021-07-09 00:32:49
+ * @LastEditTime: 2021-07-11 14:37:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /my-blog/src/components/nav/topNav.vue
@@ -18,7 +18,8 @@
       :to="item.router"
       class="top-nav-span">
         <i :class="item.icon"></i>
-        {{item.title}}
+        <span v-if="!lang">{{item.title}}</span>
+        <span v-else>{{item.jpTitle}}</span>
       </router-link>
     </div>
 
@@ -82,6 +83,9 @@ export default {
     const API = proxy.$API
 
     const state = reactive({
+      // 语言
+      lang: computed(() => store.state.langFlag),
+      // 目录列表
       meunList: computed(() => store.state.meunList),
       // 控制小狐狸移动
       moveYou: false,
@@ -244,6 +248,10 @@ export default {
       transition: all .3s ease-in-out;
       text-decoration: none;
       color: #666;
+
+      i {
+        margin-right: 5px;
+      }
 
       &::before {
         content: "";

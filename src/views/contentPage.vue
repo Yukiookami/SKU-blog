@@ -13,7 +13,7 @@
       <div ref="indexList" v-if="contentObject.length" class="main-content-index-list-box">
         <index-list :senArr="contentObject" :titleIndex="contentLineIndex"
         :contentIndex="contentPageItemIndex" :numberList="arrLength"
-        @goTo="goTo"></index-list>
+        @goTo="goTo" :limt="3"></index-list>
       </div>
 
       <h1 class="page-title">{{pageTag}}</h1>
@@ -30,8 +30,8 @@
       <!-- 置顶文章 -->
       <div class="page-top-content-sec" v-if="contentTopList.length">
         <content-top class="load-from-bottom" v-for="(item, index) in contentTopList" :key="`contentTop${index}`"
-        :cover="item[0].coverImg" :title="item[0].title" :content="item[0].content"
-        :id="item[0].contentId" :cont="contentTopList.length" :contentType="contentType"></content-top>
+        :cover="item.coverImg" :title="item.title" :content="item.content"
+        :id="item.contentId" :cont="contentTopList.length" :contentType="contentType"></content-top>
       </div>
 
       <!-- 文章 -->
@@ -44,6 +44,7 @@
         <div :ref="contentPageItem" v-for="(contentItem, contentIndex) in item.contentList"
         :key="`contentItem${contentIndex}`" >
           <content-page-item :createTime="contentItem.date"
+          v-if="contentIndex < 3"
           :title="contentItem.title" :tag="contentItem.tag"
           :content="contentItem.content" :cover="contentItem.coverImg"
           :id="contentItem.contentId" :index="contentIndex" 
@@ -251,7 +252,7 @@ export default {
         state.goToContent(index, contentItemIndex, titleFlag)
       },
       // 置顶文章数组
-      contentTopList: [],
+      contentTopList: [] as any,
       // 文章数组
       contentObject: [],
       // 原始数组数据
@@ -389,10 +390,12 @@ export default {
        * @return {*}
        */      
       getTopContent: () => {
-        proxy.$http.get(`${API}api/content/getTopContent?contentType=${state.contentType}&&topNum=3`)
+        proxy.$http.get(`${API}api/content/getTopContent?contentType=${state.contentType}&&topNum=3&&lang=${state.langFlag}`)
           .then((res:any) => {
             let newArr = state.getFinCityList(res.data.list)
-            state.contentTopList = newArr
+            
+
+            state.contentTopList = [...newArr.flat()]
           })
       }  
     })

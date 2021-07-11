@@ -17,3 +17,8 @@
   font-family: 'ZCOOL KuaiLe';
   src: url(./kuaile/ZCOOLKuaiLe-Regular.ttf);
 }
+
+@font-face {
+  font-family: 'M PLUS 1p mediu';
+  src: url(./M_PLUS_1p/MPLUS1p-Medium.ttf);
+}

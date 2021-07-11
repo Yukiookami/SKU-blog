@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-07-01 14:44:51
- * @LastEditTime: 2021-07-01 19:47:14
+ * @LastEditTime: 2021-07-11 16:01:46
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/typeClassKanri.vue
 -->
 <template>
@@ -11,7 +11,15 @@
 
       <div class="input-box">
         <span>类型名称</span>
-        <el-input class="input-magin" v-model="typeClassObj.typeName" placeholder="请输入标签"></el-input>
+        <div class="title-box">
+          <el-input class="input-magin" v-model="typeClassObj.typeName" placeholder="请输入标签"></el-input>
+
+          <el-radio-group v-model="typeClassObj.contentType">
+            <el-radio-button label="program">编程</el-radio-button>
+            <el-radio-button label="japanese">日语</el-radio-button>
+            <el-radio-button label="component">组件</el-radio-button>
+          </el-radio-group>
+        </div>
       </div>
 
       <div class="up-img-box">
@@ -92,6 +100,10 @@
         label="タイプネーム">
       </el-table-column>
       <el-table-column
+        prop="jaTypeClassInfo.contentType"
+        label="所属文章类型">
+      </el-table-column>
+      <el-table-column
         prop="cnTypeClassInfo.typeIcon"
         label="类型icon">
         <template #default="scope">
@@ -147,7 +159,9 @@ export default {
         // 类型icon
         typeIcon: '',
         // 类型背景图
-        typeCover: ''
+        typeCover: '',
+        // 所属文章类型
+        contentType: 'program'
       },
       // 日语类型信息
       typeClassObjJP: {
@@ -156,7 +170,9 @@ export default {
         // 类型icon
         typeIcon: computed(() => state.typeClassObj.typeIcon),
         // 类型背景图
-        typeCover: computed(() => state.typeClassObj.typeCover)
+        typeCover: computed(() => state.typeClassObj.typeCover),
+        // 所属文章类型
+        contentType: computed(() => state.typeClassObj.contentType)
       },
       /**
        * @description: 检测上传类型是否为图片
@@ -219,8 +235,10 @@ export default {
           }).then((res:any) => {
             if(res.status) {
               for(let i in typeClassObj) {
-                typeClassObjJP[i] = ''
-                typeClassObj[i] = ''
+                if (i !== 'contentType') {
+                  typeClassObjJP[i] = ''
+                  typeClassObj[i] = ''
+                }
               } 
 
               ElMessage.success('上传成功')

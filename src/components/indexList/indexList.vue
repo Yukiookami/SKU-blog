@@ -12,9 +12,13 @@
       <!-- 文章标题 -->
       <div class="hide-content"
       :class="{'show-content': comTitleIndex === index}">
-        <span @click="goTo(index, contentItemIndex, 0)" :class="{'show-span': comContentIndex === contentItemIndex && comTitleIndex === index}"
-        v-for="(contentItem, contentItemIndex) in item.contentList"
-        :key="`item${contentItemIndex}`">{{contentItem.title}}</span>
+        <!-- 限制只能显示几个 -->
+        <template v-for="(contentItem, contentItemIndex) in item.contentList" :key="`item${contentItemIndex}`">
+          <span @click="goTo(index, contentItemIndex, 0)" :class="{'show-span': comContentIndex === contentItemIndex && comTitleIndex === index}"
+          v-if="!limt || contentItemIndex < limt" >
+            {{contentItem.title}}
+          </span>
+        </template>
       </div>
     </div>
   </div>
@@ -27,7 +31,7 @@ import indexListItem from './indexListItem/indexListItem.vue'
 
 export default {
   // 目录数组，标题索引，文章索引，数组长度
-  props: ['senArr', 'titleIndex', 'contentIndex', 'numberList'],
+  props: ['senArr', 'titleIndex', 'contentIndex', 'numberList', 'limt'],
   emits: ['goTo'],
   setup (props:any, context:any) {
     const indexListBox = ref(null as HTMLDivElement | null)

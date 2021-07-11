@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-04-19 01:07:40
- * @LastEditTime: 2021-07-09 20:26:31
+ * @LastEditTime: 2021-07-11 14:32:33
  * @FilePath: /my-blog/src/components/home/indexNav.vue
 -->
 <template>
@@ -9,19 +9,22 @@
   :style="{width: `${boxWidth}vw`,
   left: `${index * (100 / cont)}vw`,
   transitionDelay: `${index * 0.2}s`}">
-    <span class="link-title">{{title}}</span>
+    <span v-if="!lang" class="link-title">{{title}}</span>
+    <span v-else class="link-title jp-title">{{jpTitle}}</span>
   </router-link>
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, watchEffect } from 'vue'
+import { computed, reactive, toRefs, watchEffect } from 'vue'
+import store from '@/store'
 
 export default {
   // 是否展开，跳转路由，显示文字，盒子排列（决定收起顺序），盒子总数
-  props: ['changeRotate', 'router', 'title', 'index', 'cont'],
+  props: ['changeRotate', 'router', 'title', 'index', 'cont', 'jpTitle'],
   setup (props:any) {
     const state = reactive({
-      boxWidth: 0
+      boxWidth: 0,
+      lang: computed(() => store.state.langFlag)
     })
 
     watchEffect(() => {
@@ -99,6 +102,10 @@ export default {
     position: relative;
     // color: #191919;
     color: #fff;
+  }
+
+  .jp-title {
+    font-family: 'M PLUS 1p mediu';
   }
 }
 </style>

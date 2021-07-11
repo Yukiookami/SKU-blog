@@ -1,12 +1,28 @@
 /*
  * @Author: zxy
  * @Date: 2021-06-26 15:01:05
- * @LastEditTime: 2021-06-30 22:10:40
+ * @LastEditTime: 2021-07-11 12:28:32
  * @FilePath: /my-blog/src/router/homePageRouter.ts
  */
 import Home from '../views/Home.vue'
 
 export default [
+  {
+    path: '/:catchAll(.*)',
+    name: '404',
+    component: () => import('../views/404NotFind.vue'),
+    meta: {
+      title: '出错啦！'
+    }
+  },
+  {
+    path: '/notPc',
+    name: 'notPc',
+    component: () => import('../views/usePC.vue'),
+    meta: {
+      title: '请使用PC浏览'
+    }
+  },
   {
     path: '/',
     name: 'Home',
