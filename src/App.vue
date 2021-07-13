@@ -39,6 +39,30 @@ export default {
       }
     }
 
+    /**
+     * @description: 判断当前用户语言
+     * @param {*}
+     * @return {*}
+     */    
+    const nowLang = () => {
+      let lang = navigator.language
+      let lastLangSet = localStorage.getItem('blog_last_lang_set')
+      
+      if (lastLangSet) {
+        store.commit('setLangFlag', lastLangSet)
+      } else {
+        if (lang === 'zh-CN') {
+          store.commit('setLangFlag', 0)
+          localStorage.setItem('blog_last_lang_set', 0)
+        } else {
+          store.commit('setLangFlag', 1)
+          localStorage.setItem('blog_last_lang_set', 1)
+        }
+      }
+    }
+
+    nowLang()
+
     return {
       ...toRefs(state),
     }

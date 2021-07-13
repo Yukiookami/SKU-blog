@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-18 00:15:31
- * @LastEditTime: 2021-07-09 00:09:05
+ * @LastEditTime: 2021-07-13 10:09:34
  * @FilePath: /my-blog/src/shims-vue.d.ts
  */
 /* eslint-disable */
@@ -25,3 +25,4 @@ declare module '@kangc/v-md-editor/lib/plugins/highlight-lines/index'
 declare module '@kangc/v-md-editor/lib/plugins/copy-code/index'
 declare module '@kangc/v-md-editor/lib/preview'
 declare module 'vue3-clipboard'
+declare module '@kangc/v-md-editor/lib/plugins/align'
