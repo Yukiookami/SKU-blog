@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-home-page">
+  <div class="blog-home-page" :class="{'blog-home-page-defalt': netImgarr.length < 2}">
     <!-- 顶部 -->
     <header class="blog-home-page-header">
       <top-logo></top-logo>
@@ -229,8 +229,9 @@ export default {
   overflow: hidden;
   height: 100vh;
   width: calc(100vw - 3px);
-  background-image: url('../assets/img/homeBack/sakura-back.png');
+  // background-image: url('../assets/img/homeBack/sakura-back.png');
   // background-image: url('../assets/homeBack/little-monster.png');
+  background-image: url('../assets/img/homeBack/star-back.png');
   z-index: 1000;
 
   // header
@@ -454,5 +455,9 @@ export default {
       z-index: -999;
     }
   }
+}
+
+.blog-home-page-defalt {
+  background-image: url('../assets/img/homeBack/sakura-back.png');
 }
 </style>

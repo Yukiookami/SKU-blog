@@ -16,7 +16,7 @@
           <div>
             <span>{{senObj.sakusya}}</span>
             ・
-            <span>发布于{{senObj.date}}</span>
+            <span>{{timeText}}{{senObj.date}}</span>
           </div>
         </div>
       </header>
@@ -72,6 +72,14 @@ export default {
     const scrollWrapper = ref(null as any || HTMLElement)
 
     const state = reactive({
+      lang: computed(() => store.state.langFlag),
+      timeText: computed(() => {
+        if (!state.lang) {
+          return '发布于 '
+        } else {
+          return '作成日 '
+        }
+      }),
       // id
       id: computed(() => Base64.decode(route.query.id as string)),
       contentType: computed(() => Base64.decode(route.query.type as string)),

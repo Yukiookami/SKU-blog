@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:51:21
- * @LastEditTime: 2021-06-30 21:49:51
+ * @LastEditTime: 2021-07-14 12:42:44
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/homePageKanriPage.vue
 -->
 <template>
@@ -68,6 +68,7 @@ export default {
        * @return {*}
        */
       imgAdd: (res:any):void => {
+        console.log(res.url)
         proxy.$http.post(`${API}api/homePage/saveCover`, {
           coverUrl: res.url
         }).then((res:any) => {

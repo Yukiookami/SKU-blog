@@ -7,7 +7,7 @@
       <div class="create-msg">
         <span>
           <img class="time" src="../../assets/img/fontIcon/time.svg" alt="">
-          時間：发布于{{createTime}}</span>
+          {{timeText}}{{createTime}}</span>
         <span>
           <i class="el-icon-user"></i>
           作者：{{author}}
@@ -26,14 +26,23 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs } from 'vue'
+import { computed, reactive, toRefs } from 'vue'
 import { goToPage } from '../../assets/ts/common'
+import store from '@/store'
 
 export default {
   // 封面，id，时间，标题，作者，内容
   props: ['cover', 'id', 'createTime', 'title', 'author', 'content', 'contentType'],
   setup (props:any) {
     const state = reactive({
+      lang: computed(() => store.state.langFlag),
+      timeText: computed(() => {
+        if (!state.lang) {
+          return '时间：发布于 '
+        } else {
+          return '時間：作成日 '
+        }
+      }),
       /**
        * 跳转到文章页面，点击时触发
        *

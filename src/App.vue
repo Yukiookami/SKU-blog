@@ -16,7 +16,7 @@ import language from './components/language/language'
 import { isPC, detectZoom } from './assets/ts/common'
 import { ElMessage } from 'element-plus'
 import { reactive, toRefs } from '@vue/reactivity'
-import { computed } from '@vue/runtime-core'
+import { computed, onBeforeMount } from '@vue/runtime-core'
 import store from './store'
 
 export default {
@@ -49,7 +49,8 @@ export default {
       let lastLangSet = localStorage.getItem('blog_last_lang_set')
       
       if (lastLangSet) {
-        store.commit('setLangFlag', lastLangSet)
+        store.commit('setLangFlag', +lastLangSet)
+        localStorage.setItem('blog_last_lang_set', +lastLangSet)
       } else {
         if (lang === 'zh-CN') {
           store.commit('setLangFlag', 0)
@@ -62,7 +63,7 @@ export default {
     }
 
     nowLang()
-
+    
     return {
       ...toRefs(state),
     }

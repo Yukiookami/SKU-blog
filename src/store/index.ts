@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-18 00:15:31
- * @LastEditTime: 2021-07-11 15:25:58
+ * @LastEditTime: 2021-07-14 00:57:51
  * @FilePath: /my-blog/src/store/index.ts
  */
 import { createStore } from 'vuex'
@@ -70,7 +70,7 @@ export default createStore({
   },
   mutations: {
     setLangFlag: (state, lang) => {
-      state.langFlag = lang
+      state.langFlag = +lang
     },
     setNowOs: (state, os) => {
       state.nowOs = os

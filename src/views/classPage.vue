@@ -129,7 +129,7 @@ export default {
             cnContentInfo.id = ele._id
             newArr.push(cnContentInfo)
           } else {
-            cnContentInfo.id = ele._id
+            jaContentInfo.id = ele._id
             jaContentInfo.date = timeChange(jaContentInfo.date)
             newArr.push(jaContentInfo)
           }
@@ -139,8 +139,6 @@ export default {
       }
     })
 
-    // 请求
-    state.getSen()
 
     onMounted(() => {
       // 设置并监听标题
@@ -160,6 +158,9 @@ export default {
         state.changeTypeByLang(state.typeRes)
         state.changeContentByLang(state.contentRes)
       })
+        
+      // 请求
+      state.getSen()
     })
 
     return {

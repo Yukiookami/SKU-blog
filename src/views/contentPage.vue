@@ -21,7 +21,7 @@
       <!-- 空状态 -->
       <div v-if="!contentObject.length" class="empty-box">
         <el-empty :image-size="200" 
-        :image="`${require('../assets/img/statusImg/empty.png')}`"
+        :image="`${require('../assets/img/statusImg/empty-22.png')}`"
         :description="descriptionText"></el-empty>
       </div>
 
@@ -277,6 +277,7 @@ export default {
             proxy.$http.get(`${API}api/typeClass/getAllTypeClass`)
               .then((res:any) => {
                 state.motoData.typeClassData = res.data.list
+                console.log(state.motoData.typeClassData)
                 state.setResData()
               })
           })
@@ -287,40 +288,50 @@ export default {
        * @return {*}
        */      
       setResData: () => {
-        let {contentData, typeClassData} = state.motoData
+        let {contentData, typeClassData}:any = state.motoData
 
         let newData = state.getFinCityList(contentData)
         let newTypeData:any = []
 
-        typeClassData.forEach((ele:any) => {
-          newData.forEach((newDataEle:any) => {
-            if (!state.langFlag) {
-              // 中文
-              if (newDataEle[0].typeClass === ele.cnTypeClassInfo.typeName) {
-                let obj = {
-                  typeId: ele._id,
-                  ...ele.cnTypeClassInfo,
-                  contentList: newDataEle
-                }
+        newData.forEach((ele:any) => {
+          if (!state.langFlag) {
+            let typeObj = typeClassData.find((item:any) => {
+              return item.cnTypeClassInfo.typeName === ele[0].typeClass
+            })
 
-                newTypeData.push(obj)
-              }
-            } else {
-              // 日语
-              if (newDataEle[0].typeClass === ele.jaTypeClassInfo.typeName) {
-                let obj = {
-                  typeId: ele._id,
-                  ...ele.jaTypeClassInfo,
-                  contentList: newDataEle
-                }
+            let {cnTypeClassInfo, _id} = typeObj
 
-                newTypeData.push(obj)
-              }
+            // 中文
+            let obj = {
+              typeId: _id,
+              ...cnTypeClassInfo,
+              contentList: ele,
+              lastTime: ele[0].date
             }
-          })
+
+            newTypeData.push(obj)
+          } else {
+            // 日文
+            let typeObj = typeClassData.find((item:any) => {
+              return item.jaTypeClassInfo.typeName = ele[0].typeClass
+            })
+
+            let {jaTypeClassInfo, _id} = typeObj
+            let obj = {
+              typeId: _id,
+              ...jaTypeClassInfo,
+              contentList: ele,
+              lastTime: ele[0].date
+            }
+
+            newTypeData.push(obj)
+          }
         })
 
         state.contentObject = newTypeData
+
+        console.log(newTypeData)
+
         // 设置目录数组
         state.setArrLeagth()
       },
@@ -394,7 +405,6 @@ export default {
           .then((res:any) => {
             let newArr = state.getFinCityList(res.data.list)
             
-
             state.contentTopList = [...newArr.flat()]
           })
       }  

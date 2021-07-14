@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-05-15 16:46:11
- * @LastEditTime: 2021-07-11 15:28:48
+ * @LastEditTime: 2021-07-14 01:13:56
  * @FilePath: /my-blog/src/components/language/language.vue
 -->
 <template>
@@ -35,9 +35,13 @@ export default {
         if (flag !== state.lang) {
           if (!flag) {
             store.commit("setLangFlag", 0)
+            // @ts-ignore
+            localStorage.setItem('blog_last_lang_set', 0)
             ElMessage.success('正在将网页语言切换为中文')
           } else {
             store.commit("setLangFlag", 1)
+            // @ts-ignore
+            localStorage.setItem('blog_last_lang_set', 1)
             ElMessage.success('日本語に転換しています')
           }
         }

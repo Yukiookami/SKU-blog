@@ -73,7 +73,7 @@ export default {
   height: 160px;
   border-radius: 15px;
   box-shadow: 1px 1px 7px rgba(0, 0, 0, .5);
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   transition: all .5s ease-in-out;

@@ -7,7 +7,7 @@
     <div class="content-page-item-content-box">
       <div class="content-box-create-time">
         <img src="../../assets/img/fontIcon/time.svg" alt="">
-        <span>发布于{{createTime}}</span>
+        <span>{{timeText}}{{createTime}}</span>
       </div>
 
       <h3 @click="goToContentPage" class="content-box-title">
@@ -45,7 +45,7 @@
     <div class="content-page-item-content-box content-box-flex-right">
       <div class="content-box-create-time">
         <img src="../../assets/img/fontIcon/time.svg" alt="">
-        <span>发布于{{createTime}}</span>
+        <span>{{timeText}}{{createTime}}</span>
       </div>
 
       <h3 @click="goToContentPage" class="content-box-title">
@@ -70,12 +70,13 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs } from 'vue'
+import { computed, reactive, toRefs } from 'vue'
 import contentPageItemTag from './contentPageItemTag/contentPageItemTag.vue'
 import { useRouter } from 'vue-router'
 // 引入router对象
 import Router from '../../router'
 import { goToPage } from '../../assets/ts/common'
+import store from '@/store'
 
 export default {
   props: ['createTime', 'title', 'tag', 'content', 'cover', 'id', 'index', 'contentType'],
@@ -94,6 +95,14 @@ export default {
     })
 
     const state = reactive({
+      lang: computed(() => store.state.langFlag),
+      timeText: computed(() => {
+        if (!state.lang) {
+          return '发布于 '
+        } else {
+          return '作成日 '
+        }
+      }),
       /**
        * 跳转到文章页面，点击时触发
        *

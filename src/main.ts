@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-18 00:15:31
- * @LastEditTime: 2021-07-13 10:10:04
+ * @LastEditTime: 2021-07-14 01:39:22
  * @FilePath: /my-blog/src/main.ts
  */
 import { createApp } from 'vue'
@@ -61,7 +61,6 @@ import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index
 import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
 
 // 内容定位
-import VueMarkdownEditor from '@kangc/v-md-editor';
 import createAlignPlugin from '@kangc/v-md-editor/lib/plugins/align';
 
 // codemirror 编辑器的相关资源
@@ -105,6 +104,14 @@ VMdEditor.use(createLineNumbertPlugin())
 VMdEditor.use(createHighlightLinesPlugin())
 VMdEditor.use(createCopyCodePlugin())
 VMdEditor.use(createAlignPlugin());
+
+VMdPreview.use(createTodoListPlugin());
+VMdPreview.use(createMermaidPlugin());
+VMdPreview.use(createEmojiPlugin());
+VMdPreview.use(createLineNumbertPlugin())
+VMdPreview.use(createHighlightLinesPlugin())
+VMdPreview.use(createCopyCodePlugin())
+VMdPreview.use(createAlignPlugin());
 // 编译器中间件end
 
 const app = createApp(App)

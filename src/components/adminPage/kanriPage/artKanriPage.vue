@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:51:21
- * @LastEditTime: 2021-07-03 14:58:34
+ * @LastEditTime: 2021-07-14 13:25:20
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/artKanriPage.vue
 -->
 <template>
@@ -219,6 +219,7 @@ export default {
           let newArr:any = []
 
           state.tableData.forEach((ele:any) => {
+            console.log(ele.isTop)
             if (ele.isTop) {
               newArr.push(ele)
             }
