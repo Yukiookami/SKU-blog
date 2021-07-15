@@ -19,40 +19,42 @@
       <h1 class="page-title">{{pageTag}}</h1>
 
       <!-- 空状态 -->
-      <div v-if="!contentObject.length" class="empty-box">
-        <el-empty :image-size="200" 
-        :image="`${require('../assets/img/statusImg/empty-22.png')}`"
-        :description="descriptionText"></el-empty>
-      </div>
+      <transition-group name="empty" mode="out-in">
+        <content-line title="START:DASH!!" v-if="contentTopList.length" :icon="require('../assets/img/fontIcon/anchor.svg')"></content-line>
 
-      <content-line title="START:DASH!!" v-if="contentTopList.length" :icon="require('../assets/img/fontIcon/anchor.svg')"></content-line>
-
-      <!-- 置顶文章 -->
-      <div class="page-top-content-sec" v-if="contentTopList.length">
-        <content-top class="load-from-bottom" v-for="(item, index) in contentTopList" :key="`contentTop${index}`"
-        :cover="item.coverImg" :title="item.title" :content="item.content"
-        :id="item.contentId" :cont="contentTopList.length" :contentType="contentType"></content-top>
-      </div>
-
-      <!-- 文章 -->
-      <div class="page-content-sec load-from-bottom" v-for="(item, index) in contentObject" :key="`contentObject${index}`">
-        <div :ref="contentLine">
-          <content-line :title="item.typeName" :icon="item.typeIcon"
-          :id="item.typeId" :contentType="contentType"></content-line>
+        <!-- 置顶文章 -->
+        <div class="page-top-content-sec" v-if="contentTopList.length">
+          <content-top class="load-from-bottom" v-for="(item, index) in contentTopList" :key="`contentTop${index}`"
+          :cover="item.coverImg" :title="item.title" :content="item.content"
+          :id="item.contentId" :cont="contentTopList.length" :contentType="contentType"></content-top>
         </div>
 
-        <div :ref="contentPageItem" v-for="(contentItem, contentIndex) in item.contentList"
-        :key="`contentItem${contentIndex}`" >
-          <content-page-item :createTime="contentItem.date"
-          v-if="contentIndex < 3"
-          :title="contentItem.title" :tag="contentItem.tag"
-          :content="contentItem.content" :cover="contentItem.coverImg"
-          :id="contentItem.contentId" :index="contentIndex" 
-          :contentType="contentType"></content-page-item>
+        <!-- 文章 -->
+        <div class="page-content-sec load-from-bottom" v-for="(item, index) in contentObject" :key="`contentObject${index}`">
+          <div :ref="contentLine">
+            <content-line :title="item.typeName" :icon="item.typeIcon"
+            :id="item.typeId" :contentType="contentType"></content-line>
+          </div>
+
+          <div :ref="contentPageItem" v-for="(contentItem, contentIndex) in item.contentList"
+          :key="`contentItem${contentIndex}`" >
+            <content-page-item :createTime="contentItem.date"
+            v-if="contentIndex < 3"
+            :title="contentItem.title" :tag="contentItem.tag"
+            :content="contentItem.content" :cover="contentItem.coverImg"
+            :id="contentItem.contentId" :index="contentIndex" 
+            :contentType="contentType"></content-page-item>
+          </div>
+
+          <view-more :typeId="item.typeId" :contentType="contentType"></view-more>
         </div>
 
-        <view-more :typeId="item.typeId" :contentType="contentType"></view-more>
-      </div>
+        <div v-if="!contentObject.length" class="empty-box">
+          <el-empty :image-size="200" 
+          :image="`${require('../assets/img/statusImg/empty-22.png')}`"
+          :description="descriptionText"></el-empty>
+        </div>
+      </transition-group>
     </section>
 
     <blog-footer></blog-footer>
@@ -277,7 +279,6 @@ export default {
             proxy.$http.get(`${API}api/typeClass/getAllTypeClass`)
               .then((res:any) => {
                 state.motoData.typeClassData = res.data.list
-                console.log(state.motoData.typeClassData)
                 state.setResData()
               })
           })
@@ -313,7 +314,7 @@ export default {
           } else {
             // 日文
             let typeObj = typeClassData.find((item:any) => {
-              return item.jaTypeClassInfo.typeName = ele[0].typeClass
+              return item.jaTypeClassInfo.typeName === ele[0].typeClass
             })
 
             let {jaTypeClassInfo, _id} = typeObj
@@ -329,8 +330,6 @@ export default {
         })
 
         state.contentObject = newTypeData
-
-        console.log(newTypeData)
 
         // 设置目录数组
         state.setArrLeagth()
@@ -559,5 +558,23 @@ export default {
       width: 100%;
     }
   }
+}
+
+// 空状态动画
+.empty-enter-from,
+.empty-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.empty-enter-to,
+.empty-leave-from {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.empty-enter-active,
+.empty-leave-active {
+  transition: all .3s ease-in-out
 }
 </style>
