@@ -139,7 +139,7 @@ export default {
     onMounted(() => {
       state.topH = indexListBox.value!.getBoundingClientRect().top
 
-      state.throttleFun = throttle(state.listenPageTop, 100)
+      state.throttleFun = throttle(state.listenPageTop, 10)
 
       window.addEventListener('scroll', state.throttleFun, true)
 

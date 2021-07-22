@@ -30,21 +30,23 @@
         </div>
 
         <!-- 文章 -->
-        <div class="page-content-sec load-from-bottom" v-for="(item, index) in contentObject" :key="`contentObject${index}`">
-          <div :ref="contentLine">
+        <div class="page-content-sec load-from-bottom" 
+        v-for="(item, index) in contentObject" :key="`contentObject${index}`">
+          <div class="contentLine">
             <content-line :title="item.typeName" :icon="item.typeIcon"
             :id="item.typeId" :contentType="contentType"></content-line>
           </div>
 
-          <div :ref="contentPageItem" v-for="(contentItem, contentIndex) in item.contentList"
-          :key="`contentItem${contentIndex}`" >
-            <content-page-item :createTime="contentItem.date"
-            v-if="contentIndex < 3"
-            :title="contentItem.title" :tag="contentItem.tag"
-            :content="contentItem.content" :cover="contentItem.coverImg"
-            :id="contentItem.contentId" :index="contentIndex" 
-            :contentType="contentType"></content-page-item>
-          </div>
+          <template v-for="(contentItem, contentIndex) in item.contentList"
+          :key="`contentItem${contentIndex}`">
+            <div class="contentPageItem" v-if="contentIndex < 3">
+              <content-page-item :createTime="contentItem.date"
+              :title="contentItem.title" :tag="contentItem.tag"
+              :content="contentItem.content" :cover="contentItem.coverImg"
+              :id="contentItem.contentId" :index="contentIndex" 
+              :contentType="contentType"></content-page-item>
+            </div>
+          </template>
 
           <view-more :typeId="item.typeId" :contentType="contentType"></view-more>
         </div>
@@ -302,6 +304,8 @@ export default {
 
             let {cnTypeClassInfo, _id} = typeObj
 
+            ele.splice(3)
+
             // 中文
             let obj = {
               typeId: _id,
@@ -410,20 +414,8 @@ export default {
     })
 
     // 获得锚点元素
-    let contentLineArr:any[] = []
-    let contentPageItemArr:any[] = []
-
-    const contentLine = ref((e:any) => {
-      if (e) {
-        contentLineArr.push(e)
-      }
-    })
-
-    const contentPageItem = ref((e:any) => {
-      if (e) {
-        contentPageItemArr.push(e)
-      }
-    })
+    let contentLineArr:any = document.getElementsByClassName('contentLine')
+    let contentPageItemArr:any = document.getElementsByClassName('contentPageItem')
 
     // 监听语言变化
     watch(() => state.langFlag,
@@ -437,15 +429,13 @@ export default {
         state.setResData()
       })
 
-    onBeforeUpdate (() => {
-      contentLineArr = []
-      contentPageItemArr = []
-    })
-
     onMounted(() => {
       state.throttleFun = throttle(state.listenPageTop, 10)
 
       window.addEventListener('scroll', state.throttleFun, true)
+
+      state.changeIndex(contentLineArr, 0, 150, -100, state.checkScrollFlag)
+      state.changeIndex(contentPageItemArr, 1, 80, -100, state.checkScrollFlag)
       // 记得在请求后调用
       state.setArrLeagth()
     })
@@ -456,9 +446,7 @@ export default {
     })
 
     return {
-      ...toRefs(state),
-      contentLine,
-      contentPageItem
+      ...toRefs(state)
     }
   },
   components: {
