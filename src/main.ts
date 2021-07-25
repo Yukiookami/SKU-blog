@@ -1,7 +1,7 @@
 /*
  * @Author: zxy
  * @Date: 2021-04-18 00:15:31
- * @LastEditTime: 2021-07-14 01:39:22
+ * @LastEditTime: 2021-07-24 14:02:07
  * @FilePath: /my-blog/src/main.ts
  */
 import { createApp } from 'vue'
@@ -62,29 +62,6 @@ import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
 
 // 内容定位
 import createAlignPlugin from '@kangc/v-md-editor/lib/plugins/align';
-
-// codemirror 编辑器的相关资源
-// import Codemirror from 'codemirror';
-// // mode
-// import 'codemirror/mode/markdown/markdown';
-// import 'codemirror/mode/javascript/javascript';
-// import 'codemirror/mode/css/css';
-// import 'codemirror/mode/htmlmixed/htmlmixed';
-// import 'codemirror/mode/vue/vue';
-// // edit
-// import 'codemirror/addon/edit/closebrackets';
-// import 'codemirror/addon/edit/closetag';
-// import 'codemirror/addon/edit/matchbrackets';
-// // placeholder
-// import 'codemirror/addon/display/placeholder';
-// // active-line
-// import 'codemirror/addon/selection/active-line';
-// // scrollbar
-// import 'codemirror/addon/scroll/simplescrollbars';
-// import 'codemirror/addon/scroll/simplescrollbars.css';
-// // style
-// import 'codemirror/lib/codemirror.css';
-// markdown编译器end
 
 // 预览组件
 VMdPreview.use(vuepressTheme, {

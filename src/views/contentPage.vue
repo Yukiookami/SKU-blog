@@ -18,7 +18,6 @@
 
       <h1 class="page-title">{{pageTag}}</h1>
 
-      <!-- 空状态 -->
       <transition-group name="empty" mode="out-in">
         <content-line title="START:DASH!!" v-if="contentTopList.length" :icon="require('../assets/img/fontIcon/anchor.svg')"></content-line>
 
@@ -51,6 +50,7 @@
           <view-more :typeId="item.typeId" :contentType="contentType"></view-more>
         </div>
 
+        <!-- 空状态 -->
         <div v-if="!contentObject.length" class="empty-box">
           <el-empty :image-size="200" 
           :image="`${require('../assets/img/statusImg/empty-22.png')}`"
@@ -410,16 +410,13 @@ export default {
             
             state.contentTopList = [...newArr.flat()]
           })
-      }  
-    })
-
-    // 获得锚点元素
-    let contentLineArr:any = document.getElementsByClassName('contentLine')
-    let contentPageItemArr:any = document.getElementsByClassName('contentPageItem')
-
-    // 监听语言变化
-    watch(() => state.langFlag,
-      (nowLang) => {
+      },  
+      /**
+       * @description: 更改空状态语言
+       * @param {*}
+       * @return {*}
+       */      
+      changeEmpty: (nowLang:any) => {
         if (!nowLang) {
           state.descriptionText = '当前页面还没有发布的内容，敬请期待!'
         } else {
@@ -427,12 +424,24 @@ export default {
         }
 
         state.setResData()
-      })
+      }
+    })
+
+    // 获得锚点元素
+    let contentLineArr:any = document.getElementsByClassName('contentLine')
+    let contentPageItemArr:any = document.getElementsByClassName('contentPageItem')
+
+    // 监听语言变化
+    watch(() => state.langFlag, (nowLang) => {
+      state.changeEmpty(nowLang)
+    })
 
     onMounted(() => {
       state.throttleFun = throttle(state.listenPageTop, 10)
 
       window.addEventListener('scroll', state.throttleFun, true)
+
+      state.changeEmpty(state.langFlag)
 
       state.changeIndex(contentLineArr, 0, 150, -100, state.checkScrollFlag)
       state.changeIndex(contentPageItemArr, 1, 80, -100, state.checkScrollFlag)
