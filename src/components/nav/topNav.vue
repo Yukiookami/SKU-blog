@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-20 21:06:28
- * @LastEditTime: 2021-07-11 14:37:58
+ * @LastEditTime: 2021-07-28 18:20:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /my-blog/src/components/nav/topNav.vue
@@ -129,8 +129,10 @@ export default {
        * @event
        */
       go: () => {
-        goToPage('search', state.keyword)
-        state.showSearch()
+        if (state.keyword) {
+          goToPage('search', state.keyword)
+          state.showSearch()
+        }
       },
       /**
        * 登录跳转到管理员页面

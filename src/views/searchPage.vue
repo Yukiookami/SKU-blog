@@ -18,9 +18,9 @@
 
       <section class="class-sen-sec">
         <class-page-item v-for="(item, index) in classObj.contentList"
-        :key="`classPageItem${index}`" :cover="item.cover"
-        :id="item.id" :createTime="item.createTime" :title="item.title"
-        :author="item.author" :content="item.content"></class-page-item>
+        :key="`classPageItem${index}`" :cover="item.coverImg"
+        :id="item.id" :createTime="item.date" :title="item.title"
+        :author="item.sakusya" :content="item.content" :contentType="item.contentType"></class-page-item>
       </section>
     </div>
 
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { computed, onMounted, reactive, toRefs, watch } from 'vue'
+import { computed, getCurrentInstance, onMounted, reactive, toRefs, watch } from 'vue'
 import { useRoute } from 'vue-router'
 // 顶部导航
 import topNav from '../components/nav/topNav.vue'
@@ -46,142 +46,67 @@ import topProgress from '../components/topProgress/topProgress.vue'
 import classPageItem from '../components/classPageItem/classPageItem.vue'
 // 引入base64
 import Base64 from '../assets/ts/base64'
+// 引入公用ts
+import { timeChange } from '../assets/ts/common'
+import store from '@/store'
 
 export default {
   setup () {
+    const { proxy }:any = getCurrentInstance()
+    const API = proxy.$API
     // 定义路由
     const route = useRoute()
     // 老婆
     // setYome
 
-    const state = reactive({
-      // id
+    const state:any = reactive({
+      // keyword
       keyword: computed(() => Base64.decode(route.query.id as string)),
+      // 语言类型
+      langFlag: computed(() => store.state.langFlag),
       // 文章数据
       classObj: {
-        keyword: 'Vue 2.x',
-        typeCover: require('../assets/img/testImg/type-cover-1.jpeg'),
-        contentList: [
-          {
-            id: "1",
-            createTime: '发布于2021-4-26',
-            title: 'Docker 部署 Zabbix + Grafana',
-            author: 'suukinu',
-            tag: [
-              {
-                tagName: 'Vue 2.x'
-              }
-            ],
-            content: `
-  当我们需要用 GraphQL 查询多层套嵌的数据，比如像 WordPress 这样套嵌的评论信息时，通常的写法是：
-
-  {
-  posts(first: 100) {
-  nodes {
-    id
-    title
-    comments {
-      nodes {
-        ...CommentFields
-        replies: children {
-          nodes {
-            ...CommentFields
-            replies: children {
-              nodes {
-                ...CommentFields
-                replies: children {
-                  nodes {
-                    ...CommentFields
-                    replies: children {
-                      nodes {
-                        ...CommentFields
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  }
-  }
-
-  fragment CommentFields on Comment {
-  id
-  date
-  type
-  approved
-  content
-  }
-  以上的写法只实现了四层套嵌评论的查询，很麻烦对不对？这或许是 GraphQL 的缺陷，但这也或许正体现了 GraphQL 的设计理念——所得即所查。
-
-  找了一下，没有现成的轮子，就自己写一个套嵌实现吧（注意 graphql 查询语句要顶头写，多余的缩进会影响递归结果）：`,
-            cover: require('../assets/img/testImg/class-cover-1.jpeg')
-          },
-          {
-            id: "1",
-            createTime: '发布于2021-4-26',
-            title: 'GraphQL实现递归查询',
-            author: 'suukinu',
-            tag: [
-              {
-                tagName: 'Vue 2.x'
-              }
-            ],
-            content: `当我们需要用 GraphQL 查询多层套嵌的数据，比如像 WordPress 这样套嵌的评论信息时，通常的写法是：
-
-  {
-  posts(first: 100) {
-  nodes {
-    id
-    title
-    comments {
-      nodes {
-        ...CommentFields
-        replies: children {
-          nodes {
-            ...CommentFields
-            replies: children {
-              nodes {
-                ...CommentFields`,
-            cover: require('../assets/img/testImg/class-cover-1.jpeg')
-          },
-          {
-            id: "1",
-            createTime: '发布于2021-4-26',
-            title: 'Docker 部署 Zabbix + Grafana',
-            author: 'suukinu',
-            tag: [
-              {
-                tagName: 'Vue 2.x'
-              }
-            ],
-            content: '',
-            cover: require('../assets/img/testImg/class-cover-1.jpeg')
-          },
-          {
-            id: "1",
-            createTime: '发布于2021-4-26',
-            title: 'Docker 部署 Zabbix + Grafana',
-            author: 'suukinu',
-            tag: [
-              {
-                tagName: 'Vue 2.x'
-              }
-            ],
-            content: '',
-            cover: require('../assets/img/testImg/class-cover-1.jpeg')
-          }
-        ]
+        keyword: computed(() => state.keyword),
+        typeCover: require('../assets/img/search/type-cover-1.jpeg'),
+        contentList: [] as any
       },
+      searchList: [],
       /**
-       * 根据id请求数据
+       * 根据keyword请求数据
        */
       getSen: () => {
+        proxy.$http.get(`${API}api/content/searchContent?keyword=${state.keyword}&&langFlag=${state.langFlag}`)
+          .then((res:any) => {
+            let list = res.data.list
+            state.searchList = list.flat()
 
+            state.changeContentByLang(state.searchList)
+          })
+      },
+      /**
+       * @description: 根据语言更改文章内容
+       * @param {*} arr
+       * @return {*}
+       */ 
+      changeContentByLang: (arr:any) => {
+        let lang = store.state.langFlag
+        let newArr:any = []
+
+        arr.forEach((ele:any) => {
+          let { cnContentInfo, jaContentInfo } = ele
+
+          if (!lang) {
+            cnContentInfo.date = timeChange(cnContentInfo.date)
+            cnContentInfo.id = ele._id
+            newArr.push(cnContentInfo)
+          } else {
+            jaContentInfo.id = ele._id
+            jaContentInfo.date = timeChange(jaContentInfo.date)
+            newArr.push(jaContentInfo)
+          }
+        })
+
+        state.classObj.contentList = newArr
       }
     })
 
@@ -197,6 +122,12 @@ export default {
           document.title = keyword
         }
       })
+
+      watch(() => store.state.langFlag, () => {
+        state.changeContentByLang(state.searchList)
+      })
+
+      state.getSen()
     })
 
     return {

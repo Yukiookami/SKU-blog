@@ -408,6 +408,7 @@ export default {
           .then((res:any) => {
             let newArr = state.getFinCityList(res.data.list)
             
+            // 深度展开数组
             state.contentTopList = [...newArr.flat()]
           })
       },  
