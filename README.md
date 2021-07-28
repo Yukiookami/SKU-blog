@@ -1,24 +1,11 @@
+<!--
+ * @Author: zxy
+ * @Date: 2021-04-18 00:15:49
+ * @LastEditTime: 2021-07-29 00:20:38
+ * @FilePath: /my-blog/README.md
+-->
 # my-blog
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 网站链接
+海外：https://ja.zouxinyu.club/
+中国：https://www.zouxinyu.club/
