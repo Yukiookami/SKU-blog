@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-20 21:06:28
- * @LastEditTime: 2021-07-28 18:20:43
+ * @LastEditTime: 2021-07-28 20:06:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /my-blog/src/components/nav/topNav.vue
@@ -132,6 +132,7 @@ export default {
         if (state.keyword) {
           goToPage('search', state.keyword)
           state.showSearch()
+          state.keyword = ''
         }
       },
       /**

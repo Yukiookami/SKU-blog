@@ -7,7 +7,7 @@
     <!-- 顶部进度条 -->
     <top-progress></top-progress>
 
-    <div class="sen-main-sec">
+    <div class="sen-main-sec" :class="{'change-height': !emptyFlag}">
       <header class="header-banner">
         <img :src="classObj.typeCover" alt="">
 
@@ -16,12 +16,19 @@
         </div>
       </header>
 
-      <section class="class-sen-sec">
+      <section v-if="!emptyFlag" class="class-sen-sec">
         <class-page-item v-for="(item, index) in classObj.contentList"
         :key="`classPageItem${index}`" :cover="item.coverImg"
         :id="item.id" :createTime="item.date" :title="item.title"
         :author="item.sakusya" :content="item.content" :contentType="item.contentType"></class-page-item>
       </section>
+    </div>
+
+    <!-- 空状态 -->
+    <div v-if="emptyFlag" class="empty-box">
+      <el-empty :image-size="200" 
+      :image="`${require('../assets/img/statusImg/empty-22.png')}`"
+      :description="descriptionText"></el-empty>
     </div>
 
     <!-- 页脚 -->
@@ -70,7 +77,12 @@ export default {
         typeCover: require('../assets/img/search/type-cover-1.jpeg'),
         contentList: [] as any
       },
+      // 搜索结果数组
       searchList: [],
+      // 搜索结果为空
+      emptyFlag: false,
+      // 空文字
+      descriptionText: '什么都没有找到',
       /**
        * 根据keyword请求数据
        */
@@ -80,7 +92,13 @@ export default {
             let list = res.data.list
             state.searchList = list.flat()
 
-            state.changeContentByLang(state.searchList)
+            if (state.searchList.length) {
+              state.emptyFlag = false
+  
+              state.changeContentByLang(state.searchList)
+            } else {
+              state.emptyFlag = true
+            }
           })
       },
       /**
@@ -120,11 +138,18 @@ export default {
       keyword => {
         if(keyword) {
           document.title = keyword
+          state.getSen()
         }
       })
 
-      watch(() => store.state.langFlag, () => {
-        state.changeContentByLang(state.searchList)
+      watch(() => store.state.langFlag, (lang:number) => {
+        if (!lang) {
+          state.descriptionText = '什么都没有找到'
+        } else {
+          state.descriptionText = 'ここには何もないです'
+        }
+
+        state.getSen()
       })
 
       state.getSen()
@@ -147,10 +172,13 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/css/common.scss';
 
+.change-height {
+  min-height: calc(100vh - 248.3px);
+}
+
 // 主区域
 .sen-main-sec {
-  min-height: calc(100vh - 248.3px);
-
+  
   .header-banner {
     position: relative;
     display: flex;
@@ -188,5 +216,17 @@ export default {
     display: flex;
     flex-direction: column;
   }
+}
+
+// 空状态
+.empty-box {
+  width: calc(80vw);
+  margin: 20px auto 0;
+  height: calc(100vh - 619px);
+  box-shadow: 0 0 5px #e5e9ef;
+  border-radius: 30px;
+  background-repeat: no-repeat;
+  background-position: 75% 100%;
+  background-image: url('../assets/img/statusImg/jingle.png')
 }
 </style>
