@@ -4,7 +4,7 @@
  * @LastEditTime: 2021-07-29 00:20:38
  * @FilePath: /my-blog/README.md
 -->
-# my-blog
+# Sku-blog
 
 ## 网站链接
 海外：https://ja.zouxinyu.club/
