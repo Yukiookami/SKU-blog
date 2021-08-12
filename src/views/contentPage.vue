@@ -2,8 +2,9 @@
   <div ref="pageTop" class="content-page">
     <top-nav></top-nav>
     <!-- banner区域 -->
-    <banner-haru class="load-from-top" v-if="pageTag === 'Programming Basics' || pageTag === 'Component Implementation'"></banner-haru>
+    <banner-haru class="load-from-top" v-if="pageTag === 'Programming Basics'"></banner-haru>
     <banner-natu class="load-from-top" v-if="pageTag === 'Japanese learning'"></banner-natu>
+    <banner-aki class="load-from-top" v-if="pageTag === 'Component Implementation'"></banner-aki>
     <!-- bannerEnd -->
     <bakc-top></bakc-top>
     <top-progress></top-progress>
@@ -70,6 +71,8 @@ import { computed, reactive, toRefs, getCurrentInstance, onMounted, ref, onBefor
 import bannerHaru from '../components/banner/2021-haru/bannerHaru.vue'
 // 2021 夏
 import bannerNatu from '../components/banner/2021-natu/bannerNatu.vue'
+// 2021 秋
+import bannerAki from '../components/banner/2021-aki/bannerAki.vue' 
 // 顶部导航
 import topNav from '../components/nav/topNav.vue'
 // 返回顶部小狐狸
@@ -462,6 +465,7 @@ export default {
   components: {
     bannerHaru,
     bannerNatu,
+    bannerAki,
     topNav,
     bakcTop,
     contentLine,
