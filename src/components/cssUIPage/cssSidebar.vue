@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 14:23:44
- * @LastEditTime: 2021-08-17 13:33:33
+ * @LastEditTime: 2021-08-18 00:50:08
  * @FilePath: /my-blog/src/components/cssUIPage/cssSidebar.vue
 -->
 <template>
@@ -11,7 +11,7 @@
         default-active="2">
         <el-menu-item index="cssButton">
           <i class="el-icon-star-off"></i>
-          <template #title>按钮</template>
+          <template #title>纯CSS按钮</template>
         </el-menu-item>
       </el-menu>
     </el-col>
