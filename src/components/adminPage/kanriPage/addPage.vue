@@ -1,7 +1,7 @@
 <!--
  * @Author: zxy
  * @Date: 2021-06-06 15:50:41
- * @LastEditTime: 2021-07-11 16:04:51
+ * @LastEditTime: 2021-08-17 23:08:02
  * @FilePath: /my-blog/src/components/adminPage/kanriPage/addPage.vue
 -->
 <template>
@@ -320,6 +320,7 @@ export default {
        */
       saveMd: (text:string, html:string):void => {
         localStorage.setItem('_mdContent', text)
+        console.log(text)
         ElMessage.success('保存成功')
       },
       saveMdJa: (text:string, html:string):void => {
