@@ -1,9 +1,3 @@
-<!--
- * @Author: zxy
- * @Date: 2021-08-12 11:28:08
- * @LastEditTime: 2021-09-02 15:57:58
- * @FilePath: /my-blog/src/components/banner/2021-aki/bannerAki.vue
--->
 <template>
   <div @mousemove="getMouseMove" @mouseenter="getFirstPoint" @mouseleave="clearFirstPoint" class="banner-natu-box">
     <video height="180" width="2200" autoplay loop
@@ -50,8 +44,23 @@ export default {
         let moveX = event.clientX - state.firstPoint
         state.tranX = state.tranX - moveX * 0.0003
       },
-      videoSrc: require('../../../assets/img/banner-image/banner-aki/b1d3fb6a-ce57-4eee-be6b-266054834bbb.mp4'),
+      videoSrc: '',
       idLoad: false,
+      /**
+       * 判断当前时间，替换banner
+       */
+      getVideo: () => {
+        const nowDate = new Date()
+        let nowHour = nowDate.getHours()
+        // let nowHour = 20
+        let ran = getRan(1, 3)
+
+        if (nowHour >= 6 && nowHour <= 16) {
+          state.videoSrc = require(`../../../assets/img/banner-image/banner-aki/b1d3fb6a-ce57-4eee-be6b-266054834bbb.mp4`)
+        } else {
+          state.videoSrc = require(`../../../assets/img/banner-image/banner-aki/yoru.mp4`)
+        }
+      },
       /**
        * 显示视频，加载结束触发
        *
@@ -60,6 +69,10 @@ export default {
       showVideo: () => {
         state.idLoad = true
       }
+    })
+
+    onMounted(() => {
+      state.getVideo()
     })
 
     return {
@@ -80,7 +93,7 @@ export default {
   overflow: hidden;
   height: 180px;
   width: 100%;
-  background-image: url('../../../assets/img/banner-image/banner-natu-img/banner-natu.png');
+  background-image: url('../../../assets/img/banner-image/banner-aki/b60151347754f0089489d7d68271233960a8d52f.png');
   background-size: cover;
 
   video {
